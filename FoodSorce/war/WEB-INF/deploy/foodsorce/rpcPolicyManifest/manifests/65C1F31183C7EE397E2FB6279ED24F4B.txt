@@ -1,0 +1,2 @@
+serviceClass: com.appspot.foodsorce.client.GreetingService
+path: 1CB7DEC738CA37DD6640D2E403F2BF24.gwt.rpc
