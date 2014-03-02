@@ -1,0 +1,2 @@
+serviceClass: com.appspot.foodsorce.client.VendorService
+path: 5B4D10CAFE92EF8F5AB9B84F92D57AF1.gwt.rpc
