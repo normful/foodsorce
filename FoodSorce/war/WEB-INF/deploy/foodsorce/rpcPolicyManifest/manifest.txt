@@ -1,4 +1,0 @@
-# Module foodsorce
-# RPC service class, partial path of RPC policy file
-com.appspot.foodsorce.client.LoginService, 3228EC3B0A37AF2702222CF7A4B42A00.gwt.rpc
-com.appspot.foodsorce.client.VendorService, 5B4D10CAFE92EF8F5AB9B84F92D57AF1.gwt.rpc
