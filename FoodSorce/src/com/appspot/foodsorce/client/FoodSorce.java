@@ -4,21 +4,34 @@ import java.util.ArrayList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class FoodSorce implements EntryPoint {
-	
-	// TODO: Add navigational buttons and page layout using GWT layout panels.
+
+	private RootLayoutPanel rlp = RootLayoutPanel.get();
+	private DockLayoutPanel dlp = new DockLayoutPanel(Unit.EM);
+	private SimpleLayoutPanel dlpCenter = new SimpleLayoutPanel();
+	private SimpleLayoutPanel dlpWest = new SimpleLayoutPanel();
+
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel = new Label("To use FoodSorce, please sign in with your Google Account.");
 	private Anchor signInLink = new Anchor("Sign In");
@@ -37,7 +50,8 @@ public class FoodSorce implements EntryPoint {
 	
 	/** Entry point method */
 	public void onModuleLoad() {
-
+		loadLayout();
+		
 		// Check login status using login service.
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
@@ -48,20 +62,59 @@ public class FoodSorce implements EntryPoint {
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
 				if(loginInfo.isLoggedIn()) {
+					System.out.println("loadFoodSorce called");
 					loadFoodSorce();
 				} else {
+					System.out.println("loadLogin called");
 					loadLogin();
 				}
 			}
 		});
 	}
 
+	private void loadLayout() {
+		// North section
+		dlp.addNorth(new HTML("<h1>FoodSorce</h1>"), 8);
+		
+		// East section
+		dlp.addEast(new HTML("Google Maps plot to be inserted here"), 40);
+	
+		// West section
+		Anchor mainPageLink = new Anchor("Main Page");
+		mainPageLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loadFoodSorce();
+			}
+		});
+		
+		Anchor viewProfileLink = new Anchor("Profile");
+		viewProfileLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loadViewProfile();
+			}
+		});
+		
+		VerticalPanel navigationPanel = new VerticalPanel();
+		navigationPanel.add(mainPageLink);
+		navigationPanel.add(viewProfileLink);
+		dlpWest.add(navigationPanel);
+		dlp.addWest(dlpWest, 20);
+		
+		// Center section
+		dlp.add(dlpCenter);
+		
+		// Add dock layout panel to root layout panel
+		rlp.add(dlp);
+	}
+	
 	private void loadLogin() {
 		// Assemble login panel
 		signInLink.setHref(loginInfo.getLoginUrl());
 		loginPanel.add(loginLabel);
 		loginPanel.add(signInLink);
-		RootPanel.get("foodSorce").add(loginPanel);
+		
+		// Set loginPanel as center of dock layout panel
+		dlpCenter.setWidget(loginPanel);
 	}
 
 	private void handleError(Throwable error) {
@@ -98,10 +151,10 @@ public class FoodSorce implements EntryPoint {
 		// Assemble main panel
 		mainPanel.add(vendorFlexTable);
 		mainPanel.add(signOutLink);
-
-		// Associate the main panel with the HTML host page.
-		RootPanel.get("foodsorce").add(mainPanel);
-
+		
+		// Set mainPanel as center of dock layout panel
+		dlpCenter.setWidget(mainPanel);
+		
 		// Setup timer to refresh vendor list automatically
 		Timer refreshTimer = new Timer() {
 			@Override
@@ -114,15 +167,6 @@ public class FoodSorce implements EntryPoint {
 		// TODO: Set focus to vendor search text box.
 		// Move cursor focus to the input box.
 //		newSymbolTextBox.setFocus(true);
-		
-		// TODO: Add click handler that redirects to vendor info page.
-//		// Listen for mouse events on the Add button.
-//		// (Anonymous inner class)
-//		addStockButton.addClickHandler(new ClickHandler() {
-//			public void onClick(ClickEvent event) {
-//				addStock();
-//			}
-//		});
 		
 		// TODO: Add key handler for vendor search text box.
 		// Listen for keyboard events in the input box.
@@ -252,5 +296,42 @@ public class FoodSorce implements EntryPoint {
 //	}
 //	
 //	
+	
+	private void loadViewProfile() {
+		ScrollPanel scrollPanel = new ScrollPanel();
+		HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile Page</h2>");
+		
+		Image profilePhoto = new Image(loginInfo.getPhotoUrl(), 0, 0, 225, 225);
+		Label nicknameLabel = new Label("Nickname: " + loginInfo.getNickname());
+		Label emailLabel = new Label("Email: " + loginInfo.getEmailAddress());
+		Label headlineLabel = new Label("Headline: " + loginInfo.getHeadline());
+		Label genderLabel = new Label("Gender: " + loginInfo.getGender());
+		Label favouriteFoodLabel = new Label("Favourite Food: " + loginInfo.getFavouriteFood());
+		Label hometownLabel = new Label("Hometown: " + loginInfo.getHometown());
+		Label websiteUrlLabel = new Label("Website: " + loginInfo.getWebsiteUrl());
+		Anchor editProfileLink = new Anchor("Edit Profile");
+		editProfileLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				loadEditProfile();
+			}
+		});
+		
+		htmlPanel.add(profilePhoto);
+		htmlPanel.add(nicknameLabel);
+		htmlPanel.add(emailLabel);
+		htmlPanel.add(headlineLabel);
+		htmlPanel.add(genderLabel);
+		htmlPanel.add(favouriteFoodLabel);
+		htmlPanel.add(hometownLabel);
+		htmlPanel.add(websiteUrlLabel);
+		htmlPanel.add(editProfileLink);
+		
+		scrollPanel.add(htmlPanel);
+		dlpCenter.setWidget(scrollPanel);
+	}
+	
+	private void loadEditProfile() {
+		
+	}
 	
 }

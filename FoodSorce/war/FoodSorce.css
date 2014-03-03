@@ -1,12 +1,32 @@
 /** Add css rules here for your application. */
 
+.vendorListHeader {
+  background-color: #EEEEEE;
+  font-size: 5em;
+  font-weight: bold;
+}
+
+.vendorListRatingColumn {
+  background-color: #050505;
+  color: #000022;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.vendorListTextColumn {
+  background-color: #050505;
+  color: #000022;
+  font-size: 1em;
+  font-weight: bold;
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
-  font-size: 2em;
+  font-size: 5em;
   font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
+  font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif; 
+  color: #CC2222;
+  margin: 0px 0px 0px;
   text-align: center;
 }
 

@@ -1,2 +1,0 @@
-serviceClass: com.appspot.foodsorce.client.LoginService
-path: 842A8C67C1B8216EA4DEEE8365FF9A85.gwt.rpc

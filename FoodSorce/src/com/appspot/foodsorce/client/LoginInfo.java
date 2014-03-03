@@ -11,12 +11,12 @@ public class LoginInfo implements Serializable {
 	private String logoutUrl;
 	private String emailAddress;
 	private String nickname;
-	private String photoUrl;
-	private String gender;
-	private String headline;
-	private String favouriteFood;
-	private String hometown;
-	private String websiteUrl;
+	private String photoUrl = "images/unknown_user.jpeg";
+	private String gender = "";
+	private String headline = "";
+	private String favouriteFood = "";
+	private String hometown = "";
+	private String websiteUrl = "";
 
 	public boolean isLoggedIn() {
 		return loggedIn;
