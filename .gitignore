@@ -3,3 +3,8 @@
 .asta.bak
 .lock
 a5-teamtau-astah-uml-class-diagram.asta.lock
+FoodSorce/war/WEB-INF/classes
+FoodSorce/war/WEB-INF/deploy
+FoodSorce/war/foodsorce
+.gwt
+FoodSorce/gwt-unitCache
