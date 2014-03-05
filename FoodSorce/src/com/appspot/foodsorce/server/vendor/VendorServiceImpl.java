@@ -1,4 +1,4 @@
-package com.appspot.foodsorce.server;
+package com.appspot.foodsorce.server.vendor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,9 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-import com.appspot.foodsorce.client.NotLoggedInException;
-import com.appspot.foodsorce.client.VendorInfo;
-import com.appspot.foodsorce.client.VendorService;
-
-import com.google.appengine.api.users.User;
+import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.client.vendor.VendorInfo;
+import com.appspot.foodsorce.client.vendor.VendorService;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -28,7 +26,7 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 	@Override
 	public VendorInfo[] getVendorInfos() throws NotLoggedInException {
 		checkLoggedIn();
-		PersistenceManager pm = getPersistenceManager();
+		PersistenceManager pm = PMF.getPersistenceManager();
 		List<VendorInfo> vendorInfos = new ArrayList<VendorInfo>();
 		try {
 			// TODO: Add code involving javax.jdo.Query to query existing Vendor objects from the datastore
@@ -37,20 +35,11 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		}
 		return (VendorInfo[]) vendorInfos.toArray(new VendorInfo[0]);
 	}
-
+	
 	private void checkLoggedIn() throws NotLoggedInException {
-		if (getUser() == null) {
-			throw new NotLoggedInException("Not logged in.");
-		}
-	}
-
-	private User getUser() {
 		UserService userService = UserServiceFactory.getUserService();
-		return userService.getCurrentUser();
+		if (!userService.isUserLoggedIn())
+			throw new NotLoggedInException("Not logged in.");
 	}
-
-	private PersistenceManager getPersistenceManager() {
-		return PMF.getPersistenceManager();
-	}
-
+	
 }

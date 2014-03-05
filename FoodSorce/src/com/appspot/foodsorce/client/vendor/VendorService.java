@@ -1,5 +1,6 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.client.vendor;
 
+import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 

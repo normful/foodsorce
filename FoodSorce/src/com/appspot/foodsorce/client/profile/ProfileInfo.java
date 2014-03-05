@@ -1,62 +1,16 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.client.profile;
 
 import java.io.Serializable;
 
-public class LoginInfo implements Serializable {
+public class ProfileInfo implements Serializable {
 
-	private static final long serialVersionUID = 3114385749029897173L;
-	
-	private boolean loggedIn = false;
-	private String loginUrl;
-	private String logoutUrl;
-	private String emailAddress;
-	private String nickname;
+	private static final long serialVersionUID = -3911550981959475962L;
 	private String photoUrl = "images/unknown_user.jpeg";
 	private String gender = "";
 	private String headline = "";
 	private String favouriteFood = "";
 	private String hometown = "";
 	private String websiteUrl = "";
-
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
-	}
-
-	public String getLoginUrl() {
-		return loginUrl;
-	}
-
-	public void setLoginUrl(String loginUrl) {
-		this.loginUrl = loginUrl;
-	}
-
-	public String getLogoutUrl() {
-		return logoutUrl;
-	}
-
-	public void setLogoutUrl(String logoutUrl) {
-		this.logoutUrl = logoutUrl;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
 
 	public String getPhotoUrl() {
 		return photoUrl;

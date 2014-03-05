@@ -1,7 +1,14 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.client.ui;
 
 import java.util.ArrayList;
 
+import com.appspot.foodsorce.client.login.LoginInfo;
+import com.appspot.foodsorce.client.login.LoginService;
+import com.appspot.foodsorce.client.login.LoginServiceAsync;
+import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.client.vendor.VendorInfo;
+import com.appspot.foodsorce.client.vendor.VendorService;
+import com.appspot.foodsorce.client.vendor.VendorServiceAsync;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -32,6 +39,7 @@ public class FoodSorce implements EntryPoint {
 	private SimpleLayoutPanel dlpCenter = new SimpleLayoutPanel();
 	private SimpleLayoutPanel dlpWest = new SimpleLayoutPanel();
 
+	// TODO: Split this class up to create new instances of helper classes
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel = new Label("To use FoodSorce, please sign in with your Google Account.");
 	private Anchor signInLink = new Anchor("Sign In");
@@ -301,30 +309,31 @@ public class FoodSorce implements EntryPoint {
 		ScrollPanel scrollPanel = new ScrollPanel();
 		HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile Page</h2>");
 		
-		Image profilePhoto = new Image(loginInfo.getPhotoUrl(), 0, 0, 225, 225);
-		Label nicknameLabel = new Label("Nickname: " + loginInfo.getNickname());
-		Label emailLabel = new Label("Email: " + loginInfo.getEmailAddress());
-		Label headlineLabel = new Label("Headline: " + loginInfo.getHeadline());
-		Label genderLabel = new Label("Gender: " + loginInfo.getGender());
-		Label favouriteFoodLabel = new Label("Favourite Food: " + loginInfo.getFavouriteFood());
-		Label hometownLabel = new Label("Hometown: " + loginInfo.getHometown());
-		Label websiteUrlLabel = new Label("Website: " + loginInfo.getWebsiteUrl());
-		Anchor editProfileLink = new Anchor("Edit Profile");
-		editProfileLink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				loadEditProfile();
-			}
-		});
-		
-		htmlPanel.add(profilePhoto);
-		htmlPanel.add(nicknameLabel);
-		htmlPanel.add(emailLabel);
-		htmlPanel.add(headlineLabel);
-		htmlPanel.add(genderLabel);
-		htmlPanel.add(favouriteFoodLabel);
-		htmlPanel.add(hometownLabel);
-		htmlPanel.add(websiteUrlLabel);
-		htmlPanel.add(editProfileLink);
+// TODO: Fix this code to reflect refactoring
+//		Image profilePhoto = new Image(loginInfo.getPhotoUrl(), 0, 0, 225, 225);
+//		Label nicknameLabel = new Label("Nickname: " + loginInfo.getNickname());
+//		Label emailLabel = new Label("Email: " + loginInfo.getEmailAddress());
+//		Label headlineLabel = new Label("Headline: " + loginInfo.getHeadline());
+//		Label genderLabel = new Label("Gender: " + loginInfo.getGender());
+//		Label favouriteFoodLabel = new Label("Favourite Food: " + loginInfo.getFavouriteFood());
+//		Label hometownLabel = new Label("Hometown: " + loginInfo.getHometown());
+//		Label websiteUrlLabel = new Label("Website: " + loginInfo.getWebsiteUrl());
+//		Anchor editProfileLink = new Anchor("Edit Profile");
+//		editProfileLink.addClickHandler(new ClickHandler() {
+//			public void onClick(ClickEvent event) {
+//				loadEditProfile();
+//			}
+//		});
+//		
+//		htmlPanel.add(profilePhoto);
+//		htmlPanel.add(nicknameLabel);
+//		htmlPanel.add(emailLabel);
+//		htmlPanel.add(headlineLabel);
+//		htmlPanel.add(genderLabel);
+//		htmlPanel.add(favouriteFoodLabel);
+//		htmlPanel.add(hometownLabel);
+//		htmlPanel.add(websiteUrlLabel);
+//		htmlPanel.add(editProfileLink);
 		
 		scrollPanel.add(htmlPanel);
 		dlpCenter.setWidget(scrollPanel);

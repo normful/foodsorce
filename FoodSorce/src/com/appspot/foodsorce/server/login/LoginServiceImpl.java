@@ -1,7 +1,7 @@
-package com.appspot.foodsorce.server;
+package com.appspot.foodsorce.server.login;
 
-import com.appspot.foodsorce.client.LoginInfo;
-import com.appspot.foodsorce.client.LoginService;
+import com.appspot.foodsorce.client.login.LoginInfo;
+import com.appspot.foodsorce.client.login.LoginService;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -19,6 +19,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 
 		if (user != null) {
 			loginInfo.setLoggedIn(true);
+			loginInfo.setAdmin(userService.isUserAdmin());
 			loginInfo.setEmailAddress(user.getEmail());
 			loginInfo.setNickname(user.getNickname());
 			loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));

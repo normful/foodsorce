@@ -1,4 +1,4 @@
-package com.appspot.foodsorce.server;
+package com.appspot.foodsorce.server.vendor;
 
 import java.util.logging.Logger;
 
@@ -7,10 +7,8 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
-import com.appspot.foodsorce.client.NotLoggedInException;
-import com.appspot.foodsorce.client.VendorRatingService;
-
-import com.google.appengine.api.users.User;
+import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.client.vendor.VendorRatingService;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -25,7 +23,7 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 	@Override
 	public double[] getAverageQualities(int[] ids) throws NotLoggedInException {
 		checkLoggedIn();
-		PersistenceManager pm = getPersistenceManager();
+		PersistenceManager pm = PMF.getPersistenceManager();
 		double[] qualities = new double[ids.length];
 		try {
 			// TODO: Add code involving javax.jdo.Query to query existing Vendor objects from the datastore
@@ -38,7 +36,7 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 	@Override
 	public double[] getAverageCosts(int[] ids) throws NotLoggedInException {
 		checkLoggedIn();
-		PersistenceManager pm = getPersistenceManager();
+		PersistenceManager pm = PMF.getPersistenceManager();
 		double[] costs = new double[ids.length];
 		try {
 			// TODO: Add code involving javax.jdo.Query to query existing Vendor objects from the datastore
@@ -47,20 +45,11 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 		}
 		return costs;
 	}
-	
+
 	private void checkLoggedIn() throws NotLoggedInException {
-		if (getUser() == null) {
-			throw new NotLoggedInException("Not logged in.");
-		}
-	}
-
-	private User getUser() {
 		UserService userService = UserServiceFactory.getUserService();
-		return userService.getCurrentUser();
-	}
-
-	private PersistenceManager getPersistenceManager() {
-		return PMF.getPersistenceManager();
+		if (!userService.isUserLoggedIn())
+			throw new NotLoggedInException("Not logged in.");
 	}
 
 }

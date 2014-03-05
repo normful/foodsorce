@@ -1,11 +1,10 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.client.vendor;
 
 import java.io.Serializable;
 
 public class VendorInfo implements Serializable {
 
 	private static final long serialVersionUID = 5220128492323836009L;
-	
 	private int id;
 	private String name;
 	private String location;

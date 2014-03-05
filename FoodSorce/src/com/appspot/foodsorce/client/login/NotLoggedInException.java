@@ -1,4 +1,4 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.client.login;
 
 import java.io.Serializable;
 

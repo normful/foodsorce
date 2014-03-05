@@ -12,7 +12,7 @@
 	<!-- Servlets -->
 	<servlet>
 		<servlet-name>loginService</servlet-name>
-		<servlet-class>com.appspot.foodsorce.server.LoginServiceImpl</servlet-class>
+		<servlet-class>com.appspot.foodsorce.server.login.LoginServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -22,7 +22,7 @@
 
 	<servlet>
 		<servlet-name>vendorService</servlet-name>
-		<servlet-class>com.appspot.foodsorce.server.VendorServiceImpl</servlet-class>
+		<servlet-class>com.appspot.foodsorce.server.vendor.VendorServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

@@ -1,4 +1,4 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.client.login;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
