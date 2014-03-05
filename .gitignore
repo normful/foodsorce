@@ -1,8 +1,7 @@
 # Astah lock and backup files
-.bak
-.asta.bak
-.lock
-a5-teamtau-astah-uml-class-diagram.asta.lock
+*.bak
+*.asta.bak
+*.lock
 FoodSorce/gwt-unitCache
 FoodSorce/war/WEB-INF/classes
 FoodSorce/war/WEB-INF/deploy
