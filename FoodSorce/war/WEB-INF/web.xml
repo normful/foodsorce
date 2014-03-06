@@ -19,6 +19,16 @@
 		<servlet-name>loginService</servlet-name>
 		<url-pattern>/foodsorce/login</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>profileService</servlet-name>
+		<servlet-class>com.appspot.foodsorce.server.profile.ProfileServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>profileService</servlet-name>
+		<url-pattern>/foodsorce/profile</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>vendorService</servlet-name>
@@ -30,16 +40,14 @@
 		<url-pattern>/foodsorce/vendor</url-pattern>
 	</servlet-mapping>
 
-	<!--
 	<servlet>
 		<servlet-name>vendorRatingService</servlet-name>
-		<servlet-class>com.appspot.foodsorce.server.VendorRatingServiceImpl</servlet-class>
+		<servlet-class>com.appspot.foodsorce.server.vendor.VendorRatingServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>vendorRatingService</servlet-name>
 		<url-pattern>/foodsorce/vendorRatings</url-pattern>
 	</servlet-mapping>
-	-->
 
 </web-app>

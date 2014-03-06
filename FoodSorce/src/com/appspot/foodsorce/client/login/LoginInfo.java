@@ -60,4 +60,12 @@ public class LoginInfo implements Serializable {
 		this.nickname = nickname;
 	}
 
+	@Override
+	public String toString() {
+		return "LoginInfo [loggedIn=" + loggedIn + ", admin=" + admin
+				+ ", loginUrl=" + loginUrl + ", logoutUrl=" + logoutUrl
+				+ ", emailAddress=" + emailAddress + ", nickname=" + nickname
+				+ "]";
+	}
+
 }

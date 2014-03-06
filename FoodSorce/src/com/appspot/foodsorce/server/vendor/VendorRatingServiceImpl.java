@@ -21,7 +21,7 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 			JDOHelper.getPersistenceManagerFactory("transactions-optional");
 	
 	@Override
-	public double[] getAverageQualities(int[] ids) throws NotLoggedInException {
+	public double[] getAverageQualities(Long[] ids) throws NotLoggedInException {
 		checkLoggedIn();
 		PersistenceManager pm = PMF.getPersistenceManager();
 		double[] qualities = new double[ids.length];
@@ -34,7 +34,7 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 	}
 
 	@Override
-	public double[] getAverageCosts(int[] ids) throws NotLoggedInException {
+	public double[] getAverageCosts(Long[] ids) throws NotLoggedInException {
 		checkLoggedIn();
 		PersistenceManager pm = PMF.getPersistenceManager();
 		double[] costs = new double[ids.length];
