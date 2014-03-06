@@ -12,8 +12,6 @@ import javax.jdo.Query;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.vendor.VendorInfo;
 import com.appspot.foodsorce.client.vendor.VendorService;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {
@@ -25,7 +23,6 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 	
 	@Override
 	public VendorInfo[] getVendorInfos() throws NotLoggedInException {
-		checkLoggedIn();
 		PersistenceManager pm = PMF.getPersistenceManager();
 		List<VendorInfo> vendorInfos = new ArrayList<VendorInfo>();
 		try {
@@ -34,12 +31,6 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 			pm.close();
 		}
 		return (VendorInfo[]) vendorInfos.toArray(new VendorInfo[0]);
-	}
-	
-	private void checkLoggedIn() throws NotLoggedInException {
-		UserService userService = UserServiceFactory.getUserService();
-		if (!userService.isUserLoggedIn())
-			throw new NotLoggedInException("Not logged in.");
 	}
 	
 }

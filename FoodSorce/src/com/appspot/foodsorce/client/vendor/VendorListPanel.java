@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.vendor;
 
 import java.util.ArrayList;
 
+import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -84,7 +85,13 @@ public class VendorListPanel extends VerticalPanel {
 	}
 	
 	public void handleError(Throwable error) {
-		Window.alert(error.getMessage());
+		if (error instanceof NotLoggedInException) {
+			// Do nothing. Instantiating and viewing the VendorListPanel
+			// without being logged in is allowed.
+		}
+		else {
+			Window.alert(error.getMessage());
+		}
 	}
 	
 	private void displayVendors(VendorInfo[] vendorInfos) {

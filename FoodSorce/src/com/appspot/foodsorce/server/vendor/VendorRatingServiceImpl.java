@@ -9,8 +9,6 @@ import javax.jdo.Query;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.vendor.VendorRatingService;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorRatingServiceImpl extends RemoteServiceServlet implements VendorRatingService {
@@ -22,7 +20,6 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 	
 	@Override
 	public double[] getAverageQualities(Long[] ids) throws NotLoggedInException {
-		checkLoggedIn();
 		PersistenceManager pm = PMF.getPersistenceManager();
 		double[] qualities = new double[ids.length];
 		try {
@@ -35,7 +32,6 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 
 	@Override
 	public double[] getAverageCosts(Long[] ids) throws NotLoggedInException {
-		checkLoggedIn();
 		PersistenceManager pm = PMF.getPersistenceManager();
 		double[] costs = new double[ids.length];
 		try {
@@ -44,12 +40,6 @@ public class VendorRatingServiceImpl extends RemoteServiceServlet implements Ven
 			pm.close();
 		}
 		return costs;
-	}
-
-	private void checkLoggedIn() throws NotLoggedInException {
-		UserService userService = UserServiceFactory.getUserService();
-		if (!userService.isUserLoggedIn())
-			throw new NotLoggedInException("Not logged in.");
 	}
 
 }
