@@ -1,7 +1,6 @@
 package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
 
 import com.appspot.foodsorce.client.vendor.VendorInfo;
@@ -36,15 +35,15 @@ import com.google.maps.gwt.client.geometry.Spherical;
 
 public class MapSearchPanel extends FlowPanel {
 
-	private Button setAddressButton;
-	private TextBox addressField;
+	private Button setAddressButton = new Button("Set Location");
+	private TextBox addressField = new TextBox();
 	
-	private Label radioLabel;
-	private RadioButton optionAll;
-	private RadioButton option2;
-	private RadioButton option5;
-	private RadioButton option10;
-	private Collection<RadioButton> buttons;
+	private Label radioLabel = new Label("Distance:");
+	private RadioButton optionAll = new RadioButton("distanceOption", "all");
+	private RadioButton option2 = new RadioButton("distanceOption", "2km");
+	private RadioButton option5 = new RadioButton("distanceOption", "5km");
+	private RadioButton option10 = new RadioButton("distanceOption", "10km");
+	private Collection<RadioButton> buttons = new ArrayList<RadioButton>();
 	
 	private SimplePanel mapPanel;
 	private GoogleMap map;
@@ -56,27 +55,39 @@ public class MapSearchPanel extends FlowPanel {
 	private Geolocation geolocation;
 	private LatLng userLocation;
 	
-	private Collection<VendorInfo> vendors = new ArrayList<VendorInfo>();
-	private Collection<VendorInfo> filteredVendors = new ArrayList<VendorInfo>();
+	private Collection<VendorInfo> allVendors = new ArrayList<VendorInfo>();
+	private Collection<VendorInfo> matchingVendors = new ArrayList<VendorInfo>();
 	private Collection<Marker> vendorMarkers = new ArrayList<Marker>();
 	
 	public MapSearchPanel() {
 		
-		// Note to Brandon:
+		// Notes to Brandon:
+		//
+		// Please leave the "For debugging" System.out.println statements in, they're helpful for understanding control flow
+		//
 		// Assume that "vendors" will contain a List of all vendors. 
-		// I (Norman) will implement soon a way to keep 1single consistent 
-		// client-side List of vendors throughout
-		// the whole app (maybe using the Singleton and Observer patterns).
-		// But until then, for your purposes, maybe you'll find it helpful to
-		// use a dummy list of vendors
-		// (these locations were generated with this site, which you might find useful:
+		// I (Norman) will implement soon a way to keep 1 single consistent 
+		// client-side List of vendors throughout the whole app (probably using 
+		// the Singleton and Observer patterns).
+		//
+		// But until I add that, maybe you'll find it helpful to use the 
+		// following dummy list of vendors
+		// 
+		// (these locations were generated with this site,
+		// which you might find useful):
 		// http://universimmedia.pagesperso-orange.fr/geo/loc.htm
 		VendorInfo dummyVendor1 = new VendorInfo("Burger Truck", "West End", "American", 49.28525, -123.13530);
 		VendorInfo dummyVendor2 = new VendorInfo("Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
 		VendorInfo dummyVendor3 = new VendorInfo("Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
-		vendors.add(dummyVendor1);
-		vendors.add(dummyVendor2);
-		vendors.add(dummyVendor3);
+		VendorInfo dummyVendor4 = new VendorInfo("Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
+		VendorInfo dummyVendor5 = new VendorInfo("Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
+		allVendors.add(dummyVendor1);
+		allVendors.add(dummyVendor2);
+		allVendors.add(dummyVendor3);
+		allVendors.add(dummyVendor4);
+		allVendors.add(dummyVendor5);
+		
+		matchingVendors.addAll(allVendors);
 		
 		createAddressTextBox();
 		createRadioButtons();
@@ -85,36 +96,30 @@ public class MapSearchPanel extends FlowPanel {
 		geolocation = Geolocation.getIfSupported();
 		if (geolocation != null)
 			setLocationFromBrowser(geolocation);
+		
+		plotVendorMarkers();
 	}
 	
 	private void createAddressTextBox() {
-		addressField = new TextBox();
 		addressField.setText("Address");
+		addressField.setWidth("350px");
 		
-		setAddressButton = new Button("Set Location");
 		setAddressButton.addStyleName("setAddressButton");
+		setAddressButton.setWidth("140px");
 		setAddressButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				String addressinput = addressField.getText();
-				System.out.println(addressinput);
-				setLocationFromInput(addressinput);
+				String addressInput = addressField.getText();
+				setLocationFromInput(addressInput);
 				addressField.setFocus(true);
 			}
 		});
 		
+		addressField.setFocus(true);
 		this.add(addressField);
 		this.add(setAddressButton);
 	}
 		
 	private void createRadioButtons() {
-		radioLabel = new Label("Distance:");
-		
-		optionAll = new RadioButton("distanceOption", "all");
-		option2 = new RadioButton("distanceOption", "2km");
-		option5 = new RadioButton("distanceOption", "5km");
-		option10 = new RadioButton("distanceOption", "10km");
-		
-		buttons = new ArrayList<RadioButton>();
 		buttons.add(optionAll);
 		buttons.add(option2);
 		buttons.add(option5);
@@ -124,7 +129,10 @@ public class MapSearchPanel extends FlowPanel {
 			button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					changeDistanceVendor(button.getName());
+					filterVendors(button.getText());
+					plotVendorMarkers();
+					// TODO: Norman says: I'll figure out how to do this. Probably using Observer pattern
+					// updateVendors();
 				}
 			});
 		}
@@ -160,43 +168,45 @@ public class MapSearchPanel extends FlowPanel {
 		this.add(mapPanel);
 	}
 	
-	private void setLocationFromBrowser(Geolocation geo) {
+	private void setLocationFromBrowser(Geolocation geolocation) {
 		
 		// For debugging
-		if (geo != null)
-			System.out.println("setLocationFromBrowser called with geo=" + geo.toString());
+		if (geolocation != null)
+			System.out.println("MapSearchPanel.java: setLocationFromBrowser(geolocation=" + geolocation.toString() + ")");
 		
-		geo.getCurrentPosition(new Callback<Position, PositionError>() {
+		geolocation.getCurrentPosition(new Callback<Position, PositionError>() {
+			
 			@Override
 			public void onSuccess(Position result) {
 				Coordinates coordinates = result.getCoordinates();
 				LatLng latlong = LatLng.create(coordinates.getLatitude(), coordinates.getLongitude());
-				setCurrentLocation(latlong);
+				plotUser(latlong);
 			}
+			
 			@Override
 			public void onFailure(PositionError reason) {
 				// For debugging
-				System.out.println("setLocationFromBrowser onFailure");
+				System.out.println("MapSearchPanel.java: setLocationFromBrowser geo.getCurrentPosition Callback onFailure");
 			}
 		});
 	}
 	
-	private void setCurrentLocation(LatLng location) {
+	private void plotUser(LatLng location) {
 		// For debugging
 		if (location != null)
-			System.out.println("setCurrentLocation called with location=" + location.toString());
+			System.out.println("MapSearchPanel.java: plotUser(location=" + location.toString() + ")");
 		
 		userLocation = location;
 		user.setPosition(location);
 		map.setCenter(location);
 	}
 	
-	// TODO: Need to fix this
+	// TODO: Brandon needs to fix this
 	private void setLocationFromInput(String address) {
 		
 		// For debugging
 		if (address != null)
-			System.out.println("setLocationFromInput called with address=" + address);
+			System.out.println("MapSearchPanel.java: setLocationFromInput(address=" + address + ")");
 		
 		Geocoder geocoder = Geocoder.create();
 		GeocoderRequest georequest = GeocoderRequest.create();
@@ -206,80 +216,82 @@ public class MapSearchPanel extends FlowPanel {
 			@Override
 			public void handle(JsArray<GeocoderResult> a, GeocoderStatus b) {
 				if (b == GeocoderStatus.OK) {
+					
 					GeocoderResult result = a.shift();
-					if (checkAddressVancouver(result.getGeometry().getLocation()) == true) {
-						setCurrentLocation(result.getGeometry().getLocation());
+					
+					// For debugging
+					System.out.println("MapSearchPanel.java: setLocationFromInput GeocoderResult=" + result.toString());
+					
+					if (isInVancouver(result.getGeometry().getLocation()) == true) {
+						plotUser(result.getGeometry().getLocation());
 					} else {
-						Window.alert("Address not within Vancouver. Please enter an address from Vancouver");
+						Window.alert("Please re-enter an address within Vancouver.");
 					}
 				} else {
-					Window.alert("Google Maps could not return address coordinates");
+					Window.alert("Google Maps could not return address coordinates.");
 				}
 			}
 		});
 		
 	}
 	
-	private boolean checkAddressVancouver(LatLng location) {
+	private boolean isInVancouver(LatLng location) {
 		double lat = location.lat();
 		double lng = location.lng();
 		return (49.200589 < lat && lat < 49.309591 && -123.259243 < lng && lng < -123.064235);
 	}
 	
-	private void changeDistanceVendor(String distanceString) {
+
+	private void plotVendorMarkers() {
 		// For debugging
-		if (distanceString != null)
-			System.out.println("changeDistanceVendor called with distanceString=" + distanceString);
+		System.out.println("MapSearchPanel.java: plotVendorMarkers()");
 		
-		filteredVendors.clear();
-		double distance = 0;
-		if (distanceString == "2km")
-			distance = 2;
-		if (distanceString == "5km")
-			distance = 5;
-		if (distanceString == "10km")
-			distance = 10;
-		filterVendor(distance);
-		setFilteredMarkers();
-//		setVendorDisplay();
-	}
-
-	private void updateVendorDisplay() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void setFilteredMarkers() {
-		GoogleMap x = null;
-		for (Marker marker: vendorMarkers)
-			marker.setMap(x);
-
-		for (VendorInfo vendor: filteredVendors) {
+		// Clear all existing vendor markers from map
+		GoogleMap nullMap = null;
+		for (Marker vendorMarker: vendorMarkers)
+			vendorMarker.setMap(nullMap);
+		
+		// Plot matching vendors onto map
+		for (VendorInfo vendor : matchingVendors) {
 			MarkerOptions options = MarkerOptions.create();
-			options.setPosition(LatLng.create( vendor.getLatitude(),vendor.getLongitude()));
-			Marker marker = Marker.create(options);
-			vendorMarkers.add(marker);
-			marker.setMap(map);
+			options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
+			Marker vendorMarker = Marker.create(options);
+			vendorMarkers.add(vendorMarker);
+			vendorMarker.setMap(map);
 		}
-
 	}
 
-
-	private void filterVendor(double dist1) {
-		if (dist1==0) {
-			filteredVendors = vendors;
+	private void filterVendors(String buttonText) {
+		// For debugging
+		System.out.println("MapSearchPanel.java: filterVendors(buttonText=" + buttonText + ")");
+		
+		double travelDistance;
+		
+		if (buttonText.equals("2km"))
+			travelDistance = 2.0;
+		else if (buttonText.equals("5km"))
+			travelDistance = 5.0;
+		else if (buttonText.equals("10km"))
+			travelDistance = 10.0;
+		else
+			travelDistance = 999.0;
+		
+		// Radio button "all" is selected
+		if (travelDistance == 999) {
+			matchingVendors.clear();
+			matchingVendors.addAll(allVendors);
 			return;
 		}
-
-		for (VendorInfo vendor: vendors) {
-			LatLng latlong = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
-			double dist2 = Spherical.computeDistanceBetween(userLocation, latlong);
-			if (dist1 <= dist2)
-				filteredVendors.add(vendor);
+		// Radio button "2km", "5km", or "10km" is selected
+		for (VendorInfo vendor: allVendors) {
+			LatLng vendorLocation = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
+			double vendorDistance = Spherical.computeDistanceBetween(userLocation, vendorLocation);
+			if (vendorDistance <= travelDistance)
+				matchingVendors.add(vendor);
 		}
-
 	}
 	
+	@SuppressWarnings("unused")
 	private void convertGPStoAddress() {
 		// TODO: do this
 	}

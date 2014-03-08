@@ -10,13 +10,13 @@ import com.appspot.foodsorce.client.profile.ViewProfilePanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 
@@ -35,7 +35,8 @@ public class FoodSorce implements EntryPoint {
 	private SimpleLayoutPanel center = new SimpleLayoutPanel();
 	private LoginPanel loginPanel = new LoginPanel();
 	private ViewProfilePanel viewProfilePanel = new ViewProfilePanel();
-//	private EditProfilePanel editProfilePanel = new EditProfilePanel();
+	// TODO for Norman
+	// private EditProfilePanel editProfilePanel = new EditProfilePanel();
 	private VendorListPanel vendorListPanel = new VendorListPanel();
 	
 	// North panel
@@ -49,8 +50,17 @@ public class FoodSorce implements EntryPoint {
 	private FlowPanel west = new FlowPanel();
 	private NavigationPanel navigationPanel = new NavigationPanel(this);
 
-//	/** Entry point method */
+	/** Entry point method **/
 	public void onModuleLoad() {
+		
+		if(GWT.isProdMode()) {
+			GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+				@Override
+				public void onUncaughtException(Throwable e) {
+					Window.alert("An Uncaught Exception has occured : " + e.toString());
+				}
+			});
+		}
 		
 		createLayout();
 		
@@ -61,7 +71,7 @@ public class FoodSorce implements EntryPoint {
 		}
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
-				System.out.println("onModuleLoad: loginService.login rpc success with loginInfo = " + loginInfo.toString());
+				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
 				if (loginInfo.isLoggedIn())
 					loadVendorListPanel();
 				else
@@ -71,7 +81,7 @@ public class FoodSorce implements EntryPoint {
 	}
 	
 	private void createLayout() {
-		System.out.println("createLayout called");
+		System.out.println("FoodSorce.java: createLayout()");
 		
 		HTML header = new HTML("<h1>FoodSorce</h1>");
 		north.add(header);
@@ -89,31 +99,34 @@ public class FoodSorce implements EntryPoint {
 	}
 	
 	public void handleError(Throwable error) {
-		if (error instanceof NotLoggedInException)
+		if (error instanceof NotLoggedInException) {
+			System.out.println("FoodSorce.java: NotLoggedInException thrown");
 			loadLoginPanel();
-		else
+		} else {
 			Window.alert(error.getMessage());
+		}
 	}
 
 	public void loadLoginPanel() {
-		System.out.println("loadLoginPanel called");
+		System.out.println("FoodSorce.java: loadLoginPanel()");
 		loginPanel.setSignInLink((loginInfo.getLoginUrl()));
 		center.setWidget(loginPanel);
 	}
 	
 	public void loadVendorListPanel() {
-		System.out.println("loadVendorListPanel called");
+		System.out.println("FoodSorce.java: loadVendorListPanel()");
 		navigationPanel.setSignOutLink(loginInfo.getLogoutUrl());
 		center.setWidget(vendorListPanel);
 	}
 
 	public void loadViewProfilePanel() {
-		System.out.println("loadViewProfilePanel called");
+		System.out.println("FoodSorce.java loadViewProfilePanel()");
 		center.setWidget(viewProfilePanel);
 	}
 
 	public void loadEditProfilePanel() {
-		System.out.println("loadEditProfilePanel called");
+		System.out.println("FoodSorce.java loadEditProfilePanel()");
+		// TODO for Norman
 //		center.setWidget(editProfilePanel);
 	}
 

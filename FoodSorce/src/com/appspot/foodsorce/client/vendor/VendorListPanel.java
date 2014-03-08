@@ -17,8 +17,9 @@ public class VendorListPanel extends VerticalPanel {
 	
 	private List<VendorInfo> vendors = new ArrayList<VendorInfo>();
 	
-	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
-	private VendorRatingServiceAsync vendorRatingService = GWT.create(VendorRatingService.class);
+	// Not ready yet
+//	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
+//	private VendorRatingServiceAsync vendorRatingService = GWT.create(VendorRatingService.class);
 	
 	private static final int REFRESH_INTERVAL = 5000; // milliseconds
 
@@ -66,14 +67,15 @@ public class VendorListPanel extends VerticalPanel {
 	}
 	
 	private void loadVendors() {
-		vendorService.getVendorInfos(new AsyncCallback<VendorInfo[]>() {
-			public void onFailure(Throwable error) {
-				handleError(error);
-			}
-			public void onSuccess(VendorInfo[] vendorInfos) {
-				displayVendors(vendorInfos);
-			}
-		});
+		// Not ready yet
+//		vendorService.getVendorInfos(new AsyncCallback<VendorInfo[]>() {
+//			public void onFailure(Throwable error) {
+//				handleError(error);
+//			}
+//			public void onSuccess(VendorInfo[] vendorInfos) {
+//				displayVendors(vendorInfos);
+//			}
+//		});
 	}
 	
 	public void handleError(Throwable error) {
