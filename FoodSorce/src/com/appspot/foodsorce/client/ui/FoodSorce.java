@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.ui;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,20 @@ import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.Position.Coordinates;
 import com.google.gwt.geolocation.client.PositionError;
+=======
+import com.appspot.foodsorce.client.login.LoginInfo;
+import com.appspot.foodsorce.client.login.LoginPanel;
+import com.appspot.foodsorce.client.login.LoginService;
+import com.appspot.foodsorce.client.login.LoginServiceAsync;
+import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.client.map.MapSearchPanel;
+import com.appspot.foodsorce.client.profile.ViewProfilePanel;
+import com.appspot.foodsorce.client.vendor.VendorListPanel;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.dom.client.Style.Unit;
+>>>>>>> resolve-brandons-panels
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -75,6 +90,7 @@ public class FoodSorce implements EntryPoint {
 	
 	private GoogleMap map;
 	
+<<<<<<< HEAD
 	private Button setAddressButton = new Button("Set");
 	private TextBox addressField = new TextBox();
 	
@@ -96,6 +112,28 @@ public class FoodSorce implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
+=======
+	// Center panels
+	private SimpleLayoutPanel center = new SimpleLayoutPanel();
+	private LoginPanel loginPanel = new LoginPanel();
+	private ViewProfilePanel viewProfilePanel = new ViewProfilePanel();
+	// TODO for Norman
+	// private EditProfilePanel editProfilePanel = new EditProfilePanel();
+	private VendorListPanel vendorListPanel = new VendorListPanel();
+	
+	// North panel
+	private FlowPanel north = new FlowPanel();
+	
+	// East panel
+	private FlowPanel east = new FlowPanel();
+	private MapSearchPanel mapSearchPanel = new MapSearchPanel();
+	
+	// West panels
+	private FlowPanel west = new FlowPanel();
+	private NavigationPanel navigationPanel = new NavigationPanel(this);
+
+	/** Entry point method **/
+>>>>>>> resolve-brandons-panels
 	public void onModuleLoad() {
 		// Create textbox and button for address input
 		createAddressInput();
@@ -183,6 +221,7 @@ public class FoodSorce implements EntryPoint {
 	    rightPanel.add(radioLabel);
 	    rightPanel.add(radioPanel);
 		
+<<<<<<< HEAD
 	}
 
 	private void changeDistanceVendor(String name) {
@@ -195,6 +234,18 @@ public class FoodSorce implements EntryPoint {
 		setFilteredMarkers();
 //		setVendorDisplay();
 			
+=======
+		if(GWT.isProdMode()) {
+			GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+				@Override
+				public void onUncaughtException(Throwable e) {
+					Window.alert("An Uncaught Exception has occured : " + e.toString());
+				}
+			});
+		}
+		
+		createLayout();
+>>>>>>> resolve-brandons-panels
 		
 	}
 
@@ -210,6 +261,7 @@ public class FoodSorce implements EntryPoint {
 		for (Marker marker: vendorMarkers) {
 			marker.setMap(x);
 		}
+<<<<<<< HEAD
 		
 		for (VendorInfo vendor: filteredVendors) {
 		    MarkerOptions options = MarkerOptions.create();
@@ -226,6 +278,15 @@ public class FoodSorce implements EntryPoint {
 		if (dist1==0) {
 			filteredVendors = vendors;
 			return;
+=======
+			public void onSuccess(LoginInfo result) {
+				loginInfo = result;
+				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
+				if (loginInfo.isLoggedIn())
+					loadVendorListPanel();
+				else
+					loadLoginPanel();
+>>>>>>> resolve-brandons-panels
 			}
 		
 		for (VendorInfo vendor: vendors) {
@@ -236,6 +297,7 @@ public class FoodSorce implements EntryPoint {
 		}
 		
 	}
+<<<<<<< HEAD
 
 
 
@@ -246,6 +308,11 @@ public class FoodSorce implements EntryPoint {
 
 		// Set sendButton
 		setAddressButton.addStyleName("sendButton");
+=======
+	
+	private void createLayout() {
+		System.out.println("FoodSorce.java: createLayout()");
+>>>>>>> resolve-brandons-panels
 		
 		// Add handler for setButton
 		setAddressButton.addClickHandler(new ClickHandler() {
@@ -257,6 +324,7 @@ public class FoodSorce implements EntryPoint {
 			}
 		});
 		
+<<<<<<< HEAD
 
 		addressPanel.add(addressField);
 		addressPanel.add(setAddressButton);
@@ -290,6 +358,9 @@ public class FoodSorce implements EntryPoint {
 				
 			}
 		});
+=======
+		east.add(mapSearchPanel);
+>>>>>>> resolve-brandons-panels
 		
 	  }
 	
@@ -301,6 +372,7 @@ public class FoodSorce implements EntryPoint {
 		
 	}
 	
+<<<<<<< HEAD
 	private void setLocationFromBrowser(Geolocation geo) {
 
 		  geo.getCurrentPosition(new Callback<Position, PositionError>()
@@ -335,6 +407,38 @@ public class FoodSorce implements EntryPoint {
 	public void loadViewProfilePanel() {
 		// TODO Auto-generated method stub
 		
+=======
+	public void handleError(Throwable error) {
+		if (error instanceof NotLoggedInException) {
+			System.out.println("FoodSorce.java: NotLoggedInException thrown");
+			loadLoginPanel();
+		} else {
+			Window.alert(error.getMessage());
+		}
+	}
+
+	public void loadLoginPanel() {
+		System.out.println("FoodSorce.java: loadLoginPanel()");
+		loginPanel.setSignInLink((loginInfo.getLoginUrl()));
+		center.setWidget(loginPanel);
+	}
+	
+	public void loadVendorListPanel() {
+		System.out.println("FoodSorce.java: loadVendorListPanel()");
+		navigationPanel.setSignOutLink(loginInfo.getLogoutUrl());
+		center.setWidget(vendorListPanel);
+	}
+
+	public void loadViewProfilePanel() {
+		System.out.println("FoodSorce.java loadViewProfilePanel()");
+		center.setWidget(viewProfilePanel);
+	}
+
+	public void loadEditProfilePanel() {
+		System.out.println("FoodSorce.java loadEditProfilePanel()");
+		// TODO for Norman
+//		center.setWidget(editProfilePanel);
+>>>>>>> resolve-brandons-panels
 	}
 
 	public void loadVendorListPanel() {

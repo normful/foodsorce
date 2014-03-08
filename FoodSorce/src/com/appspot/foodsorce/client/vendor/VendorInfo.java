@@ -5,16 +5,28 @@ import java.io.Serializable;
 public class VendorInfo implements Serializable {
 
 	private static final long serialVersionUID = 5220128492323836009L;
+	
 	private int id;
+	
 	private String name;
 	private String location;
 	private String foodType;
 	private double latitude;
 	private double longitude;
+	
 	private double averageQuality;
 	private double averageCost;
 
-	public VendorInfo() {}
+	public VendorInfo(String name, String location, String foodType,
+			double latitude, double longitude) {
+		this.name = name;
+		this.location = location;
+		this.foodType = foodType;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.averageCost = 0.0;
+		this.averageQuality = 0.0;
+	}
 
 	public int getId() {
 		return id;
