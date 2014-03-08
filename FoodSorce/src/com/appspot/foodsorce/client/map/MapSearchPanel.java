@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 
 import com.appspot.foodsorce.client.vendor.VendorInfo;
 import com.google.gwt.core.client.Callback;
@@ -43,7 +44,7 @@ public class MapSearchPanel extends FlowPanel {
 	private RadioButton option2;
 	private RadioButton option5;
 	private RadioButton option10;
-	private List<RadioButton> buttons;
+	private Collection<RadioButton> buttons;
 	
 	private SimplePanel mapPanel;
 	private GoogleMap map;
@@ -55,14 +56,32 @@ public class MapSearchPanel extends FlowPanel {
 	private Geolocation geolocation;
 	private LatLng userLocation;
 	
-	private List<VendorInfo> vendors;
-	private List<VendorInfo> filteredVendors;
-	private List<Marker> vendorMarkers;
+	private Collection<VendorInfo> vendors = new ArrayList<VendorInfo>();
+	private Collection<VendorInfo> filteredVendors = new ArrayList<VendorInfo>();
+	private Collection<Marker> vendorMarkers = new ArrayList<Marker>();
 	
 	public MapSearchPanel() {
+		
+		// Note to Brandon:
+		// Assume that "vendors" will contain a List of all vendors. 
+		// I (Norman) will implement soon a way to keep 1single consistent 
+		// client-side List of vendors throughout
+		// the whole app (maybe using the Singleton and Observer patterns).
+		// But until then, for your purposes, maybe you'll find it helpful to
+		// use a dummy list of vendors
+		// (these locations were generated with this site, which you might find useful:
+		// http://universimmedia.pagesperso-orange.fr/geo/loc.htm
+		VendorInfo dummyVendor1 = new VendorInfo("Burger Truck", "West End", "American", 49.28525, -123.13530);
+		VendorInfo dummyVendor2 = new VendorInfo("Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
+		VendorInfo dummyVendor3 = new VendorInfo("Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
+		vendors.add(dummyVendor1);
+		vendors.add(dummyVendor2);
+		vendors.add(dummyVendor3);
+		
 		createAddressTextBox();
 		createRadioButtons();
 		createMap();
+		
 		geolocation = Geolocation.getIfSupported();
 		if (geolocation != null)
 			setLocationFromBrowser(geolocation);
@@ -142,6 +161,11 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void setLocationFromBrowser(Geolocation geo) {
+		
+		// For debugging
+		if (geo != null)
+			System.out.println("setLocationFromBrowser called with geo=" + geo.toString());
+		
 		geo.getCurrentPosition(new Callback<Position, PositionError>() {
 			@Override
 			public void onSuccess(Position result) {
@@ -151,12 +175,17 @@ public class MapSearchPanel extends FlowPanel {
 			}
 			@Override
 			public void onFailure(PositionError reason) {
-				System.out.println("Could not acquire data from browser");
+				// For debugging
+				System.out.println("setLocationFromBrowser onFailure");
 			}
 		});
 	}
 	
 	private void setCurrentLocation(LatLng location) {
+		// For debugging
+		if (location != null)
+			System.out.println("setCurrentLocation called with location=" + location.toString());
+		
 		userLocation = location;
 		user.setPosition(location);
 		map.setCenter(location);
@@ -164,9 +193,14 @@ public class MapSearchPanel extends FlowPanel {
 	
 	// TODO: Need to fix this
 	private void setLocationFromInput(String address) {
+		
+		// For debugging
+		if (address != null)
+			System.out.println("setLocationFromInput called with address=" + address);
+		
+		Geocoder geocoder = Geocoder.create();
 		GeocoderRequest georequest = GeocoderRequest.create();
 		georequest.setAddress(address);
-		Geocoder geocoder = Geocoder.create();
 		
 		geocoder.geocode(georequest, new Geocoder.Callback() {
 			@Override
@@ -192,15 +226,18 @@ public class MapSearchPanel extends FlowPanel {
 		return (49.200589 < lat && lat < 49.309591 && -123.259243 < lng && lng < -123.064235);
 	}
 	
-	private void changeDistanceVendor(String selection) {
-		System.out.println("changeDistanceVendor called with selection = " + selection);
+	private void changeDistanceVendor(String distanceString) {
+		// For debugging
+		if (distanceString != null)
+			System.out.println("changeDistanceVendor called with distanceString=" + distanceString);
+		
 		filteredVendors.clear();
 		double distance = 0;
-		if (selection == "2km")
+		if (distanceString == "2km")
 			distance = 2;
-		if (selection == "5km")
+		if (distanceString == "5km")
 			distance = 5;
-		if (selection == "10km")
+		if (distanceString == "10km")
 			distance = 10;
 		filterVendor(distance);
 		setFilteredMarkers();
