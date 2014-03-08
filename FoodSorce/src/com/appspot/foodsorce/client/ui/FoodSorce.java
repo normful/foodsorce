@@ -5,16 +5,18 @@ import com.appspot.foodsorce.client.login.LoginPanel;
 import com.appspot.foodsorce.client.login.LoginService;
 import com.appspot.foodsorce.client.login.LoginServiceAsync;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.profile.ViewProfilePanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 
@@ -37,17 +39,17 @@ public class FoodSorce implements EntryPoint {
 	private VendorListPanel vendorListPanel = new VendorListPanel();
 	
 	// North panel
-	private SimpleLayoutPanel north = new SimpleLayoutPanel();
+	private FlowPanel north = new FlowPanel();
 	
-	// East panels
-	private SimpleLayoutPanel east = new SimpleLayoutPanel();
-	// TODO for Brandon: Add panels for Google Maps here
+	// East panel
+	private FlowPanel east = new FlowPanel();
+	private MapSearchPanel mapSearchPanel = new MapSearchPanel();
 	
 	// West panels
-	private SimpleLayoutPanel west = new SimpleLayoutPanel();
+	private FlowPanel west = new FlowPanel();
 	private NavigationPanel navigationPanel = new NavigationPanel(this);
 
-	/** Entry point method */
+//	/** Entry point method */
 	public void onModuleLoad() {
 		
 		createLayout();
@@ -74,8 +76,7 @@ public class FoodSorce implements EntryPoint {
 		HTML header = new HTML("<h1>FoodSorce</h1>");
 		north.add(header);
 		
-		HTML eastDummyText = new HTML("Google Maps plot to be inserted here");
-		east.add(eastDummyText);
+		east.add(mapSearchPanel);
 		
 		west.add(navigationPanel);
 	
