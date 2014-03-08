@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.appspot.foodsorce.client.vendor.VendorInfo;
 import com.google.gwt.core.client.Callback;
@@ -30,6 +31,7 @@ import com.google.maps.gwt.client.LatLng;
 import com.google.maps.gwt.client.MapOptions;
 import com.google.maps.gwt.client.MapTypeId;
 import com.google.maps.gwt.client.Marker;
+import com.google.maps.gwt.client.MarkerImage;
 import com.google.maps.gwt.client.MarkerOptions;
 import com.google.maps.gwt.client.geometry.Spherical;
 
@@ -39,10 +41,10 @@ public class MapSearchPanel extends FlowPanel {
 	private TextBox addressField = new TextBox();
 	
 	private Label radioLabel = new Label("Distance:");
-	private RadioButton optionAll = new RadioButton("distanceOption", "all");
-	private RadioButton option2 = new RadioButton("distanceOption", "2km");
-	private RadioButton option5 = new RadioButton("distanceOption", "5km");
-	private RadioButton option10 = new RadioButton("distanceOption", "10km");
+	private RadioButton optionAll = new RadioButton("radioGroup", "all");
+	private RadioButton option2 = new RadioButton("radioGroup", "2km");
+	private RadioButton option5 = new RadioButton("radioGroup", "5km");
+	private RadioButton option10 = new RadioButton("radioGroup", "10km");
 	private Collection<RadioButton> buttons = new ArrayList<RadioButton>();
 	
 	private SimplePanel mapPanel;
@@ -53,8 +55,7 @@ public class MapSearchPanel extends FlowPanel {
 	private MarkerOptions userOptions;
 	
 	private Geolocation geolocation;
-	private LatLng userLocation;
-	
+	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
 	private Collection<VendorInfo> allVendors = new ArrayList<VendorInfo>();
 	private Collection<VendorInfo> matchingVendors = new ArrayList<VendorInfo>();
 	private Collection<Marker> vendorMarkers = new ArrayList<Marker>();
@@ -161,7 +162,7 @@ public class MapSearchPanel extends FlowPanel {
 		map = GoogleMap.create(mapPanel.getElement(), mapOptions);
 
 		userOptions = MarkerOptions.create();
-		userOptions.setPosition(LatLng.create(49.279641,-123.125625));
+		userOptions.setPosition(userLocation);
 		userOptions.setMap(map);
 		user = Marker.create(userOptions);
 		
@@ -268,24 +269,30 @@ public class MapSearchPanel extends FlowPanel {
 		double travelDistance;
 		
 		if (buttonText.equals("2km"))
-			travelDistance = 2.0;
+			travelDistance = 2000.0;
 		else if (buttonText.equals("5km"))
-			travelDistance = 5.0;
+			travelDistance = 5000.0;
 		else if (buttonText.equals("10km"))
-			travelDistance = 10.0;
+			travelDistance = 10000.0;
 		else
-			travelDistance = 999.0;
+			travelDistance = 999999.0;
+		
+		matchingVendors.clear();
+		
+		System.out.println("MapSearchPanel.java: travelDistance=" + travelDistance);
 		
 		// Radio button "all" is selected
-		if (travelDistance == 999) {
-			matchingVendors.clear();
+		if (travelDistance == 999999.0) {
 			matchingVendors.addAll(allVendors);
 			return;
 		}
+		
 		// Radio button "2km", "5km", or "10km" is selected
 		for (VendorInfo vendor: allVendors) {
+			System.out.println("matchingVendors.add(" + vendor.toString() +")");
 			LatLng vendorLocation = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
 			double vendorDistance = Spherical.computeDistanceBetween(userLocation, vendorLocation);
+			System.out.println("vendorDistance=" + String.valueOf(vendorDistance));
 			if (vendorDistance <= travelDistance)
 				matchingVendors.add(vendor);
 		}

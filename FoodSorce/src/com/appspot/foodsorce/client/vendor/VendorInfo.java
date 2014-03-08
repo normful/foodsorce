@@ -92,4 +92,12 @@ public class VendorInfo implements Serializable {
 		this.averageCost = averageCost;
 	}
 
+	@Override
+	public String toString() {
+		return "VendorInfo [id=" + id + ", name=" + name + ", location="
+				+ location + ", foodType=" + foodType + ", latitude="
+				+ latitude + ", longitude=" + longitude + ", averageQuality="
+				+ averageQuality + ", averageCost=" + averageCost + "]";
+	}
+
 }
