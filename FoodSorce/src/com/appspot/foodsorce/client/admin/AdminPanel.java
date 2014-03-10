@@ -28,7 +28,7 @@ public class AdminPanel extends VerticalPanel {
 	private void callImportData() {
 		dataService.importData(new AsyncCallback<Void>() {
 			public void onFailure(Throwable error) {
-				Window.alert("Data import failed: " + error.toString());
+				Window.alert("Failed to import data: " + error.toString());
 			}
 			public void onSuccess(Void voidResult) {
 				Window.alert("Successfully imported data.");
