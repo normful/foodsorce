@@ -15,14 +15,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class VendorListPanel extends VerticalPanel {
 	
 	private FlexTable vendorTable = new FlexTable();
-	
 	private List<Vendor> vendors = new ArrayList<Vendor>();
-	
-	// Not ready yet
-//	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
-//	private VendorRatingServiceAsync vendorRatingService = GWT.create(VendorRatingService.class);
-	
-	private static final int REFRESH_INTERVAL = 5000; // milliseconds
+	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
+	private static final int REFRESH_INTERVAL = 15000; // milliseconds
 
 	public VendorListPanel() {
 		loadVendorList();
@@ -51,8 +46,8 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getCellFormatter().addStyleName(0, 3, "vendorListHeaderText");
 		vendorTable.getCellFormatter().addStyleName(0, 4, "vendorListHeaderText");
 		
-		// Call VendorService RPC should return array of VendorInfo
-		loadVendors();
+		// Retrieve and display vendors from server
+		reloadVendors();
 
 		// Add vendorTable
 		add(vendorTable);
@@ -61,31 +56,22 @@ public class VendorListPanel extends VerticalPanel {
 		Timer refreshTimer = new Timer() {
 			@Override
 			public void run() {
-				refreshVendorList();
+				reloadVendors();
 			}
 		};
 		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
 	
-	private void loadVendors() {
-		// Not ready yet
-//		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
-//			public void onFailure(Throwable error) {
-//				handleError(error);
-//			}
-//			public void onSuccess(Vendor[] vendors) {
-//				displayVendors(vendors);
-//			}
-//		});
-	}
-	
-	public void handleError(Throwable error) {
-		if (error instanceof NotLoggedInException) {
-			// Do nothing. Instantiating and viewing the VendorListPanel
-			// without being logged in is allowed.
-		}
-		else
-			Window.alert(error.getMessage());
+	private void reloadVendors() {
+		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
+			public void onFailure(Throwable error) {
+				handleError(error);
+			}
+			public void onSuccess(Vendor[] result) {
+				vendors.clear();
+				displayVendors(result);
+			}
+		});
 	}
 	
 	private void displayVendors(Vendor[] vendors) {
@@ -108,38 +94,15 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListRatingColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorListTextColumn");
+	}
 
-		refreshVendorList();
+	public void handleError(Throwable error) {
+		if (error instanceof NotLoggedInException) {
+			// Do nothing. Instantiating and viewing the VendorListPanel
+			// without being logged in is allowed.
+		}
+		else
+			Window.alert(error.getMessage());
 	}
 	
-	private void refreshVendorList() {
-		
-		// TODO: Implement refreshing of VendorInfo averageQuality and averageCost ratings periodically
-		// Initialize the service proxy.
-//		if (vendorRatingService == null) {
-//			vendorRatingService = GWT.create(VendorRatingService.class);
-//		}
-
-//		// Set up the callback object.
-//		AsyncCallback<StockPrice[]> callback = new AsyncCallback<StockPrice[]>() {
-//			public void onFailure(Throwable caught) {
-//				// If the stock code is in the list of delisted codes, display an error message.
-//				String details = caught.getMessage();
-//				if (caught instanceof DelistedException) {
-//					details = "Company '" + ((DelistedException)caught).getSymbol() + "' was delisted";
-//				}
-//				errorMsgLabel.setText("Error: " + details);
-//				errorMsgLabel.setVisible(true);
-//			}
-//
-//			public void onSuccess(StockPrice[] result) {
-//				updateTable(result);
-//			}
-//		};
-//
-//		// Make the call to the stock price service.
-//		stockPriceSvc.getPrices(stocks.toArray(new String[0]), callback);
-	}
-
-
 }

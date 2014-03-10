@@ -28,12 +28,12 @@ public class AdminPanel extends VerticalPanel {
 	private void callImportData() {
 		dataService.importData(new AsyncCallback<Void>() {
 			public void onFailure(Throwable error) {
-				Window.alert("Data import failed.");
+				Window.alert("Data import failed: " + error.toString());
 			}
-			public void onSuccess(Void ignore) {
+			public void onSuccess(Void voidResult) {
 				Window.alert("Successfully imported data.");
 			}
-		});	
+		});
 	}
 	
 }
