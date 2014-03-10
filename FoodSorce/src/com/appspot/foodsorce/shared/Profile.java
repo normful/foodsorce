@@ -43,6 +43,11 @@ public class Profile implements Serializable {
 	@Persistent
 	private String websiteUrl;
 	
+	// Defualt no-arg constructor required for serialization
+	public Profile() {
+		this("");
+	}
+	
 	public Profile(String userEmail) {
 		this.userEmail = userEmail;
 		this.photoUrl = "images/unknown_user.jpeg";

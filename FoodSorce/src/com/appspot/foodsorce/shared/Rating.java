@@ -36,6 +36,11 @@ public class Rating implements Serializable {
 	@Persistent
 	private String review;
 
+	// Default no-arg constructor required for serialization
+	public Rating() {
+		this("", 0, 1, "");
+	}
+	
 	public Rating(String userEmail, int quality, int cost, String review)
 			throws IllegalArgumentException {
 		

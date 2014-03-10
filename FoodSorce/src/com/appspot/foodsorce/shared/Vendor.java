@@ -44,6 +44,11 @@ public class Vendor implements Serializable {
 	@Persistent
 	private ArrayList<Rating> ratings;
 	
+	// Default no-arg constructor required for serialization
+	public Vendor() {
+		this("", "", "", "", 0.0, 0.0);
+	}
+	
 	public Vendor(String excelKey, String name, String description, String location,
 			double latitude, double longitude) {
 		
