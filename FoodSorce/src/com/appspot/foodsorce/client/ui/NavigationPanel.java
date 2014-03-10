@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.ui;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -45,6 +46,7 @@ public class NavigationPanel extends VerticalPanel {
 		add(adminLink);
 		
 		signOutLink.addStyleName("navigationLink");
+		setSignOutLink(GWT.getHostPageBaseURL());
 		add(signOutLink);
 	}
 	
