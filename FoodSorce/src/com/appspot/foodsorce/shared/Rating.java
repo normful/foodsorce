@@ -9,19 +9,21 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.users.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Rating implements Serializable {
 	
 	private static final long serialVersionUID = -3539849555657726056L;
 
+	// Key is a system-generated numeric ID
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
-	// Email of user who created this Rating
+	// Author of this Rating
 	@Persistent
-	private String user;
+	private User user;
 	
 	// Between 0 and 10 (corresponds to 0-5 stars)
 	@Persistent
@@ -31,10 +33,11 @@ public class Rating implements Serializable {
 	@Persistent
 	private int cost;
 	
+	// Review text
 	@Persistent
 	private String review;
 	
-	public Rating(int quality, int cost, String review, String user)
+	public Rating(int quality, int cost, String review, User user)
 			throws IllegalArgumentException {
 		
 		if (quality < 0 || quality > 10)
@@ -47,7 +50,11 @@ public class Rating implements Serializable {
 		else
 			this.cost = cost;
 		
-		this.review = review;
+		if (review != null && !review.isEmpty())
+			this.review = review;
+		else
+			this.review = "";
+		
 		this.user = user;
 	}
 	
@@ -63,7 +70,7 @@ public class Rating implements Serializable {
 		return review;
 	}
 	
-	public String getUser() {
+	public User getUser() {
 		return user;
 	}
 	

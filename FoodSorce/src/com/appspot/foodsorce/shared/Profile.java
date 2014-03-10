@@ -16,6 +16,7 @@ public class Profile implements Serializable {
 
 	private static final long serialVersionUID = 7159784797315156915L;
 	
+	// Key is a system-generated numeric ID
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
@@ -32,6 +33,7 @@ public class Profile implements Serializable {
 	@Persistent
 	private String headline;
 	
+	// Text of their favourite food. This is not a search setting.
 	@Persistent
 	private String favouriteFood;
 	

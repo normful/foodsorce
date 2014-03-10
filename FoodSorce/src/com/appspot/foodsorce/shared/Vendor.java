@@ -16,6 +16,7 @@ public class Vendor implements Serializable {
 
 	private static final long serialVersionUID = 1919782205348732198L;
 
+	// Key is an app-assigned string ID
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
@@ -55,6 +56,10 @@ public class Vendor implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.ratings = new ArrayList<Rating>();
+	}
+	
+	public void setKey(Key key) {
+		this.key = key;
 	}
 	
 	public String getName() {
