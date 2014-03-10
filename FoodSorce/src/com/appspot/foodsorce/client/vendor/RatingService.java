@@ -6,7 +6,7 @@ import com.appspot.foodsorce.client.Vendor;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("ratings")
+@RemoteServiceRelativePath("rating")
 public interface RatingService extends RemoteService {
 	/**
 	 * Adds a new rating to an existing Vendor in the datastore

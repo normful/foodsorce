@@ -21,6 +21,16 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>vancouverDataService</servlet-name>
+		<servlet-class>com.appspot.foodsorce.server.admin.VancouverDataServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>vancouverDataService</servlet-name>
+		<url-pattern>/foodsorce/vancouverData</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>profileService</servlet-name>
 		<servlet-class>com.appspot.foodsorce.server.profile.ProfileServiceImpl</servlet-class>
 	</servlet>
@@ -41,13 +51,13 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>vendorRatingService</servlet-name>
+		<servlet-name>ratingService</servlet-name>
 		<servlet-class>com.appspot.foodsorce.server.vendor.RatingServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>vendorRatingService</servlet-name>
-		<url-pattern>/foodsorce/vendorRatings</url-pattern>
+		<servlet-name>ratingService</servlet-name>
+		<url-pattern>/foodsorce/rating</url-pattern>
 	</servlet-mapping>
 
 </web-app>
