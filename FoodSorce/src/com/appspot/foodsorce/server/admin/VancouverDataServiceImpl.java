@@ -17,7 +17,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.appspot.foodsorce.client.admin.VancouverDataService;
 import com.appspot.foodsorce.server.PMF;
-import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.server.VendorJDO;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -29,10 +29,10 @@ public class VancouverDataServiceImpl implements VancouverDataService {
 	// do not already exist in the datastore
 	private static VancouverDataServiceImpl uniqueInstance = null;
 	
-	private ArrayList<Vendor> vendorsToStore;
+	private ArrayList<VendorJDO> vendorsToStore;
 
 	private VancouverDataServiceImpl() {
-		vendorsToStore = new ArrayList<Vendor>();
+		vendorsToStore = new ArrayList<VendorJDO>();
 	}
 
 	public static VancouverDataServiceImpl getInstance() {
@@ -98,11 +98,11 @@ public class VancouverDataServiceImpl implements VancouverDataService {
 					}
 				}
 				if (row.getCell(2).getRichStringCellValue().getString().equals("open")) {
-					Vendor vendor = new Vendor(name, description, location, latitude, longitude);
+					VendorJDO vendor = new VendorJDO(name, description, location, latitude, longitude);
 					System.out.println("VancouverDataServiceImpl.java: creating Vendor = " + vendor.toString());
 					
 					// TODO: Change this following line to use actual 'key' column from .xls
-					Key key = KeyFactory.createKey(Vendor.class.getSimpleName(), "key field from .xls");
+					Key key = KeyFactory.createKey(VendorJDO.class.getSimpleName(), "key field from .xls");
 					
 					vendorsToStore.add(vendor);
 				}

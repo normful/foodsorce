@@ -3,7 +3,7 @@ package com.appspot.foodsorce.client.map;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.client.Vendor;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;

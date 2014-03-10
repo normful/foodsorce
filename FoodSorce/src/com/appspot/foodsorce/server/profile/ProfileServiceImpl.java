@@ -2,7 +2,7 @@ package com.appspot.foodsorce.server.profile;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.profile.ProfileService;
-import com.appspot.foodsorce.shared.Profile;
+import com.appspot.foodsorce.client.Profile;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

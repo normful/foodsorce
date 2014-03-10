@@ -7,7 +7,7 @@ import javax.jdo.PersistenceManager;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.vendor.VendorService;
 import com.appspot.foodsorce.server.PMF;
-import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.client.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {

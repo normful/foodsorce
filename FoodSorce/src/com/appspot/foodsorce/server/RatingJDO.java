@@ -1,6 +1,4 @@
-package com.appspot.foodsorce.shared;
-
-import java.io.Serializable;
+package com.appspot.foodsorce.server;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -9,21 +7,18 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.users.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Rating implements Serializable {
+public class RatingJDO {
 	
-	private static final long serialVersionUID = -3539849555657726056L;
-
 	// Key is a system-generated numeric ID
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
-	// Author of this Rating
+	// The email of this Rating's author
 	@Persistent
-	private User user;
+	private String userEmail;
 	
 	// Between 0 and 10 (corresponds to 0-5 stars)
 	@Persistent
@@ -36,8 +31,8 @@ public class Rating implements Serializable {
 	// Review text
 	@Persistent
 	private String review;
-	
-	public Rating(int quality, int cost, String review, User user)
+
+	public RatingJDO(int quality, int cost, String review, String userEmail)
 			throws IllegalArgumentException {
 		
 		if (quality < 0 || quality > 10)
@@ -55,7 +50,7 @@ public class Rating implements Serializable {
 		else
 			this.review = "";
 		
-		this.user = user;
+		this.userEmail = userEmail;
 	}
 	
 	public int getQuality() {
@@ -70,14 +65,13 @@ public class Rating implements Serializable {
 		return review;
 	}
 	
-	public User getUser() {
-		return user;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
 	@Override
 	public String toString() {
-		return "Rating [key=" + key + ", user=" + user + ", quality=" + quality
+		return "Rating [userEmail=" + userEmail + ", quality=" + quality
 				+ ", cost=" + cost + ", review=" + review + "]";
 	}
-	
 }

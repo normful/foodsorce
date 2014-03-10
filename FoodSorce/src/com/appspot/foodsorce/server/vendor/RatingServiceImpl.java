@@ -2,8 +2,8 @@ package com.appspot.foodsorce.server.vendor;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.vendor.RatingService;
-import com.appspot.foodsorce.shared.Rating;
-import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.client.Rating;
+import com.appspot.foodsorce.client.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class RatingServiceImpl extends RemoteServiceServlet implements RatingService {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
-import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.client.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;

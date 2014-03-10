@@ -1,6 +1,4 @@
-package com.appspot.foodsorce.shared;
-
-import java.io.Serializable;
+package com.appspot.foodsorce.server;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
@@ -12,10 +10,8 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.users.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Profile implements Serializable {
+public class ProfileJDO {
 
-	private static final long serialVersionUID = 7159784797315156915L;
-	
 	// Key is a system-generated numeric ID
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -43,7 +39,7 @@ public class Profile implements Serializable {
 	@Persistent
 	private String websiteUrl;
 	
-	public Profile(User user) {
+	public ProfileJDO(User user) {
 		this.user = user;
 		this.photoUrl = "images/unknown_user.jpeg";
 		this.gender = "";

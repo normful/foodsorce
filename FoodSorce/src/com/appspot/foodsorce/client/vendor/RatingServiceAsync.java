@@ -1,7 +1,7 @@
 package com.appspot.foodsorce.client.vendor;
 
-import com.appspot.foodsorce.shared.Rating;
-import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.client.Rating;
+import com.appspot.foodsorce.client.Vendor;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface RatingServiceAsync {

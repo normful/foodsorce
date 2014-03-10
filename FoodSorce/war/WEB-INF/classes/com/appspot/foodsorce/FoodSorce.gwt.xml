@@ -7,10 +7,10 @@
   "http://google-web-toolkit.googlecode.com/svn/tags/2.5.1/distro-source/core/src/gwt-module.dtd">
 <module rename-to='foodsorce'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
-  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.user.User' />
   
   <!-- Inherit Google Maps API v3 -->
-  <inherits name='com.google.maps.gwt.GoogleMaps'/>
+  <inherits name='com.google.maps.gwt.GoogleMaps' />
   
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->

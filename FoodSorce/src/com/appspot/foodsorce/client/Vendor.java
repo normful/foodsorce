@@ -1,43 +1,17 @@
-package com.appspot.foodsorce.shared;
+package com.appspot.foodsorce.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
-
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Vendor implements Serializable {
-
-	private static final long serialVersionUID = 1919782205348732198L;
-
-	// Key is an app-assigned string ID that corresponds
-	// to the "key" column in new_food_vendor_locations.xls
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
 	
-	@Persistent
+	private static final long serialVersionUID = -3415324477148115200L;
+
 	private String name;
-	
-	@Persistent
 	private String description;
-	
-	@Persistent
 	private String location;
-	
-	@Persistent
 	private double latitude;
-	
-	@Persistent
 	private double longitude;
-	
-	@Persistent
 	private ArrayList<Rating> ratings;
 	
 	public Vendor(String name, String description, String location,
@@ -57,10 +31,6 @@ public class Vendor implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.ratings = new ArrayList<Rating>();
-	}
-	
-	public void setKey(Key key) {
-		this.key = key;
 	}
 	
 	public String getName() {
@@ -106,7 +76,7 @@ public class Vendor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Vendor [key=" + key + ", name=" + name + ", description="
+		return "Vendor [name=" + name + ", description="
 				+ description + ", location=" + location + ", latitude="
 				+ latitude + ", longitude=" + longitude + ", ratings="
 				+ ratings + "]";
