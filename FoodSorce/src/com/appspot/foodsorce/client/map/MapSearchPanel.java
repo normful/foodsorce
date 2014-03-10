@@ -147,7 +147,7 @@ public class MapSearchPanel extends FlowPanel {
 					updateMatchingVendors(button.getText());
 					try {
 						System.out.println("MapSearchPanel.java: ValueChangeHandler onValueChange");
-//						vendorListPanel = VendorListPanel.getInstance();
+						vendorListPanel = VendorListPanel.getInstance();
 						vendorListPanel.setAndDisplayMatchingVendors(matchingVendors);
 					} catch (Throwable e) {
 						e.printStackTrace();
