@@ -14,7 +14,7 @@ public class Rating implements Serializable {
 	
 	private static final long serialVersionUID = -6814747224477695413L;
 
-	// Key is a system-generated numeric ID
+	// Key is a system-generated encoded String
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")

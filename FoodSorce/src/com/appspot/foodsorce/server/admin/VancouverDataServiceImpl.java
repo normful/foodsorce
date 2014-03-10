@@ -92,14 +92,13 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 			System.exit(0);
 		}
 		
-		// Batch store in JDO (more efficient than numerous single stores)
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistentAll(vendorsToStore);
 		} finally {
 			pm.close();
 		}
-		
+
 	}
 
 }

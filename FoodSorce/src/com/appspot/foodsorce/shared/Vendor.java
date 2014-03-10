@@ -3,7 +3,6 @@ package com.appspot.foodsorce.shared;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.IdentityType;
@@ -21,6 +20,10 @@ public class Vendor implements Serializable {
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String encodedKey;
+	
+	@Persistent
+	@Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
 	private String excelKey;
 	
 	@Persistent
