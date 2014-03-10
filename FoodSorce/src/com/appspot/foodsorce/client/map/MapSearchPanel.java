@@ -174,12 +174,26 @@ public class MapSearchPanel extends FlowPanel {
 		}
 		
 		optionAll.setValue(true);
+		setRadioOnLocationChange();
 		
 		this.add(radioLabel);
 		this.add(optionAll);
 		this.add(option2);
 		this.add(option5);
 		this.add(option10);
+	}
+	
+	private void setRadioOnLocationChange() {
+		updateMatchingVendors("optionAll");
+		try {
+			System.out.println("MapSearchPanel.java: ValueChangeHandler onValueChange");
+			vendorListPanel = VendorListPanel.getInstance();
+			vendorListPanel.setAndDisplayMatchingVendors(matchingVendors);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		plotMatchingVendorMarkers();
+	
 	}
 	
 	private void createMap() {
@@ -220,6 +234,7 @@ public class MapSearchPanel extends FlowPanel {
 				LatLng latlong = LatLng.create(coordinates.getLatitude(), coordinates.getLongitude());
 				plotUser(latlong);
 				optionAll.setValue(true);
+				setRadioOnLocationChange();
 			}
 			
 			@Override
@@ -265,6 +280,7 @@ public class MapSearchPanel extends FlowPanel {
 					if (isInVancouver(result.getGeometry().getLocation()) == true) {
 						plotUser(result.getGeometry().getLocation());
 						optionAll.setValue(true);
+						setRadioOnLocationChange();
 					} else {
 						Window.alert("Please re-enter an address within Vancouver.");
 					}
