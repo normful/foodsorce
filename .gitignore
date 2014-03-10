@@ -8,3 +8,4 @@ FoodSorce/war/WEB-INF/deploy
 FoodSorce/war/foodsorce
 FoodSorce/.gwt/.gwt-log
 *.class
+FoodSorce/war/WEB-INF/appengine-generated
