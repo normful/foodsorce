@@ -94,16 +94,16 @@ public class MapSearchPanel extends FlowPanel {
 		// (these locations were generated with this site,
 		// which you might find useful):
 		// http://universimmedia.pagesperso-orange.fr/geo/loc.htm
-		Vendor dummyVendor1 = new Vendor("dummyKey", "Burger Truck", "West End", "American", 49.28525, -123.13530);
-		Vendor dummyVendor2 = new Vendor("dummyKey", "Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
-		Vendor dummyVendor3 = new Vendor("dummyKey", "Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
-		Vendor dummyVendor4 = new Vendor("dummyKey", "Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
-		Vendor dummyVendor5 = new Vendor("dummyKey", "Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
-		allVendors.add(dummyVendor1);
-		allVendors.add(dummyVendor2);
-		allVendors.add(dummyVendor3);
-		allVendors.add(dummyVendor4);
-		allVendors.add(dummyVendor5);
+//		Vendor dummyVendor1 = new Vendor("dummyKey", "Burger Truck", "West End", "American", 49.28525, -123.13530);
+//		Vendor dummyVendor2 = new Vendor("dummyKey", "Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
+//		Vendor dummyVendor3 = new Vendor("dummyKey", "Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
+//		Vendor dummyVendor4 = new Vendor("dummyKey", "Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
+//		Vendor dummyVendor5 = new Vendor("dummyKey", "Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
+//		allVendors.add(dummyVendor1);
+//		allVendors.add(dummyVendor2);
+//		allVendors.add(dummyVendor3);
+//		allVendors.add(dummyVendor4);
+//		allVendors.add(dummyVendor5);
 		
 		//GPS test
 //		LatLng test = LatLng.create(49.2328357, -123.05465859999998);
