@@ -1,9 +1,10 @@
 package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import com.appspot.foodsorce.shared.Vendor;
+import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,6 +36,9 @@ import com.google.maps.gwt.client.geometry.Spherical;
 
 public class MapSearchPanel extends FlowPanel {
 
+	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
+	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
+	
 	private Button setAddressButton = new Button("Set Location");
 	private TextBox addressField = new TextBox();
 	
@@ -43,7 +47,7 @@ public class MapSearchPanel extends FlowPanel {
 	private RadioButton option2 = new RadioButton("radioGroup", "2km");
 	private RadioButton option5 = new RadioButton("radioGroup", "5km");
 	private RadioButton option10 = new RadioButton("radioGroup", "10km");
-	private Collection<RadioButton> buttons = new ArrayList<RadioButton>();
+	private List<RadioButton> buttons = new ArrayList<RadioButton>();
 	
 	private SimplePanel mapPanel;
 	private GoogleMap map;
@@ -54,12 +58,15 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private Geolocation geolocation;
 	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
-	private Collection<Vendor> allVendors = new ArrayList<Vendor>();
-	private Collection<Vendor> matchingVendors = new ArrayList<Vendor>();
-	private Collection<Marker> vendorMarkers = new ArrayList<Marker>();
+	private List<Vendor> allVendors;
+	private List<Vendor> matchingVendors;
+	private List<Marker> vendorMarkers;
 	
-	public MapSearchPanel() {
-		
+	private MapSearchPanel() {
+		System.out.println("MapSearchPanel.java: MapSearchPanel() constructor");
+		allVendors = new ArrayList<Vendor>();
+		matchingVendors = new ArrayList<Vendor>();
+		vendorMarkers = new ArrayList<Marker>();
 		// Notes to Brandon:
 		//
 		// Please leave the "For debugging" System.out.println statements in, they're helpful for understanding control flow
@@ -75,18 +82,16 @@ public class MapSearchPanel extends FlowPanel {
 		// (these locations were generated with this site,
 		// which you might find useful):
 		// http://universimmedia.pagesperso-orange.fr/geo/loc.htm
-		Vendor dummyVendor1 = new Vendor("dummyKey", "Burger Truck", "West End", "American", 49.28525, -123.13530);
-		Vendor dummyVendor2 = new Vendor("dummyKey", "Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
-		Vendor dummyVendor3 = new Vendor("dummyKey", "Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
-		Vendor dummyVendor4 = new Vendor("dummyKey", "Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
-		Vendor dummyVendor5 = new Vendor("dummyKey", "Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
-		allVendors.add(dummyVendor1);
-		allVendors.add(dummyVendor2);
-		allVendors.add(dummyVendor3);
-		allVendors.add(dummyVendor4);
-		allVendors.add(dummyVendor5);
-		
-		matchingVendors.addAll(allVendors);
+//		Vendor dummyVendor1 = new Vendor("dummyKey", "Burger Truck", "West End", "American", 49.28525, -123.13530);
+//		Vendor dummyVendor2 = new Vendor("dummyKey", "Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
+//		Vendor dummyVendor3 = new Vendor("dummyKey", "Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
+//		Vendor dummyVendor4 = new Vendor("dummyKey", "Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
+//		Vendor dummyVendor5 = new Vendor("dummyKey", "Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
+//		allVendors.add(dummyVendor1);
+//		allVendors.add(dummyVendor2);
+//		allVendors.add(dummyVendor3);
+//		allVendors.add(dummyVendor4);
+//		allVendors.add(dummyVendor5);
 		
 		createAddressTextBox();
 		createRadioButtons();
@@ -96,7 +101,18 @@ public class MapSearchPanel extends FlowPanel {
 		if (geolocation != null)
 			setLocationFromBrowser(geolocation);
 		
-		plotVendorMarkers();
+		plotMatchingVendorMarkers();
+	}
+	
+	public static MapSearchPanel getInstance() {
+		System.out.println("MapSearchPanel.java: getInstance");
+		return INSTANCE;
+	}
+	
+	public void setAllVendors(List<Vendor> allVendors) {
+		System.out.println("MapSearchPanel.java: setAllVendors");
+		this.allVendors.clear();
+		this.allVendors.addAll(allVendors);
 	}
 	
 	private void createAddressTextBox() {
@@ -128,10 +144,15 @@ public class MapSearchPanel extends FlowPanel {
 			button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					filterVendors(button.getText());
-					plotVendorMarkers();
-					// TODO: Norman says: I'll figure out how to do this. Probably using Observer pattern
-					// updateVendors();
+					updateMatchingVendors(button.getText());
+					try {
+						System.out.println("MapSearchPanel.java: ValueChangeHandler onValueChange");
+//						vendorListPanel = VendorListPanel.getInstance();
+						vendorListPanel.setAndDisplayMatchingVendors(matchingVendors);
+					} catch (Throwable e) {
+						e.printStackTrace();
+					}
+					plotMatchingVendorMarkers();
 				}
 			});
 		}
@@ -239,9 +260,8 @@ public class MapSearchPanel extends FlowPanel {
 		double lng = location.lng();
 		return (49.200589 < lat && lat < 49.309591 && -123.259243 < lng && lng < -123.064235);
 	}
-	
 
-	private void plotVendorMarkers() {
+	private void plotMatchingVendorMarkers() {
 		// For debugging
 		System.out.println("MapSearchPanel.java: plotVendorMarkers()");
 		
@@ -260,7 +280,7 @@ public class MapSearchPanel extends FlowPanel {
 		}
 	}
 
-	private void filterVendors(String buttonText) {
+	private void updateMatchingVendors(String buttonText) {
 		// For debugging
 		System.out.println("MapSearchPanel.java: filterVendors(buttonText=" + buttonText + ")");
 		
@@ -287,10 +307,10 @@ public class MapSearchPanel extends FlowPanel {
 		
 		// Radio button "2km", "5km", or "10km" is selected
 		for (Vendor vendor: allVendors) {
-			System.out.println("matchingVendors.add(" + vendor.toString() +")");
+			System.out.println("MapSearchPanel.java: matchingVendors.add(" + vendor.toString() +")");
 			LatLng vendorLocation = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
 			double vendorDistance = Spherical.computeDistanceBetween(userLocation, vendorLocation);
-			System.out.println("vendorDistance=" + String.valueOf(vendorDistance));
+			System.out.println("MapSearchPanel.java: vendorDistance=" + String.valueOf(vendorDistance));
 			if (vendorDistance <= travelDistance)
 				matchingVendors.add(vendor);
 		}
@@ -300,5 +320,5 @@ public class MapSearchPanel extends FlowPanel {
 	private void convertGPStoAddress() {
 		// TODO: Brandon needs to do this
 	}
-	
+
 }

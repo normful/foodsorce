@@ -5,10 +5,7 @@
   font-family: Geneva, Tahoma, Verdana, sans-serif;
   font-face: bold;
   color: #CC2222;
-  padding-top:15px;
-  padding-bottom:15px;
-  padding-right:15px;
-  padding-left:15px;
+  margin: 15px 15px 15px;
 }
 
 .vendorListHeader {
@@ -18,10 +15,10 @@
 .vendorListNameColumn {
 }
 
-.vendorListRatingColumn {
+.vendorListTextColumn {
 }
 
-.vendorListTextColumn {
+.vendorListRatingColumn {
 }
 
 h1 {

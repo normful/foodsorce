@@ -39,14 +39,14 @@ public class FoodSorce implements EntryPoint {
 	private ViewProfilePanel viewProfilePanel = new ViewProfilePanel();
 	// TODO for Norman
 	// private EditProfilePanel editProfilePanel = new EditProfilePanel();
-	private VendorListPanel vendorListPanel = new VendorListPanel();
+	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	
 	// North panel
 	private FlowPanel north = new FlowPanel();
 	
 	// East panel
 	private FlowPanel east = new FlowPanel();
-	private MapSearchPanel mapSearchPanel = new MapSearchPanel();
+	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
 	
 	// West panels
 	private FlowPanel west = new FlowPanel();
@@ -121,6 +121,11 @@ public class FoodSorce implements EntryPoint {
 		center.setWidget(vendorListPanel);
 	}
 
+	public void loadAdminPanel() {
+		System.out.println("FoodSorce.java loadAdminPanel()");
+		center.setWidget(adminPanel);
+	}
+	
 	public void loadViewProfilePanel() {
 		System.out.println("FoodSorce.java loadViewProfilePanel()");
 		center.setWidget(viewProfilePanel);
@@ -136,9 +141,4 @@ public class FoodSorce implements EntryPoint {
 		return loginInfo;
 	}
 
-	public void loadAdminPanel() {
-		System.out.println("FoodSorce.java loadAdminPanel()");
-		center.setWidget(adminPanel);
-	}
-	
 }

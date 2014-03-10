@@ -22,10 +22,12 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements ProfileS
 		// TODO Auto-generated method stub
 	}
 	
+	@SuppressWarnings("unused")
 	private void createProfile() {
 		// TODO
 	}
 	
+	@SuppressWarnings("unused")
 	private void checkLoggedIn() throws NotLoggedInException {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn())
