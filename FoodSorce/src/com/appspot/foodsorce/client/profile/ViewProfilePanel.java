@@ -8,7 +8,7 @@ public class ViewProfilePanel extends VerticalPanel {
 	
 	public ViewProfilePanel() {
 		ScrollPanel scrollPanel = new ScrollPanel();
-		HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile Page</h2>");
+		HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
 		
 // TODO: Fix this code to reflect refactoring
 //		Image profilePhoto = new Image(loginInfo.getPhotoUrl(), 0, 0, 225, 225);

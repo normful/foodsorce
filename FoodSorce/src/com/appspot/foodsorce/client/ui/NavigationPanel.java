@@ -55,7 +55,10 @@ public class NavigationPanel extends VerticalPanel {
 	}
 	
 	public void setSignOutLink(String url) {
-		signOutLink.setHref(url);
+		if (url != null && !url.isEmpty())
+			signOutLink.setHref(url);
+		else
+			signOutLink.setHref(GWT.getHostPageBaseURL());
 	}
 
 }
