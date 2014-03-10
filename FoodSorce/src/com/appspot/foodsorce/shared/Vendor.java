@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
@@ -13,15 +15,27 @@ import com.google.appengine.api.datastore.Key;
 public class Vendor implements Serializable {
 
 	private static final long serialVersionUID = 1919782205348732198L;
-//
+
 	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
+	@Persistent
 	private String name;
+	
+	@Persistent
 	private String description;
+	
+	@Persistent
 	private String location;
+	
+	@Persistent
 	private double latitude;
+	
+	@Persistent
 	private double longitude;
+	
+	@Persistent
 	private ArrayList<Rating> ratings;
 	
 	public Vendor(String name, String description, String location,
