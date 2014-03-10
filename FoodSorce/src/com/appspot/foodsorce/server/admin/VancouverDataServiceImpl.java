@@ -27,12 +27,6 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 	
 	private static final long serialVersionUID = 979083175319069108L;
 
-	// TODO: Norman says that this Singleton pattern may not be required
-	// Instead, to prevent data from imported multiple times,
-	// it might make more sense to check that the vendors
-	// do not already exist in the datastore
-//	private static VancouverDataServiceImpl uniqueInstance = null;
-	
 	private String filepath = "excel/new_food_vendor_locations.xls";
 	private ArrayList<VendorJDO> vendorsToStore;
 
@@ -40,12 +34,6 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 		vendorsToStore = new ArrayList<VendorJDO>();
 	}
 
-//	public static VancouverDataServiceImpl getInstance() {
-//		if (uniqueInstance == null)
-//			uniqueInstance = new VancouverDataServiceImpl();
-//		return uniqueInstance;
-//	}
-	
 	@Override
 	public void importData() {
 		
@@ -69,41 +57,30 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 			Sheet sheet0 = wb.getSheetAt(0);
 			sheet0.removeRow(sheet0.getRow(0));
 			for (Row row : sheet0) {
+				String key = "";
 				String name = "";
 				String description = "";
 				String location = "";
 				double latitude = 0;
 				double longitude = 0;
 				for (int i = 0; i < 8; i++) {
-					Cell cell;
-					if (i == 3) {
-						cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
-						if (!(cell == null))
-							name = cell.getRichStringCellValue().getString();
-					}
-					if (i == 4) {
-						cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
-						if (!(cell == null))
-							location = cell.getRichStringCellValue().getString();
-					}
-					if (i == 5) {
-						cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
-						if (!(cell == null))
-							description = cell.getRichStringCellValue().getString();
-					}
-					if (i == 6) {
-						cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
-						if (!(cell == null))
-							latitude = cell.getNumericCellValue();
-					}
-					if (i == 7) {
-						cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
-						if (!(cell == null))
-							longitude = cell.getNumericCellValue();
-					}
+					Cell cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
+					if (i == 0 && cell != null)
+						key = cell.getRichStringCellValue().getString();
+					else if (i == 3 && cell != null)
+						name = cell.getRichStringCellValue().getString();
+					else if (i == 4 && cell != null)
+						location = cell.getRichStringCellValue().getString();
+					else if (i == 5 && cell != null)
+						description = cell.getRichStringCellValue().getString();
+					else if (i == 6 && cell != null)
+						latitude = cell.getNumericCellValue();
+					else if (i == 7 && cell != null)
+						longitude = cell.getNumericCellValue();
 				}
 				if (row.getCell(2).getRichStringCellValue().getString().equals("open")) {
 					VendorJDO vendor = new VendorJDO(name, description, location, latitude, longitude);
+					System.out.println("VancouverDataServiceImpl.java: key = " + key);
 					System.out.println("VancouverDataServiceImpl.java: creating Vendor = " + vendor.toString());
 					
 					// TODO: Change this following line to use actual 'key' column from .xls
