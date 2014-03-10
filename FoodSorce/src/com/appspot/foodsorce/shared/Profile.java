@@ -1,24 +1,24 @@
-package com.appspot.foodsorce.server;
+package com.appspot.foodsorce.shared;
 
+import java.io.Serializable;
+
+import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.users.User;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class ProfileJDO {
+public class Profile implements Serializable {
 
-	// Key is a system-generated numeric ID
+	private static final long serialVersionUID = 7197512350099924634L;
+
+	// Key is an app-assigned string ID that is the user's email address
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
-	
-	@Persistent
-	private User user;
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String userEmail;
 	
 	@Persistent
 	private String photoUrl;
@@ -39,8 +39,8 @@ public class ProfileJDO {
 	@Persistent
 	private String websiteUrl;
 	
-	public ProfileJDO(User user) {
-		this.user = user;
+	public Profile(String userEmail) {
+		this.userEmail = userEmail;
 		this.photoUrl = "images/unknown_user.jpeg";
 		this.gender = "";
 		this.headline = "";
@@ -49,8 +49,8 @@ public class ProfileJDO {
 		this.websiteUrl = "";
 	}
 
-	public User getUser() {
-		return this.user;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
 	public String getPhotoUrl() {
@@ -103,7 +103,7 @@ public class ProfileJDO {
 
 	@Override
 	public String toString() {
-		return "Profile [key=" + key + ", user=" + user + ", photoUrl="
+		return "Profile [userEmail=" + userEmail + ", photoUrl="
 				+ photoUrl + ", gender=" + gender + ", headline=" + headline
 				+ ", favouriteFood=" + favouriteFood + ", hometown=" + hometown
 				+ ", websiteUrl=" + websiteUrl + "]";

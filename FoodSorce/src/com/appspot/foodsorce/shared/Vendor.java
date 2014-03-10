@@ -1,26 +1,56 @@
-package com.appspot.foodsorce.client;
+package com.appspot.foodsorce.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Vendor implements Serializable {
-	
-	private static final long serialVersionUID = -3415324477148115200L;
+//
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
+@PersistenceCapable(identityType = IdentityType.APPLICATION)
+public class Vendor implements Serializable {
+
+	private static final long serialVersionUID = -6615277218094118492L;
+
+	// Key is an app-assigned string ID that corresponds
+	// to the "key" column in new_food_vendor_locations.xls
+	@PrimaryKey
+	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	private String excelKey;
+	
+	@Persistent
 	private String name;
+	
+	@Persistent
 	private String description;
+	
+	@Persistent
 	private String location;
+	
+	@Persistent
 	private double latitude;
+	
+	@Persistent
 	private double longitude;
+	
+	@Persistent
 	private ArrayList<Rating> ratings;
 	
-	public Vendor(String name, String description, String location,
+	public Vendor(String excelKey, String name, String description, String location,
 			double latitude, double longitude) {
 		
-		if (name != null && name.isEmpty())
-			this.name = description;
-		else
+		if (excelKey != null && !excelKey.isEmpty())
+			this.excelKey = excelKey;
+		
+		if (name != null && !name.isEmpty())
 			this.name = name;
+		else
+			this.name = description;
 		
 		if (description != null && !description.isEmpty())
 			this.description = description;
@@ -76,7 +106,7 @@ public class Vendor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Vendor [name=" + name + ", description="
+		return "Vendor [excelKey=" + excelKey + ", name=" + name + ", description="
 				+ description + ", location=" + location + ", latitude="
 				+ latitude + ", longitude=" + longitude + ", ratings="
 				+ ratings + "]";

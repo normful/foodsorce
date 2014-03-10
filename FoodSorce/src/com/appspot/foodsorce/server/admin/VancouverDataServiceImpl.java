@@ -17,9 +17,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.appspot.foodsorce.client.admin.VancouverDataService;
 import com.appspot.foodsorce.server.PMF;
-import com.appspot.foodsorce.server.VendorJDO;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VancouverDataServiceImpl extends RemoteServiceServlet
@@ -28,10 +26,10 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 	private static final long serialVersionUID = 979083175319069108L;
 
 	private String filepath = "excel/new_food_vendor_locations.xls";
-	private ArrayList<VendorJDO> vendorsToStore;
+	private ArrayList<Vendor> vendorsToStore;
 
 	public VancouverDataServiceImpl() {
-		vendorsToStore = new ArrayList<VendorJDO>();
+		vendorsToStore = new ArrayList<Vendor>();
 	}
 
 	@Override
@@ -79,13 +77,7 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 						longitude = cell.getNumericCellValue();
 				}
 				if (row.getCell(2).getRichStringCellValue().getString().equals("open")) {
-					VendorJDO vendor = new VendorJDO(name, description, location, latitude, longitude);
-					System.out.println("VancouverDataServiceImpl.java: excelKey = " + excelKey);
-					System.out.println("VancouverDataServiceImpl.java: creating Vendor = " + vendor.toString());
-					
-					// TODO: Change this following line to use actual 'key' column from .xls
-					Key key = KeyFactory.createKey(VendorJDO.class.getSimpleName(), "key field from .xls");
-					
+					Vendor vendor = new Vendor(excelKey, name, description, location, latitude, longitude);
 					vendorsToStore.add(vendor);
 				}
 			}
@@ -101,13 +93,12 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 		}
 		
 		// Batch store in JDO (more efficient than numerous single stores)
-		// TODO: Uncomment this once you know that vendorsToStore is correct.
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		try {
-//			pm.makePersistentAll(vendorsToStore);
-//		} finally {
-//			pm.close();
-//		}
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistentAll(vendorsToStore);
+		} finally {
+			pm.close();
+		}
 		
 	}
 
