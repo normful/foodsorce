@@ -6,8 +6,8 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManagerFactory;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
-import com.appspot.foodsorce.client.profile.ProfileInfo;
 import com.appspot.foodsorce.client.profile.ProfileService;
+import com.appspot.foodsorce.shared.Profile;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -20,13 +20,13 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements ProfileS
 			JDOHelper.getPersistenceManagerFactory("transactions-optional");
 	
 	@Override
-	public ProfileInfo getProfile() throws NotLoggedInException {
+	public Profile getProfile() throws NotLoggedInException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setProfile(ProfileInfo profile) throws NotLoggedInException {
+	public void setProfile(Profile profile) throws NotLoggedInException {
 		// TODO Auto-generated method stub
 	}
 	

@@ -10,8 +10,8 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
-import com.appspot.foodsorce.client.vendor.VendorInfo;
 import com.appspot.foodsorce.client.vendor.VendorService;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {
@@ -22,15 +22,15 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 			JDOHelper.getPersistenceManagerFactory("transactions-optional");
 	
 	@Override
-	public VendorInfo[] getVendorInfos() throws NotLoggedInException {
+	public Vendor[] getVendorInfos() throws NotLoggedInException {
 		PersistenceManager pm = PMF.getPersistenceManager();
-		List<VendorInfo> vendorInfos = new ArrayList<VendorInfo>();
+		List<Vendor> vendorInfos = new ArrayList<Vendor>();
 		try {
 			// TODO: Add code involving javax.jdo.Query to query existing Vendor objects from the datastore
 		} finally {
 			pm.close();
 		}
-		return (VendorInfo[]) vendorInfos.toArray(new VendorInfo[0]);
+		return (Vendor[]) vendorInfos.toArray(new Vendor[0]);
 	}
 	
 }

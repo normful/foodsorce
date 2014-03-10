@@ -1,8 +1,9 @@
 package com.appspot.foodsorce.client.profile;
 
+import com.appspot.foodsorce.shared.Profile;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface ProfileServiceAsync {
-	void getProfile(AsyncCallback<ProfileInfo> callback);
-	void setProfile(ProfileInfo profile, AsyncCallback<Void> callback);
+	void getProfile(AsyncCallback<Profile> callback);
+	void setProfile(Profile profile, AsyncCallback<Void> callback);
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -15,7 +16,7 @@ public class VendorListPanel extends VerticalPanel {
 	
 	private FlexTable vendorTable = new FlexTable();
 	
-	private List<VendorInfo> vendors = new ArrayList<VendorInfo>();
+	private List<Vendor> vendors = new ArrayList<Vendor>();
 	
 	// Not ready yet
 //	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
@@ -68,12 +69,12 @@ public class VendorListPanel extends VerticalPanel {
 	
 	private void loadVendors() {
 		// Not ready yet
-//		vendorService.getVendorInfos(new AsyncCallback<VendorInfo[]>() {
+//		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 //			public void onFailure(Throwable error) {
 //				handleError(error);
 //			}
-//			public void onSuccess(VendorInfo[] vendorInfos) {
-//				displayVendors(vendorInfos);
+//			public void onSuccess(Vendor[] vendors) {
+//				displayVendors(vendors);
 //			}
 //		});
 	}
@@ -87,21 +88,21 @@ public class VendorListPanel extends VerticalPanel {
 			Window.alert(error.getMessage());
 	}
 	
-	private void displayVendors(VendorInfo[] vendorInfos) {
-		for (VendorInfo vendorInfo : vendorInfos)
-			displayVendor(vendorInfo);
+	private void displayVendors(Vendor[] vendors) {
+		for (Vendor vendor : vendors)
+			displayVendor(vendor);
 	}
 
-	private void displayVendor(final VendorInfo vendorInfo) {
+	private void displayVendor(final Vendor vendor) {
 		// Add the vendor to the table
 		int row = vendorTable.getRowCount();
-		vendors.add(vendorInfo);
-		vendorTable.setText(row, 0, vendorInfo.getName());
-		vendorTable.setText(row, 1, vendorInfo.getFoodType());
+		vendors.add(vendor);
+		vendorTable.setText(row, 0, vendor.getName());
+		vendorTable.setText(row, 1, vendor.getDescription());
 		// TODO: Low priority task: display these ratings with stars instead of just text.
-		vendorTable.setText(row, 2, String.valueOf(vendorInfo.getAverageQuality()));
-		vendorTable.setText(row, 3, String.valueOf(vendorInfo.getAverageCost()));
-		vendorTable.setText(row, 4, vendorInfo.getLocation());
+		vendorTable.setText(row, 2, String.valueOf(vendor.getAverageQuality()));
+		vendorTable.setText(row, 3, String.valueOf(vendor.getAverageCost()));
+		vendorTable.setText(row, 4, vendor.getLocation());
 		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListRatingColumn");

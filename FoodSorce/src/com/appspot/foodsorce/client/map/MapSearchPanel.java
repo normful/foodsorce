@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.appspot.foodsorce.client.vendor.VendorInfo;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,8 +56,8 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private Geolocation geolocation;
 	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
-	private Collection<VendorInfo> allVendors = new ArrayList<VendorInfo>();
-	private Collection<VendorInfo> matchingVendors = new ArrayList<VendorInfo>();
+	private Collection<Vendor> allVendors = new ArrayList<Vendor>();
+	private Collection<Vendor> matchingVendors = new ArrayList<Vendor>();
 	private Collection<Marker> vendorMarkers = new ArrayList<Marker>();
 	
 	public MapSearchPanel() {
@@ -77,11 +77,11 @@ public class MapSearchPanel extends FlowPanel {
 		// (these locations were generated with this site,
 		// which you might find useful):
 		// http://universimmedia.pagesperso-orange.fr/geo/loc.htm
-		VendorInfo dummyVendor1 = new VendorInfo("Burger Truck", "West End", "American", 49.28525, -123.13530);
-		VendorInfo dummyVendor2 = new VendorInfo("Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
-		VendorInfo dummyVendor3 = new VendorInfo("Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
-		VendorInfo dummyVendor4 = new VendorInfo("Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
-		VendorInfo dummyVendor5 = new VendorInfo("Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
+		Vendor dummyVendor1 = new Vendor("Burger Truck", "West End", "American", 49.28525, -123.13530);
+		Vendor dummyVendor2 = new Vendor("Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
+		Vendor dummyVendor3 = new Vendor("Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
+		Vendor dummyVendor4 = new Vendor("Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
+		Vendor dummyVendor5 = new Vendor("Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
 		allVendors.add(dummyVendor1);
 		allVendors.add(dummyVendor2);
 		allVendors.add(dummyVendor3);
@@ -253,7 +253,7 @@ public class MapSearchPanel extends FlowPanel {
 			vendorMarker.setMap(nullMap);
 		
 		// Plot matching vendors onto map
-		for (VendorInfo vendor : matchingVendors) {
+		for (Vendor vendor : matchingVendors) {
 			MarkerOptions options = MarkerOptions.create();
 			options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
 			Marker vendorMarker = Marker.create(options);
@@ -288,7 +288,7 @@ public class MapSearchPanel extends FlowPanel {
 		}
 		
 		// Radio button "2km", "5km", or "10km" is selected
-		for (VendorInfo vendor: allVendors) {
+		for (Vendor vendor: allVendors) {
 			System.out.println("matchingVendors.add(" + vendor.toString() +")");
 			LatLng vendorLocation = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
 			double vendorDistance = Spherical.computeDistanceBetween(userLocation, vendorLocation);

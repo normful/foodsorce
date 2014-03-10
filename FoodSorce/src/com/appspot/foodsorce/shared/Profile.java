@@ -1,5 +1,8 @@
-package com.appspot.foodsorce.server.profile;
+package com.appspot.foodsorce.shared;
+
 import java.util.Date;
+import java.io.Serializable;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
@@ -8,8 +11,10 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.users.User;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Profile {
+public class Profile implements Serializable {
 
+	private static final long serialVersionUID = 7159784797315156915L;
+	
 	// Fields with getters only
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -37,7 +42,7 @@ public class Profile {
 		this.user = user;
 		this.createDate = new Date();
 		
-		this.photoUrl = "";
+		this.photoUrl = "images/unknown_user.jpeg";
 		this.gender = "";
 		this.headline = "";
 		this.favouriteFood = "";
