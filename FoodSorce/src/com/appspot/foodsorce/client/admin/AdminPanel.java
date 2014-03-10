@@ -15,9 +15,10 @@ public class AdminPanel extends VerticalPanel {
 	private VancouverDataServiceAsync dataService;
 	
 	public AdminPanel() {
-		HTMLPanel htmlPanel = new HTMLPanel("<h2>Administrator Console</h2>");
+		HTMLPanel htmlPanel = new HTMLPanel("<h2>Administrator Console</h2><br>"
+				+ "The button below imports Vancouver food vendor data into FoodSorce.");
 		
-		// TODO: Display a list of Profile
+		// TODO: Display a list of Profiles
 		
 		importDataButton.addStyleName("importDataButton");
 		importDataButton.setWidth("100px");
@@ -27,6 +28,7 @@ public class AdminPanel extends VerticalPanel {
 			}
 		});
 		
+		this.add(htmlPanel);
 		this.add(importDataButton);
 	}
 	

@@ -1,12 +1,12 @@
 /** Add css rules here for your application. */
 
 .navigationLink {
-  font-size: 1.5em;
+  font-size: 1.2em;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
   font-face: bold;
   color: #CC2222;
-  padding-top:10px;
-  padding-bottom:10px;
+  padding-top:15px;
+  padding-bottom:15px;
   padding-right:15px;
   padding-left:15px;
 }
@@ -32,6 +32,15 @@ h1 {
   color: #CC2222;
   margin: 0px 0px 0px;
   text-align: center;
+}
+
+h2 {
+  font-size: 3em;
+  font-weight: bold;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #CC2222;
+  margin: 0px 0px 0px;
+  text-align: left;
 }
 
 .sendButton {
