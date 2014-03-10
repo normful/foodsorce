@@ -9,6 +9,9 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.geolocation.client.Geolocation;
@@ -134,6 +137,19 @@ public class MapSearchPanel extends FlowPanel {
 	private void createAddressTextBox() {
 		addressField.setText("Address");
 		addressField.setWidth("350px");
+		addressField.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				 if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+					String addressInput = addressField.getText();
+					setLocationFromInput(addressInput);
+					addressField.setFocus(true);
+				 }
+			}});
+		
+		addressField.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				addressField.selectAll();
+			}});
 		
 		setAddressButton.addStyleName("setAddressButton");
 		setAddressButton.setWidth("140px");
