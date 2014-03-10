@@ -117,7 +117,8 @@ public class FoodSorce implements EntryPoint {
 	
 	public void loadVendorListPanel() {
 		System.out.println("FoodSorce.java: loadVendorListPanel()");
-		navigationPanel.setSignOutLink(loginInfo.getLogoutUrl());
+		if (loginInfo != null)
+			navigationPanel.setSignOutLink(loginInfo.getLogoutUrl());
 		center.setWidget(vendorListPanel);
 	}
 

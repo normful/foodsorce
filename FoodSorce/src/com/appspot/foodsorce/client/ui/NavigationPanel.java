@@ -23,7 +23,11 @@ public class NavigationPanel extends VerticalPanel {
 	private void createLinks() {
 		mainPageLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				foodSorce.loadVendorListPanel();
+				try {
+					foodSorce.loadVendorListPanel();
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		mainPageLink.addStyleName("navigationLink");
