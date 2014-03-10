@@ -31,6 +31,7 @@ import com.google.maps.gwt.client.LatLng;
 import com.google.maps.gwt.client.MapOptions;
 import com.google.maps.gwt.client.MapTypeId;
 import com.google.maps.gwt.client.Marker;
+import com.google.maps.gwt.client.MarkerImage;
 import com.google.maps.gwt.client.MarkerOptions;
 import com.google.maps.gwt.client.geometry.Spherical;
 
@@ -53,14 +54,18 @@ public class MapSearchPanel extends FlowPanel {
 	private GoogleMap map;
 	private MapOptions mapOptions;
 	
-	private Marker user;
+	private Marker userMarker;
 	private MarkerOptions userOptions;
+	private MarkerImage userMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png");
+	
+	private List<Marker> vendorMarkers;
+	private MarkerImage vendorMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png");
 	
 	private Geolocation geolocation;
 	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
+	
 	private List<Vendor> allVendors;
 	private List<Vendor> matchingVendors;
-	private List<Marker> vendorMarkers;
 	
 	private MapSearchPanel() {
 		System.out.println("MapSearchPanel.java: MapSearchPanel() constructor");
@@ -183,7 +188,9 @@ public class MapSearchPanel extends FlowPanel {
 		userOptions = MarkerOptions.create();
 		userOptions.setPosition(userLocation);
 		userOptions.setMap(map);
-		user = Marker.create(userOptions);
+		
+		userMarker = Marker.create(userOptions);
+		userMarker.setIcon(userMarkerImage);
 		
 		this.add(mapPanel);
 	}
@@ -217,7 +224,7 @@ public class MapSearchPanel extends FlowPanel {
 			System.out.println("MapSearchPanel.java: plotUser(location=" + location.toString() + ")");
 		
 		userLocation = location;
-		user.setPosition(location);
+		userMarker.setPosition(location);
 		map.setCenter(location);
 	}
 	
@@ -275,6 +282,7 @@ public class MapSearchPanel extends FlowPanel {
 			MarkerOptions options = MarkerOptions.create();
 			options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
 			Marker vendorMarker = Marker.create(options);
+			vendorMarker.setIcon(vendorMarkerImage);
 			vendorMarkers.add(vendorMarker);
 			vendorMarker.setMap(map);
 		}
