@@ -57,7 +57,7 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 			Sheet sheet0 = wb.getSheetAt(0);
 			sheet0.removeRow(sheet0.getRow(0));
 			for (Row row : sheet0) {
-				String key = "";
+				String excelKey = "";
 				String name = "";
 				String description = "";
 				String location = "";
@@ -66,7 +66,7 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 				for (int i = 0; i < 8; i++) {
 					Cell cell = row.getCell(i, Row.RETURN_BLANK_AS_NULL);
 					if (i == 0 && cell != null)
-						key = cell.getRichStringCellValue().getString();
+						excelKey = cell.getRichStringCellValue().getString();
 					else if (i == 3 && cell != null)
 						name = cell.getRichStringCellValue().getString();
 					else if (i == 4 && cell != null)
@@ -80,7 +80,7 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 				}
 				if (row.getCell(2).getRichStringCellValue().getString().equals("open")) {
 					VendorJDO vendor = new VendorJDO(name, description, location, latitude, longitude);
-					System.out.println("VancouverDataServiceImpl.java: key = " + key);
+					System.out.println("VancouverDataServiceImpl.java: excelKey = " + excelKey);
 					System.out.println("VancouverDataServiceImpl.java: creating Vendor = " + vendor.toString());
 					
 					// TODO: Change this following line to use actual 'key' column from .xls
