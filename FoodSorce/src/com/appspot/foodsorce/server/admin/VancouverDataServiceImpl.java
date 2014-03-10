@@ -23,8 +23,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 public class VancouverDataServiceImpl implements VancouverDataService {
 	
-	// TODO: Norman says that this Singleton pattern may not be required.
-	// Instead, to prevent data from imported multiple times, 
+	// TODO: Norman says that this Singleton pattern may not be required
+	// Instead, to prevent data from imported multiple times,
 	// it might make more sense to check that the vendors
 	// do not already exist in the datastore
 	private static VancouverDataServiceImpl uniqueInstance = null;

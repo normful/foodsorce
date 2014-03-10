@@ -10,7 +10,7 @@
   <inherits name='com.google.gwt.user.User'/>
   
   <!-- Inherit Google Maps API v3 -->
-  <inherits name='com.google.maps.gwt.GoogleMaps' /> 
+  <inherits name='com.google.maps.gwt.GoogleMaps'/>
   
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
