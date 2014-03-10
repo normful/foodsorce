@@ -230,7 +230,7 @@ public class MapSearchPanel extends FlowPanel {
 		map.setCenter(location);
 	}
 	
-	// TODO: Brandon needs to fix this
+	
 	private void setLocationFromInput(String address) {
 		
 		// For debugging
@@ -249,7 +249,8 @@ public class MapSearchPanel extends FlowPanel {
 					GeocoderResult result = a.shift();
 					
 					// For debugging
-					System.out.println("MapSearchPanel.java: setLocationFromInput GeocoderResult=" + result.toString());
+					System.out.println("MapSearchPanel.java: setLocationFromInput GeocoderResult=" + result.getFormattedAddress());
+					System.out.println("MapSearchPanel.java: setLocationFromInput GPS GeocoderResult=" + result.getGeometry().getLocation());
 					
 					if (isInVancouver(result.getGeometry().getLocation()) == true) {
 						plotUser(result.getGeometry().getLocation());
@@ -266,8 +267,10 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private boolean isInVancouver(LatLng location) {
 		double lat = location.lat();
+		System.out.println("MapSearchPanel.java: isInVancouver latitude:" + lat);
 		double lng = location.lng();
-		return (49.200589 < lat && lat < 49.309591 && -123.259243 < lng && lng < -123.064235);
+		System.out.println("MapSearchPanel.java: isInVancouver longitude:" + lng);
+		return (49.200589 < lat && lat < 49.309591 && -123.259243 < lng && lng < -123.044235);
 	}
 
 	private void plotMatchingVendorMarkers() {
