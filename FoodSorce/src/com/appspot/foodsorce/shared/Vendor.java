@@ -16,7 +16,8 @@ public class Vendor implements Serializable {
 
 	private static final long serialVersionUID = 1919782205348732198L;
 
-	// Key is an app-assigned string ID
+	// Key is an app-assigned string ID that corresponds
+	// to the "key" column in new_food_vendor_locations.xls
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
