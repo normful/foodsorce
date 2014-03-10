@@ -3,6 +3,8 @@ package com.appspot.foodsorce.client.admin;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -16,10 +18,22 @@ public class AdminPanel extends VerticalPanel {
 		importDataButton.setWidth("100px");
 		importDataButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				dataService.importData(null);
+				callImportData();
 			}
 		});
 		
 		this.add(importDataButton);
 	}
+	
+	private void callImportData() {
+		dataService.importData(new AsyncCallback<Void>() {
+			public void onFailure(Throwable error) {
+				Window.alert("Data import failed.");
+			}
+			public void onSuccess(Void ignore) {
+				Window.alert("Successfully imported data.");
+			}
+		});	
+	}
+	
 }

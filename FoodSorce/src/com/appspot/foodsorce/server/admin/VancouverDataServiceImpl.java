@@ -20,26 +20,31 @@ import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.server.VendorJDO;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-public class VancouverDataServiceImpl implements VancouverDataService {
+public class VancouverDataServiceImpl extends RemoteServiceServlet
+	implements VancouverDataService {
 	
+	private static final long serialVersionUID = 979083175319069108L;
+
 	// TODO: Norman says that this Singleton pattern may not be required
 	// Instead, to prevent data from imported multiple times,
 	// it might make more sense to check that the vendors
 	// do not already exist in the datastore
-	private static VancouverDataServiceImpl uniqueInstance = null;
+//	private static VancouverDataServiceImpl uniqueInstance = null;
 	
+	private String filepath = "excel/new_food_vendor_locations.xls";
 	private ArrayList<VendorJDO> vendorsToStore;
 
-	private VancouverDataServiceImpl() {
+	public VancouverDataServiceImpl() {
 		vendorsToStore = new ArrayList<VendorJDO>();
 	}
 
-	public static VancouverDataServiceImpl getInstance() {
-		if (uniqueInstance == null)
-			uniqueInstance = new VancouverDataServiceImpl();
-		return uniqueInstance;
-	}
+//	public static VancouverDataServiceImpl getInstance() {
+//		if (uniqueInstance == null)
+//			uniqueInstance = new VancouverDataServiceImpl();
+//		return uniqueInstance;
+//	}
 	
 	@Override
 	public void importData() {
@@ -59,7 +64,7 @@ public class VancouverDataServiceImpl implements VancouverDataService {
 		// }
 
 		try {
-			InputStream input = new FileInputStream("new_food_vendor_locations.xls");
+			InputStream input = new FileInputStream(filepath);
 			Workbook wb = WorkbookFactory.create(input);
 			Sheet sheet0 = wb.getSheetAt(0);
 			sheet0.removeRow(sheet0.getRow(0));
