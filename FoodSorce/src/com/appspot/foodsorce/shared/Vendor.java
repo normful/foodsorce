@@ -2,7 +2,6 @@ package com.appspot.foodsorce.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.IdentityType;
@@ -14,7 +13,7 @@ import com.google.appengine.api.datastore.Key;
 public class Vendor implements Serializable {
 
 	private static final long serialVersionUID = 1919782205348732198L;
-
+//
 	@PrimaryKey
 	private Key key;
 	
@@ -23,7 +22,7 @@ public class Vendor implements Serializable {
 	private String location;
 	private double latitude;
 	private double longitude;
-	private List<Rating> ratings;
+	private ArrayList<Rating> ratings;
 	
 	public Vendor(String name, String description, String location,
 			double latitude, double longitude) {
@@ -67,7 +66,7 @@ public class Vendor implements Serializable {
 		ratings.add(rating);
 	}
 	
-	public List<Rating> getRatings() {
+	public ArrayList<Rating> getRatings() {
 		return ratings;
 	}
 	

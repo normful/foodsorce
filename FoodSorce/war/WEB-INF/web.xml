@@ -42,7 +42,7 @@
 
 	<servlet>
 		<servlet-name>vendorRatingService</servlet-name>
-		<servlet-class>com.appspot.foodsorce.server.vendor.VendorRatingServiceImpl</servlet-class>
+		<servlet-class>com.appspot.foodsorce.server.vendor.RatingServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
