@@ -35,9 +35,9 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(0, 4, "Location");
 		vendorTable.getColumnFormatter().setWidth(0, "100px");
 		vendorTable.getColumnFormatter().setWidth(1, "100px");
-		vendorTable.getColumnFormatter().setWidth(2, "100px");
-		vendorTable.getColumnFormatter().setWidth(3, "100px");
-		vendorTable.getColumnFormatter().setWidth(4, "200px");
+		vendorTable.getColumnFormatter().setWidth(2, "50px");
+		vendorTable.getColumnFormatter().setWidth(3, "50px");
+		vendorTable.getColumnFormatter().setWidth(4, "400px");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 		vendorTable.getCellFormatter().addStyleName(0, 0, "vendorListHeaderText");
 		vendorTable.getCellFormatter().addStyleName(0, 1, "vendorListHeaderText");

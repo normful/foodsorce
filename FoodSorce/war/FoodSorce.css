@@ -1,8 +1,9 @@
 /** Add css rules here for your application. */
 
 .navigationLink {
-  font-size: 1em;
+  font-size: 1.5em;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
+  font-face: bold;
   color: #CC2222;
   padding-top:10px;
   padding-bottom:10px;

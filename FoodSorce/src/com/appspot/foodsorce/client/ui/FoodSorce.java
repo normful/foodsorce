@@ -94,7 +94,7 @@ public class FoodSorce implements EntryPoint {
 	
 		dock.addNorth(north, 8);
 		dock.addEast(east, 40);
-		dock.addWest(west, 8);
+		dock.addWest(west, 10);
 		dock.add(center);
 		
 		root.add(dock);
