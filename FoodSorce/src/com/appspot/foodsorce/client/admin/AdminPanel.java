@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AdminPanel extends VerticalPanel {
@@ -14,6 +15,10 @@ public class AdminPanel extends VerticalPanel {
 	private VancouverDataServiceAsync dataService;
 	
 	public AdminPanel() {
+		HTMLPanel htmlPanel = new HTMLPanel("<h2>Administrator Console</h2>");
+		
+		// TODO: Display a list of Profile
+		
 		importDataButton.addStyleName("importDataButton");
 		importDataButton.setWidth("100px");
 		importDataButton.addClickHandler(new ClickHandler() {
