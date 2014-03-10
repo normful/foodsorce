@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AdminPanel extends VerticalPanel {
 	
 	private Button importDataButton = new Button("Import Data");
-	private VancouverDataServiceAsync dataService = GWT.create(VancouverDataService.class);
+	private VancouverDataServiceAsync dataService;
 	
 	public AdminPanel() {
 		importDataButton.addStyleName("importDataButton");
@@ -26,6 +26,7 @@ public class AdminPanel extends VerticalPanel {
 	}
 	
 	private void callImportData() {
+		dataService = GWT.create(VancouverDataService.class);
 		dataService.importData(new AsyncCallback<Void>() {
 			public void onFailure(Throwable error) {
 				Window.alert("Failed to import data: " + error.toString());

@@ -6,25 +6,24 @@ import java.util.List;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Timer;
+//import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class VendorListPanel extends VerticalPanel {
 	
-	private FlexTable vendorTable = new FlexTable();
+	private ScrollPanel scrollPanel;
+	private FlexTable vendorTable;
 	private List<Vendor> vendors = new ArrayList<Vendor>();
-	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
-	private static final int REFRESH_INTERVAL = 15000; // milliseconds
+	private VendorServiceAsync vendorService;
+//	private static final int REFRESH_INTERVAL = 15000; // milliseconds
 
 	public VendorListPanel() {
-		loadVendorList();
-	}
-	
-	private void loadVendorList() {
 		// Overall table settings
+		vendorTable = new FlexTable();
 		vendorTable.addStyleName("vendorList");
 		vendorTable.setCellPadding(5);
 		
@@ -47,34 +46,36 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getCellFormatter().addStyleName(0, 4, "vendorListHeaderText");
 		
 		// Retrieve and display vendors from server
-		reloadVendors();
+		vendorService = GWT.create(VendorService.class);
+		loadVendors();
 
 		// Add vendorTable
-		add(vendorTable);
+		scrollPanel = new ScrollPanel(vendorTable);
+		scrollPanel.setHeight("600px");
+		this.add(scrollPanel);
 		
-		// Setup timer to refresh vendor list automatically
-		Timer refreshTimer = new Timer() {
-			@Override
-			public void run() {
-				reloadVendors();
-			}
-		};
-		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+//		// Setup timer to refresh vendor list automatically
+//		Timer refreshTimer = new Timer() {
+//			@Override
+//			public void run() {
+//			}
+//		};
+//		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
 	
-	private void reloadVendors() {
+	private void loadVendors() {
 		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 			public void onFailure(Throwable error) {
 				handleError(error);
 			}
 			public void onSuccess(Vendor[] result) {
-				vendors.clear();
 				displayVendors(result);
 			}
 		});
 	}
 	
 	private void displayVendors(Vendor[] vendors) {
+		System.out.println("VendorListPanel.java: displayVendors");
 		for (Vendor vendor : vendors)
 			displayVendor(vendor);
 	}
@@ -89,7 +90,7 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(row, 2, String.valueOf(vendor.getAverageQuality()));
 		vendorTable.setText(row, 3, String.valueOf(vendor.getAverageCost()));
 		vendorTable.setText(row, 4, vendor.getLocation());
-		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListRatingColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");

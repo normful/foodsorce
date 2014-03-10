@@ -11,7 +11,7 @@ public class NavigationPanel extends VerticalPanel {
 	
 	private Anchor mainPageLink = new Anchor("Main Page");
 	private Anchor viewProfileLink = new Anchor("Profile");
-	private Anchor adminConsoleLink = new Anchor("Admin Console");
+	private Anchor adminLink = new Anchor("Admin");
 	private Anchor signOutLink = new Anchor("Sign Out");
 	
 	public NavigationPanel(FoodSorce foodSorce) {
@@ -25,19 +25,26 @@ public class NavigationPanel extends VerticalPanel {
 				foodSorce.loadVendorListPanel();
 			}
 		});
+		mainPageLink.addStyleName("navigationLink");
 		add(mainPageLink);
+		
 		viewProfileLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				foodSorce.loadViewProfilePanel();
 			}
 		});
+		viewProfileLink.addStyleName("navigationLink");
 		add(viewProfileLink);
-		adminConsoleLink.addClickHandler(new ClickHandler() {
+		
+		adminLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				foodSorce.loadAdminPanel();
 			}
 		});
-		add(adminConsoleLink);
+		adminLink.addStyleName("navigationLink");
+		add(adminLink);
+		
+		signOutLink.addStyleName("navigationLink");
 		add(signOutLink);
 	}
 	

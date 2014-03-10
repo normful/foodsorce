@@ -22,7 +22,7 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Vendor.class);
-		q.setOrdering("name desc");
+		q.setOrdering("name ascending");
 
 		try {
 			@SuppressWarnings("unchecked")

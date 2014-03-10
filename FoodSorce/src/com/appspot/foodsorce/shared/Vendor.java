@@ -99,6 +99,8 @@ public class Vendor implements Serializable {
 	}
 	
 	public double getAverageCost() {
+		if (ratings.size() == 0)
+			return 1.0;
 		double sum = 0.0;
 		for (Rating rating : ratings)
 			sum += rating.getCost();
@@ -106,6 +108,8 @@ public class Vendor implements Serializable {
 	}
 	
 	public double getAverageQuality() {
+		if (ratings.size() == 0)
+			return 0.0;
 		double sum = 0.0;
 		for (Rating rating : ratings)
 			sum += rating.getQuality();
