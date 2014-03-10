@@ -67,6 +67,9 @@ public class MapSearchPanel extends FlowPanel {
 	private List<Vendor> allVendors;
 	private List<Vendor> matchingVendors;
 	
+	//Added GPS field to save from the method convertGPStoAddress.
+	private String coordinateConversionResults;
+	
 	private MapSearchPanel() {
 		System.out.println("MapSearchPanel.java: MapSearchPanel() constructor");
 		allVendors = new ArrayList<Vendor>();
@@ -97,6 +100,11 @@ public class MapSearchPanel extends FlowPanel {
 //		allVendors.add(dummyVendor3);
 //		allVendors.add(dummyVendor4);
 //		allVendors.add(dummyVendor5);
+		
+		//GPS test
+//		LatLng test = LatLng.create(49.2328357, -123.05465859999998);
+//		convertGPStoAddress(test);
+		
 		
 		createAddressTextBox();
 		createRadioButtons();
@@ -330,8 +338,29 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	@SuppressWarnings("unused")
-	private void convertGPStoAddress() {
-		// TODO: Brandon needs to do this
+	private void convertGPStoAddress(LatLng location) {
+		Geocoder geocoder = Geocoder.create();
+		GeocoderRequest georequest = GeocoderRequest.create();
+		georequest.setLocation(location);
+		geocoder.geocode(georequest, new Geocoder.Callback() {
+			@Override
+			public void handle(JsArray<GeocoderResult> a, GeocoderStatus b) {
+				if (b == GeocoderStatus.OK) {
+					
+					GeocoderResult result = a.shift();
+					
+					// For debugging
+					System.out.println("MapSearchPanel.java: convertGPStoAddress GeocoderResult=" + result.getFormattedAddress());
+					System.out.println("MapSearchPanel.java: convertGPStoAddress GPS GeocoderResult=" + result.getGeometry().getLocation());
+					
+					coordinateConversionResults = result.getFormattedAddress();
+
+				} else {
+					Window.alert("Google Maps could not return address from coordinates.");
+					coordinateConversionResults = "N/A";
+				}
+			}
+		});
 	}
 
 }
