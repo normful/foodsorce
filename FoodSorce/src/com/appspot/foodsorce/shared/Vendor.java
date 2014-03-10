@@ -103,5 +103,13 @@ public class Vendor implements Serializable {
 			sum += rating.getQuality();
 		return sum / ratings.size();
 	}
+
+	@Override
+	public String toString() {
+		return "Vendor [key=" + key + ", name=" + name + ", description="
+				+ description + ", location=" + location + ", latitude="
+				+ latitude + ", longitude=" + longitude + ", ratings="
+				+ ratings + "]";
+	}
 	
 }

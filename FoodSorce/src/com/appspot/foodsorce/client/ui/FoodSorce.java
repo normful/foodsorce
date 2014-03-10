@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.ui;
 
+import com.appspot.foodsorce.client.admin.AdminPanel;
 import com.appspot.foodsorce.client.login.LoginInfo;
 import com.appspot.foodsorce.client.login.LoginPanel;
 import com.appspot.foodsorce.client.login.LoginService;
@@ -34,6 +35,7 @@ public class FoodSorce implements EntryPoint {
 	// Center panels
 	private SimpleLayoutPanel center = new SimpleLayoutPanel();
 	private LoginPanel loginPanel = new LoginPanel();
+	private AdminPanel adminPanel = new AdminPanel();
 	private ViewProfilePanel viewProfilePanel = new ViewProfilePanel();
 	// TODO for Norman
 	// private EditProfilePanel editProfilePanel = new EditProfilePanel();
@@ -132,6 +134,11 @@ public class FoodSorce implements EntryPoint {
 
 	public LoginInfo getLoginInfo() {
 		return loginInfo;
+	}
+
+	public void loadAdminPanel() {
+		System.out.println("FoodSorce.java loadAdminPanel()");
+		center.setWidget(adminPanel);
 	}
 	
 }

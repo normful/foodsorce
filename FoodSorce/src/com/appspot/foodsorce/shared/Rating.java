@@ -73,5 +73,11 @@ public class Rating implements Serializable {
 	public User getUser() {
 		return user;
 	}
+
+	@Override
+	public String toString() {
+		return "Rating [key=" + key + ", user=" + user + ", quality=" + quality
+				+ ", cost=" + cost + ", review=" + review + "]";
+	}
 	
 }

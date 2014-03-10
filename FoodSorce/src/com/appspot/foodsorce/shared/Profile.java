@@ -105,4 +105,12 @@ public class Profile implements Serializable {
 		this.websiteUrl = websiteUrl;
 	}
 
+	@Override
+	public String toString() {
+		return "Profile [key=" + key + ", user=" + user + ", photoUrl="
+				+ photoUrl + ", gender=" + gender + ", headline=" + headline
+				+ ", favouriteFood=" + favouriteFood + ", hometown=" + hometown
+				+ ", websiteUrl=" + websiteUrl + "]";
+	}
+
 }

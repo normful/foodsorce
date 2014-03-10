@@ -2,7 +2,6 @@ package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.Callback;
@@ -31,7 +30,6 @@ import com.google.maps.gwt.client.LatLng;
 import com.google.maps.gwt.client.MapOptions;
 import com.google.maps.gwt.client.MapTypeId;
 import com.google.maps.gwt.client.Marker;
-import com.google.maps.gwt.client.MarkerImage;
 import com.google.maps.gwt.client.MarkerOptions;
 import com.google.maps.gwt.client.geometry.Spherical;
 
@@ -300,7 +298,7 @@ public class MapSearchPanel extends FlowPanel {
 	
 	@SuppressWarnings("unused")
 	private void convertGPStoAddress() {
-		// TODO: do this
+		// TODO: Brandon needs to do this
 	}
 	
 }

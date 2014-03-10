@@ -7,10 +7,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ViewProfilePanel extends VerticalPanel {
 	
 	public ViewProfilePanel() {
-		loadViewProfile();
-	}
-
-	void loadViewProfile() {
 		ScrollPanel scrollPanel = new ScrollPanel();
 		HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile Page</h2>");
 		
