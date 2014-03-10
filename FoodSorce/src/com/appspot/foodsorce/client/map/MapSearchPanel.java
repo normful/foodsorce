@@ -118,6 +118,8 @@ public class MapSearchPanel extends FlowPanel {
 		System.out.println("MapSearchPanel.java: setAllVendors");
 		this.allVendors.clear();
 		this.allVendors.addAll(allVendors);
+		this.matchingVendors.addAll(allVendors);
+		this.plotMatchingVendorMarkers();
 	}
 	
 	private void createAddressTextBox() {
