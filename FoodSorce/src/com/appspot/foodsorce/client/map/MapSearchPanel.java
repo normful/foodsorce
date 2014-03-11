@@ -77,39 +77,14 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private MapSearchPanel() {
 		System.out.println("MapSearchPanel.java: MapSearchPanel() constructor");
+		
 		allVendors = new ArrayList<Vendor>();
 		matchingVendors = new ArrayList<Vendor>();
 		vendorMarkers = new ArrayList<Marker>();
-		// Notes to Brandon:
-		//
-		// Please leave the "For debugging" System.out.println statements in, they're helpful for understanding control flow
-		//
-		// Assume that "vendors" will contain a List of all vendors. 
-		// I (Norman) will implement soon a way to keep 1 single consistent 
-		// client-side List of vendors throughout the whole app (probably using 
-		// the Singleton and Observer patterns).
-		//
-		// But until I add that, maybe you'll find it helpful to use the 
-		// following dummy list of vendors
-		// 
-		// (these locations were generated with this site,
-		// which you might find useful):
-		// http://universimmedia.pagesperso-orange.fr/geo/loc.htm
-//		Vendor dummyVendor1 = new Vendor("dummyKey", "Burger Truck", "West End", "American", 49.28525, -123.13530);
-//		Vendor dummyVendor2 = new Vendor("dummyKey", "Pizza Stand", "BC Place", "Italian", 49.27657, -123.11041);
-//		Vendor dummyVendor3 = new Vendor("dummyKey", "Sushi Shop", "Granville Island", "Japanese", 49.27069, -123.13384);
-//		Vendor dummyVendor4 = new Vendor("dummyKey", "Tim Hortons", "YVR", "Coffee", 49.19594, -123.17757);
-//		Vendor dummyVendor5 = new Vendor("dummyKey", "Taco Shop", "Cambie St. & 41st Ave.", "Mexican", 49.23407, -123.11560);
-//		allVendors.add(dummyVendor1);
-//		allVendors.add(dummyVendor2);
-//		allVendors.add(dummyVendor3);
-//		allVendors.add(dummyVendor4);
-//		allVendors.add(dummyVendor5);
 		
 		//GPS test
 //		LatLng test = LatLng.create(49.2328357, -123.05465859999998);
 //		convertGPStoAddress(test);
-		
 		
 		createAddressTextBox();
 		createRadioButtons();
@@ -140,11 +115,11 @@ public class MapSearchPanel extends FlowPanel {
 		addressField.setWidth("350px");
 		addressField.addKeyPressHandler(new KeyPressHandler() {
 			public void onKeyPress(KeyPressEvent event) {
-				 if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
+				if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
 					String addressInput = addressField.getText();
 					setLocationFromInput(addressInput);
 					addressField.setFocus(true);
-				 }
+				}
 			}});
 		
 		addressField.addClickHandler(new ClickHandler() {
@@ -178,21 +153,12 @@ public class MapSearchPanel extends FlowPanel {
 			button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					updateMatchingVendors(button.getText());
-					try {
-						System.out.println("MapSearchPanel.java: ValueChangeHandler onValueChange");
-						vendorListPanel = VendorListPanel.getInstance();
-						vendorListPanel.setAndDisplayMatchingVendors(matchingVendors);
-					} catch (Throwable e) {
-						e.printStackTrace();
-					}
-					plotMatchingVendorMarkers();
+					updateAndPlotMatchingVendors();
 				}
 			});
 		}
 		
 		optionAll.setValue(true);
-		setRadioOnLocationChange();
 		
 		this.add(radioLabel);
 		this.add(optionAll);
@@ -202,7 +168,7 @@ public class MapSearchPanel extends FlowPanel {
 		this.add(option10);
 	}
 	
-	private void setRadioOnLocationChange() {
+	private void updateAndPlotMatchingVendors() {
 		updateMatchingVendors("optionAll");
 		try {
 			System.out.println("MapSearchPanel.java: ValueChangeHandler onValueChange");
@@ -253,7 +219,7 @@ public class MapSearchPanel extends FlowPanel {
 				LatLng latlong = LatLng.create(coordinates.getLatitude(), coordinates.getLongitude());
 				plotUser(latlong);
 				optionAll.setValue(true);
-				setRadioOnLocationChange();
+				updateAndPlotMatchingVendors();
 			}
 			
 			@Override
@@ -278,7 +244,7 @@ public class MapSearchPanel extends FlowPanel {
 	private void setLocationFromInput(String address) {
 		
 		// For debugging
-		if (address != null)
+		if (address != null && !address.isEmpty())
 			System.out.println("MapSearchPanel.java: setLocationFromInput(address=" + address + ")");
 		
 		Geocoder geocoder = Geocoder.create();
@@ -293,13 +259,13 @@ public class MapSearchPanel extends FlowPanel {
 					GeocoderResult result = a.shift();
 					
 					// For debugging
-					System.out.println("MapSearchPanel.java: setLocationFromInput GeocoderResult=" + result.getFormattedAddress());
-					System.out.println("MapSearchPanel.java: setLocationFromInput GPS GeocoderResult=" + result.getGeometry().getLocation());
+					System.out.println("MapSearchPanel.java: setLocationFromInput result.getFormattedAddres()=" + result.getFormattedAddress());
+					System.out.println("MapSearchPanel.java: setLocationFromInput result.getGeometry().getLocation()=" + result.getGeometry().getLocation());
 					
 					if (isInVancouver(result.getGeometry().getLocation()) == true) {
 						plotUser(result.getGeometry().getLocation());
 						optionAll.setValue(true);
-						setRadioOnLocationChange();
+						updateAndPlotMatchingVendors();
 					} else {
 						Window.alert("Please re-enter an address within Vancouver.");
 					}
