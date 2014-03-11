@@ -12,7 +12,8 @@ Test Plan for TeamTau FoodSorce
 
 	PASS
 
-1.3 On startup, if application is allowed to obatin user location, the user location 	 marker and focus will be set to that location.
+1.3 On startup, if application is allowed to obatin user location, the user location 
+	marker and focus will be set to that location.
 
 	PASS
 
@@ -35,7 +36,8 @@ Test Plan for TeamTau FoodSorce
 	PASS
 
 1.8 When user sets current location to be either an invalid location or a 
-    location outside of vancouver, an error message will appear requesting another address within Vancouver.
+    location outside of vancouver, an error message will appear requesting 
+    another address within Vancouver.
 
   	PASS
 
@@ -72,11 +74,13 @@ Test Plan for TeamTau FoodSorce
 
 	PASS
 
-2.2 On startup, left of the map a log in page should be shown with a link to login 		with your Google Account.
+2.2 On startup, left of the map a log in page should be shown with a link to login 
+	with your Google Account.
 
 	PASS
 
-2.3 On startup, the menu on the left should contain Main Page, Profile, Admin and Sign 		Out links.
+2.3 On startup, the menu on the left should contain Main Page, Profile, Admin and Sign 
+	Out links.
 
 	PASS
 
@@ -104,11 +108,13 @@ Test Plan for TeamTau FoodSorce
 
 	PASS
 
-2.10 Clicking Sign Out should log the user out, if user is signed in, and refresh the 	   page to the login page.
+2.10 Clicking Sign Out should log the user out, if user is signed in, and refresh the 
+	page to the login page.
 
 	PASS
 
-2.11 Clicking Sign Out more than once or when not signed in does not do anything 		 except refresh the page
+2.11 Clicking Sign Out more than once or when not signed in does not do anything 
+	except refresh the page
 
 	PASS
 
@@ -116,7 +122,8 @@ Test Plan for TeamTau FoodSorce
 
 	PASS
 
-2.13 Clicking import data should display a pop-up displaying whether import was 		successful or failed.
+2.13 Clicking import data should display a pop-up displaying whether import was 
+	successful or failed.
 
 	PASS
 
