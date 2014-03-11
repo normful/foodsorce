@@ -48,6 +48,7 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private Label radioLabel = new Label("Distance:");
 	private RadioButton optionAll = new RadioButton("radioGroup", "all");
+	private RadioButton option1 = new RadioButton("radioGroup", "1km");
 	private RadioButton option2 = new RadioButton("radioGroup", "2km");
 	private RadioButton option5 = new RadioButton("radioGroup", "5km");
 	private RadioButton option10 = new RadioButton("radioGroup", "10km");
@@ -168,6 +169,7 @@ public class MapSearchPanel extends FlowPanel {
 		
 	private void createRadioButtons() {
 		buttons.add(optionAll);
+		buttons.add(option1);
 		buttons.add(option2);
 		buttons.add(option5);
 		buttons.add(option10);
@@ -194,6 +196,7 @@ public class MapSearchPanel extends FlowPanel {
 		
 		this.add(radioLabel);
 		this.add(optionAll);
+		this.add(option1);
 		this.add(option2);
 		this.add(option5);
 		this.add(option10);
@@ -341,8 +344,9 @@ public class MapSearchPanel extends FlowPanel {
 		System.out.println("MapSearchPanel.java: filterVendors(buttonText=" + buttonText + ")");
 		
 		double travelDistance;
-		
-		if (buttonText.equals("2km"))
+		if (buttonText.equals("1km"))
+			travelDistance = 1000.0;
+		else if (buttonText.equals("2km"))
 			travelDistance = 2000.0;
 		else if (buttonText.equals("5km"))
 			travelDistance = 5000.0;
