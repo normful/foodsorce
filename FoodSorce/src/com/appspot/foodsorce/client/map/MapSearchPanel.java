@@ -53,6 +53,7 @@ public class MapSearchPanel extends FlowPanel {
 	private RadioButton option5 = new RadioButton("radioGroup", "5km");
 	private RadioButton option10 = new RadioButton("radioGroup", "10km");
 	private List<RadioButton> buttons = new ArrayList<RadioButton>();
+	private String radioButtonSelected = "all";
 	
 	private SimplePanel mapPanel;
 	private GoogleMap map;
@@ -153,6 +154,7 @@ public class MapSearchPanel extends FlowPanel {
 			button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					radioButtonSelected = button.getText();
 					updateAndPlotMatchingVendors();
 				}
 			});
@@ -169,7 +171,7 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void updateAndPlotMatchingVendors() {
-		updateMatchingVendors("optionAll");
+		updateMatchingVendors(radioButtonSelected);
 		try {
 			System.out.println("MapSearchPanel.java: ValueChangeHandler onValueChange");
 			vendorListPanel = VendorListPanel.getInstance();
@@ -318,7 +320,7 @@ public class MapSearchPanel extends FlowPanel {
 			travelDistance = 5000.0;
 		else if (buttonText.equals("10km"))
 			travelDistance = 10000.0;
-		else
+		else //  buttonText.equals("all")
 			travelDistance = 999999.0;
 		
 		matchingVendors.clear();
@@ -331,7 +333,7 @@ public class MapSearchPanel extends FlowPanel {
 			return;
 		}
 		
-		// Radio button "2km", "5km", or "10km" is selected
+		// Radio button "1km", "2km", "5km", or "10km" is selected
 		for (Vendor vendor: allVendors) {
 			System.out.println("MapSearchPanel.java: matchingVendors.add(" + vendor.toString() +")");
 			LatLng vendorLocation = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
