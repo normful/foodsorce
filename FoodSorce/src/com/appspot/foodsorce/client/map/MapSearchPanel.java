@@ -220,7 +220,6 @@ public class MapSearchPanel extends FlowPanel {
 				Coordinates coordinates = result.getCoordinates();
 				LatLng latlong = LatLng.create(coordinates.getLatitude(), coordinates.getLongitude());
 				plotUser(latlong);
-				optionAll.setValue(true);
 				updateAndPlotMatchingVendors();
 			}
 			
@@ -266,7 +265,6 @@ public class MapSearchPanel extends FlowPanel {
 					
 					if (isInVancouver(result.getGeometry().getLocation()) == true) {
 						plotUser(result.getGeometry().getLocation());
-						optionAll.setValue(true);
 						updateAndPlotMatchingVendors();
 					} else {
 						Window.alert("Please re-enter an address within Vancouver.");
