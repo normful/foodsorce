@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.server.profile;
 
+import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
@@ -25,6 +26,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
+			pm.getFetchPlan().setGroup(FetchPlan.ALL);
 			profile = pm.getObjectById(Profile.class, userEmail);
 			detached = pm.detachCopy(profile);
 		} catch (Throwable e) {

@@ -26,7 +26,7 @@ public class Profile implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
 	private String userEmail;
 
-	@Persistent(serialized="true")
+	@Persistent(serialized="true", defaultFetchGroup="true")
 	private HashMap<String, String> settings = new HashMap<String, String>();
 	
 	// Default no-arg constructor required for serialization
