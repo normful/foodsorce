@@ -7,7 +7,6 @@ import com.appspot.foodsorce.shared.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -38,6 +37,7 @@ public class ProfilePanel extends VerticalPanel {
 	public ProfilePanel(String userEmail) {
 		if (userEmail != null && !userEmail.isEmpty())
 			this.userEmail = userEmail;
+		
 		getProfile();
 		
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
@@ -68,7 +68,7 @@ public class ProfilePanel extends VerticalPanel {
 			}
 			public void onFailure(Throwable error) {
 				System.err.println("ProfilePanel.java: getProfile onFailure");
-//				getProfile();
+				getProfile();
 			}
 		});
 	}
@@ -138,7 +138,6 @@ public class ProfilePanel extends VerticalPanel {
 	}
 
 	private void saveNewSettings() {
-//		settingsMap.clear();
 		for (Map.Entry<String, TextBox> entry : editBoxMap.entrySet())
 			settingsMap.put(entry.getKey(), entry.getValue().getText());
 		profile.setSettings(settingsMap);

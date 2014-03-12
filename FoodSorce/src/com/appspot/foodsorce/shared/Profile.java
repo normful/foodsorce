@@ -2,7 +2,6 @@ package com.appspot.foodsorce.shared;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
