@@ -22,6 +22,8 @@ public class ProfilePanel extends VerticalPanel {
 	private String userEmail;
 	private Profile profile;
 	private ProfileServiceAsync profileService = GWT.create(ProfileService.class);
+	private static final int MAX_TRIES = 10;
+	private int getProfileTryCount;
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
@@ -53,6 +55,8 @@ public class ProfilePanel extends VerticalPanel {
 	}
 	
 	public void getProfile() {
+		if (getProfileTryCount++ > MAX_TRIES)
+			return;
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onSuccess(Profile result) {
 				profile = result;

@@ -95,7 +95,10 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistentAll(vendorsToStore);
-		} finally {
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		finally {
 			pm.close();
 		}
 
