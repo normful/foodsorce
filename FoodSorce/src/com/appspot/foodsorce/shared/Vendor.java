@@ -42,7 +42,7 @@ public class Vendor implements Serializable {
 	private double longitude;
 	
 	@Persistent
-	private ArrayList<Rating> ratings;
+	private ArrayList<Review> reviews;
 	
 	// Default no-arg constructor required for serialization
 	public Vendor() {
@@ -68,7 +68,7 @@ public class Vendor implements Serializable {
 		
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.ratings = new ArrayList<Rating>();
+		this.reviews = new ArrayList<Review>();
 	}
 	
 	public String getName() {
@@ -90,38 +90,38 @@ public class Vendor implements Serializable {
 		return longitude;
 	}
 	
-	public void addRating(Rating rating) {
-		ratings.add(rating);
+	public void addReview(Review review) {
+		reviews.add(review);
 	}
 	
-	public ArrayList<Rating> getRatings() {
-		return ratings;
+	public ArrayList<Review> getReviews() {
+		return reviews;
 	}
 	
 	public double getAverageCost() {
-		if (ratings.size() == 0)
+		if (reviews.size() == 0)
 			return -1;
 		double sum = 0.0;
-		for (Rating rating : ratings)
-			sum += rating.getCost();
-		return sum / ratings.size();
+		for (Review review : reviews)
+			sum += review.getCost();
+		return sum / reviews.size();
 	}
 	
 	public double getAverageQuality() {
-		if (ratings.size() == 0)
+		if (reviews.size() == 0)
 			return -1;
 		double sum = 0.0;
-		for (Rating rating : ratings)
-			sum += rating.getQuality();
-		return sum / ratings.size();
+		for (Review review : reviews)
+			sum += review.getQuality();
+		return sum / reviews.size();
 	}
 
 	@Override
 	public String toString() {
 		return "Vendor [excelKey=" + excelKey + ", name=" + name + ", description="
 				+ description + ", location=" + location + ", latitude="
-				+ latitude + ", longitude=" + longitude + ", ratings="
-				+ ratings + "]";
+				+ latitude + ", longitude=" + longitude + ", reviews="
+				+ reviews + "]";
 	}
 	
 }

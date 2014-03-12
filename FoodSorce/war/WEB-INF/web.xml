@@ -51,13 +51,13 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>ratingService</servlet-name>
-		<servlet-class>com.appspot.foodsorce.server.vendor.RatingServiceImpl</servlet-class>
+		<servlet-name>reviewService</servlet-name>
+		<servlet-class>com.appspot.foodsorce.server.vendor.ReviewServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>ratingService</servlet-name>
-		<url-pattern>/foodsorce/rating</url-pattern>
+		<servlet-name>reviewService</servlet-name>
+		<url-pattern>/foodsorce/review</url-pattern>
 	</servlet-mapping>
 
 </web-app>

@@ -10,7 +10,7 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Rating implements Serializable {
+public class Review implements Serializable {
 	
 	private static final long serialVersionUID = -6814747224477695413L;
 
@@ -20,7 +20,7 @@ public class Rating implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String key;
 	
-	// The email of this Rating's author
+	// The email of this Review's author
 	@Persistent
 	private String userEmail;
 	
@@ -34,30 +34,30 @@ public class Rating implements Serializable {
 	
 	// Review text
 	@Persistent
-	private String review;
+	private String text;
 
 	// Default no-arg constructor required for serialization
-	public Rating() {
+	public Review() {
 		this("", 0, 1, "");
 	}
 	
-	public Rating(String userEmail, int quality, int cost, String review)
+	public Review(String userEmail, int quality, int cost, String text)
 			throws IllegalArgumentException {
 		
 		if (quality < 0 || quality > 10)
-			throw new IllegalArgumentException("Invalid quality (must be between 0 and 10)");
+			throw new IllegalArgumentException("Invalid quality rating (must be between 0 and 10)");
 		else
 			this.quality = quality;
 		
 		if (cost < 1 || cost > 5)
-			throw new IllegalArgumentException("Invalid cost (must be between 1 and 5)");
+			throw new IllegalArgumentException("Invalid cost rating (must be between 1 and 5)");
 		else
 			this.cost = cost;
 		
-		if (review != null && !review.isEmpty())
-			this.review = review;
+		if (text != null && !text.isEmpty())
+			this.text = text;
 		else
-			this.review = "";
+			this.text = "";
 		
 		this.userEmail = userEmail;
 	}
@@ -70,8 +70,8 @@ public class Rating implements Serializable {
 		return cost;
 	}
 	
-	public String getReview() {
-		return review;
+	public String getText() {
+		return text;
 	}
 	
 	public String getUserEmail() {
@@ -80,7 +80,7 @@ public class Rating implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Rating [userEmail=" + userEmail + ", quality=" + quality
-				+ ", cost=" + cost + ", review=" + review + "]";
+		return "Review [userEmail=" + userEmail + ", quality=" + quality
+				+ ", cost=" + cost + ", text=" + text + "]";
 	}
 }
