@@ -7,19 +7,22 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NavigationPanel extends VerticalPanel {
-	
+
 	private FoodSorce foodSorce;
-	
-	private Anchor mainPageLink = new Anchor("Main Page");
+	private boolean loggedIn;
+
+	private Anchor mainPageLink = new Anchor("Find Food");
 	private Anchor viewProfileLink = new Anchor("Profile");
 	private Anchor adminLink = new Anchor("Admin");
-	private Anchor signOutLink = new Anchor("Sign Out");
-	
-	public NavigationPanel(FoodSorce foodSorce) {
+	private Anchor loginLink = new Anchor("Log In");
+	private Anchor logoutLink = new Anchor("Log Out");
+
+	public NavigationPanel(FoodSorce foodSorce, boolean loggedIn) {
 		this.foodSorce = foodSorce;
+		this.loggedIn = loggedIn;
 		createLinks();
 	}
-	
+
 	private void createLinks() {
 		mainPageLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -32,33 +35,45 @@ public class NavigationPanel extends VerticalPanel {
 		});
 		mainPageLink.addStyleName("navigationLink");
 		add(mainPageLink);
-		
-		viewProfileLink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				foodSorce.loadViewProfilePanel();
-			}
-		});
-		viewProfileLink.addStyleName("navigationLink");
-		add(viewProfileLink);
-		
-		adminLink.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				foodSorce.loadAdminPanel();
-			}
-		});
-		adminLink.addStyleName("navigationLink");
-		add(adminLink);
-		
-		signOutLink.addStyleName("navigationLink");
-		setSignOutLink(GWT.getHostPageBaseURL());
-		add(signOutLink);
+
+		if (loggedIn && foodSorce.getLoginInfo().isAdmin()) {
+			adminLink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					foodSorce.loadAdminPanel();
+				}
+			});
+			adminLink.addStyleName("navigationLink");
+			add(adminLink);
+		}
+
+		if (loggedIn) {
+			viewProfileLink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					foodSorce.loadViewProfilePanel();
+				}
+			});
+			viewProfileLink.addStyleName("navigationLink");
+			add(viewProfileLink);
+
+			logoutLink.addStyleName("navigationLink");
+			setSignOutLink(GWT.getHostPageBaseURL());
+			add(logoutLink);
+		} else {
+			loginLink.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					foodSorce.loadLoginPanel();
+				}
+			});
+			loginLink.addStyleName("navigationLink");
+			add(loginLink);
+		}
 	}
-	
+
 	public void setSignOutLink(String url) {
 		if (url != null && !url.isEmpty())
-			signOutLink.setHref(url);
+			logoutLink.setHref(url);
 		else
-			signOutLink.setHref(GWT.getHostPageBaseURL());
+			logoutLink.setHref(GWT.getHostPageBaseURL());
 	}
 
 }

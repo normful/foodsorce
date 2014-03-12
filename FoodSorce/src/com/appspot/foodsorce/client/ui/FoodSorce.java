@@ -49,8 +49,8 @@ public class FoodSorce implements EntryPoint {
 	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
 	
 	// West panels
-	private FlowPanel west = new FlowPanel();
-	private NavigationPanel navigationPanel = new NavigationPanel(this);
+	private SimpleLayoutPanel west = new SimpleLayoutPanel();
+	private NavigationPanel navigationPanel;
 
 	/** Entry point method **/
 	public void onModuleLoad() {
@@ -64,43 +64,46 @@ public class FoodSorce implements EntryPoint {
 			});
 		}
 		
+		loadNavigationPanel("loggedOut");
 		createLayout();
 		
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 			public void onFailure(Throwable error) {
 				handleError(error);
-		}
+			}
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
-						System.out
-								.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo="
-										+ loginInfo.toString());
-						if (loginInfo.isLoggedIn()) {
-							loadVendorListPanel();
-							viewProfilePanel = new ViewProfilePanel(loginInfo
-									.getEmailAddress());
-						} else
-							loadLoginPanel();
+				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
+				if (loginInfo.isLoggedIn()) {
+					loadVendorListPanel();
+					viewProfilePanel = new ViewProfilePanel(loginInfo.getEmailAddress());
+					loadNavigationPanel("loggedIn");
+				} else
+					loadLoginPanel();
 			}
 		});
 	}
 	
+	private void loadNavigationPanel(String loginState) {
+		System.out.println("FoodSorce.java loadNavigationPanel(" + loginState + ")");
+		if (loginState != null && loginState.equals("loggedIn"))
+			navigationPanel = new NavigationPanel(this, true);
+		else
+			navigationPanel = new NavigationPanel(this, false);
+		west.setWidget(navigationPanel);
+	}
+	
 	private void createLayout() {
 		System.out.println("FoodSorce.java: createLayout()");
-		
 		HTML header = new HTML("<h1>FoodSorce</h1>");
 		north.add(header);
-		
 		east.add(mapSearchPanel);
 		
-		west.add(navigationPanel);
-	
 		dock.addNorth(north, 8);
 		dock.addEast(east, 40);
 		dock.addWest(west, 10);
 		dock.add(center);
-		
 		root.add(dock);
 	}
 	
@@ -109,7 +112,12 @@ public class FoodSorce implements EntryPoint {
 			System.out.println("FoodSorce.java: NotLoggedInException thrown");
 			loadLoginPanel();
 		} else {
-			Window.alert(error.getMessage());
+			if (loginInfo != null && !loginInfo.isLoggedIn())
+				loadLoginPanel();
+			else if (loginInfo != null && loginInfo.isLoggedIn())
+				loadVendorListPanel();
+			else
+				Window.alert("handleError caught: " + error.getMessage() + error.toString());
 		}
 	}
 
