@@ -36,7 +36,7 @@ public class FoodSorce implements EntryPoint {
 	private SimpleLayoutPanel center = new SimpleLayoutPanel();
 	private LoginPanel loginPanel = new LoginPanel();
 	private AdminPanel adminPanel = new AdminPanel();
-	private ViewProfilePanel viewProfilePanel = new ViewProfilePanel();
+	private ViewProfilePanel viewProfilePanel;
 	// TODO for Norman
 	// private EditProfilePanel editProfilePanel = new EditProfilePanel();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
@@ -73,11 +73,15 @@ public class FoodSorce implements EntryPoint {
 		}
 			public void onSuccess(LoginInfo result) {
 				loginInfo = result;
-				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
-				if (loginInfo.isLoggedIn())
-					loadVendorListPanel();
-				else
-					loadLoginPanel();
+						System.out
+								.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo="
+										+ loginInfo.toString());
+						if (loginInfo.isLoggedIn()) {
+							loadVendorListPanel();
+							viewProfilePanel = new ViewProfilePanel(loginInfo
+									.getEmailAddress());
+						} else
+							loadLoginPanel();
 			}
 		});
 	}

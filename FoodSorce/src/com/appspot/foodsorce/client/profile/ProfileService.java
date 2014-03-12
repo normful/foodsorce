@@ -7,6 +7,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("profile")
 public interface ProfileService extends RemoteService {
-	public Profile getProfile() throws NotLoggedInException;
-	public void setProfile(Profile profile) throws NotLoggedInException;
+	public Profile getProfile(String userEmail) throws NotLoggedInException;
+	public void setProfile(String userEmail, String photoUrl, String gender,
+			String headline, String favouriteFood, String hometown,
+			String websiteUrl) throws NotLoggedInException;
 }
