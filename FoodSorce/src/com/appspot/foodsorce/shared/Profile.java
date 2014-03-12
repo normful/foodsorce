@@ -14,7 +14,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Profile implements Serializable {
 
-	private static final long serialVersionUID = -1513537323239247252L;
+	private static final long serialVersionUID = 1134649851446999024L;
 
 	// Key is an app-assigned string ID that is the user's email address
 	@PrimaryKey
@@ -27,7 +27,7 @@ public class Profile implements Serializable {
 	private String userEmail;
 
 	@Persistent(serialized="true")
-	private Map<String, String> settings = new HashMap<String, String>();
+	private HashMap<String, String> settings = new HashMap<String, String>();
 	
 	// Default no-arg constructor required for serialization
 	public Profile() {
@@ -48,11 +48,11 @@ public class Profile implements Serializable {
 		return userEmail;
 	}
 
-	public Map<String, String> getSettings() {
+	public HashMap<String, String> getSettings() {
 		return settings;
 	}
 
-	public void setSettings(Map<String, String> settings) {
+	public void setSettings(HashMap<String, String> settings) {
 		this.settings = settings;
 	}
 

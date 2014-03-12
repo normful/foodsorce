@@ -26,19 +26,21 @@ public class ProfilePanel extends VerticalPanel {
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
-	private Image profilePhoto = new Image("images/unknown_user.jpeg", 0, 0, 255, 255);
+	private String defaultPhotoUrl = "images/unknown_user.jpeg";
+	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
 	private FlexTable settingsTable = new FlexTable();
+	
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
-	private HashMap<String, String> newSettingsMap = new HashMap<String, String>();
-	private Button submitButton = new Button();
+	private HashMap<String, String> settingsMap = new HashMap<String, String>();
+	private Button submitButton = new Button("Submit");
 	
 	public ProfilePanel(String userEmail) {
 		if (userEmail != null && !userEmail.isEmpty())
 			this.userEmail = userEmail;
 		
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
-		settingsTable.getColumnFormatter().setWidth(1, "300px");
+		settingsTable.getColumnFormatter().setWidth(1, "400px");
 		settingsTable.getColumnFormatter().setStyleName(0, "profileGridKeys");
 		settingsTable.getColumnFormatter().setStyleName(1, "profileGridValues");
 		
@@ -50,53 +52,58 @@ public class ProfilePanel extends VerticalPanel {
 		getProfile();
 	}
 	
-	private void getProfile() {
+	public void getProfile() {
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onSuccess(Profile result) {
 				profile = result;
+				settingsMap = result.getSettings();
 				loadViewLayout();
 			}
 			public void onFailure(Throwable error) {
-				// Do nothing
+				getProfile();
 			}
 		});
 	}
 	
 	private void loadViewLayout() {
 		htmlPanel.remove(submitButton);
-		settingsTable.clear();
-		
-		profilePhoto = new Image(profile.getSettings().get("photoUrl"), 0, 0, 255, 255);
+		settingsTable.removeAllRows();
+
+		try {
+			profilePhoto = new Image(profile.getSettings().get("photoUrl"), 0, 0, 255, 255);
+		} catch (Throwable e) {
+			profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
+		}
+
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
-				
-		for (Map.Entry<String, String> entry : profile.getSettings().entrySet()) {
-			if (!entry.getKey().equals("photoUrl")) {
+		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
+			if (!setting.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
-				settingsTable.setText(row, 0, entry.getKey());
-				settingsTable.setText(row, 1, entry.getValue());
+				settingsTable.setText(row, 0, setting.getKey());
+				settingsTable.setText(row, 1, setting.getValue());
 			}
 		}
-		
+
 		editProfileLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				loadEditLayout();
 			}
 		});
-		
+
 		htmlPanel.add(editProfileLink);
 	}
-	
+
 	private void loadEditLayout() {
 		htmlPanel.remove(editProfileLink);
-		settingsTable.clear();
+		settingsTable.removeAllRows();
 		
-		for (Map.Entry<String, String> setting : profile.getSettings().entrySet()) {
+		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
 			if (!setting.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
 				final TextBox editBox = new TextBox();
 				editBox.setText(setting.getValue());
-				editBox.setWidth("100px");
+				editBox.setWidth("400px");
 				editBox.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						editBox.selectAll();
@@ -111,7 +118,8 @@ public class ProfilePanel extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveNewSettings();
-				submitProfile();
+				loadViewLayout();
+				updateProfile();
 			}
 		});
 		
@@ -119,21 +127,20 @@ public class ProfilePanel extends VerticalPanel {
 	}
 
 	private void saveNewSettings() {
-		newSettingsMap.clear();
-		for (Map.Entry<String, TextBox> e : editBoxMap.entrySet())
-			newSettingsMap.put(e.getKey(), e.getValue().getText());
+		settingsMap.clear();
+		for (Map.Entry<String, TextBox> entry : editBoxMap.entrySet())
+			settingsMap.put(entry.getKey(), entry.getValue().getText());
 	}
 	
-	private void submitProfile() {
-		profileService.updateProfile(userEmail, newSettingsMap, new AsyncCallback<Void>() {
+	private void updateProfile() {
+		profileService.updateProfile(userEmail, settingsMap, new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
-				loadViewLayout();
-				Window.alert("Successfully saved profile.");
+				Window.alert("Successfully updated profile.");
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Failed to save profile. Please try again.");
+				Window.alert("Failed to update profile. Please try again.");
 			}
 		});
 	}

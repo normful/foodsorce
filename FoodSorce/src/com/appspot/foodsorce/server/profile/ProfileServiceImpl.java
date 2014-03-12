@@ -69,7 +69,6 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
-		
 	}
 
 	private void checkLoggedIn() throws NotLoggedInException {

@@ -75,8 +75,10 @@ public class FoodSorce implements EntryPoint {
 					loadVendorListPanel();
 					viewProfilePanel = new ProfilePanel(loginInfo.getEmailAddress());
 					loadNavigationPanel("loggedIn");
-				} else
+				} else {
 					loadVendorListPanel();
+					loadNavigationPanel("loggedOut");
+				}
 			}
 			
 			@Override
