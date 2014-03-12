@@ -23,8 +23,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		if (userEmail == null || userEmail.isEmpty())
 			throw new NotLoggedInException();
 
-//		Profile profile = null;
-		Profile profile = new Profile(userEmail);
+		Profile profile = null;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
@@ -35,24 +34,24 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			pm.close();
 		}
 		
-//		if (profile == null)
-//			profile = createProfile(userEmail);
+		if (profile == null)
+			profile = createProfile(userEmail);
 		
 		return profile;
 	}
 
-//	private Profile createProfile(String userEmail) {
-//		Profile newProfile = new Profile(userEmail);
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		try {
-//			pm.makePersistent(newProfile);
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		} finally {
-//			pm.close();
-//		}
-//		return newProfile;
-//	}
+	private Profile createProfile(String userEmail) {
+		Profile newProfile = new Profile(userEmail);
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(newProfile);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
+		return newProfile;
+	}
 
 	@Override
 	public void updateProfile(String userEmail, HashMap<String, String> newSettings)

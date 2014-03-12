@@ -7,6 +7,7 @@ import com.appspot.foodsorce.shared.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -30,7 +31,7 @@ public class ProfilePanel extends VerticalPanel {
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
 	private HashMap<String, String> newSettingsMap = new HashMap<String, String>();
-	private Button submitButton;
+	private Button submitButton = new Button();
 	
 	public ProfilePanel(String userEmail) {
 		if (userEmail != null && !userEmail.isEmpty())
@@ -51,13 +52,12 @@ public class ProfilePanel extends VerticalPanel {
 	
 	private void getProfile() {
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
-			public void onFailure(Throwable error) {
-//				System.err.println("ViewProfilePanel.java: onFailure");
-			}
 			public void onSuccess(Profile result) {
-//				System.err.println("ViewProfilePanel.java: onSuccess");
-//				profile = result;
-//				loadViewLayout();
+				profile = result;
+				loadViewLayout();
+			}
+			public void onFailure(Throwable error) {
+				// Do nothing
 			}
 		});
 	}
@@ -107,7 +107,6 @@ public class ProfilePanel extends VerticalPanel {
 			}
 		}
 		
-		submitButton = new Button();
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -126,16 +125,16 @@ public class ProfilePanel extends VerticalPanel {
 	}
 	
 	private void submitProfile() {
-//		profileService.updateProfile(userEmail, newSettingsMap, new AsyncCallback<Void>() {
-//			@Override
-//			public void onSuccess(Void result) {
-//				loadViewLayout();
-//				Window.alert("Successfully saved profile.");
-//			}
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				Window.alert("Failed to save profile. Please try again.");
-//			}
-//		});
+		profileService.updateProfile(userEmail, newSettingsMap, new AsyncCallback<Void>() {
+			@Override
+			public void onSuccess(Void result) {
+				loadViewLayout();
+				Window.alert("Successfully saved profile.");
+			}
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed to save profile. Please try again.");
+			}
+		});
 	}
 }
