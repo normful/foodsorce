@@ -38,16 +38,16 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setCellPadding(5);
 		
 		// Table header settings
-		vendorTable.setText(0, 0, "Name");
+		vendorTable.setText(0, 0, "Vendor Name");
 		vendorTable.setText(0, 1, "Type of Food");
-		vendorTable.setText(0, 2, "Quality");
-		vendorTable.setText(0, 3, "Cost");
-		vendorTable.setText(0, 4, "Location");
+		vendorTable.setText(0, 2, "Location");
+		vendorTable.setText(0, 3, "Quality");
+		vendorTable.setText(0, 4, "Cost");
 		vendorTable.getColumnFormatter().setWidth(0, "100px");
 		vendorTable.getColumnFormatter().setWidth(1, "100px");
-		vendorTable.getColumnFormatter().setWidth(2, "50px");
+		vendorTable.getColumnFormatter().setWidth(2, "400px");
 		vendorTable.getColumnFormatter().setWidth(3, "50px");
-		vendorTable.getColumnFormatter().setWidth(4, "400px");
+		vendorTable.getColumnFormatter().setWidth(4, "50px");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 		
 		// Add panels
@@ -110,9 +110,9 @@ public class VendorListPanel extends VerticalPanel {
 		// Add style names
 		vendorTable.getColumnFormatter().addStyleName(0, "vendorListNameColumn");
 		vendorTable.getColumnFormatter().addStyleName(1, "vendorListTextColumn");
-		vendorTable.getColumnFormatter().addStyleName(2, "vendorListRatingColumn");
+		vendorTable.getColumnFormatter().addStyleName(2, "vendorListTextColumn");
 		vendorTable.getColumnFormatter().addStyleName(3, "vendorListRatingColumn");
-		vendorTable.getColumnFormatter().addStyleName(4, "vendorListTextColumn");
+		vendorTable.getColumnFormatter().addStyleName(4, "vendorListRatingColumn");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
 
@@ -121,10 +121,12 @@ public class VendorListPanel extends VerticalPanel {
 		int row = vendorTable.getRowCount();
 		vendorTable.setText(row, 0, vendor.getName());
 		vendorTable.setText(row, 1, vendor.getDescription());
+		vendorTable.setText(row, 2, vendor.getLocation());
 		// TODO: Low priority task: display these ratings with stars instead of just text.
-		vendorTable.setText(row, 2, String.valueOf(vendor.getAverageQuality()));
-		vendorTable.setText(row, 3, String.valueOf(vendor.getAverageCost()));
-		vendorTable.setText(row, 4, vendor.getLocation());
+		if (vendor.getAverageQuality() != -1)
+			vendorTable.setText(row, 3, String.valueOf(vendor.getAverageQuality()));
+		if (vendor.getAverageCost() != -1)
+			vendorTable.setText(row, 4, String.valueOf(vendor.getAverageCost()));
 	}
 
 	private void handleError(Throwable error) {
