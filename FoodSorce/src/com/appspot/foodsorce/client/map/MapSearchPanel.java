@@ -237,8 +237,8 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private void plotUser(LatLng location) {
 		// For debugging
-		if (location != null)
-			System.out.println("MapSearchPanel.java: plotUser(location=" + location.toString() + ")");
+//		if (location != null)
+//			System.out.println("MapSearchPanel.java: plotUser(location=" + location.toString() + ")");
 		
 		userLocation = location;
 		userMarker.setPosition(location);
@@ -249,8 +249,8 @@ public class MapSearchPanel extends FlowPanel {
 	private void setLocationFromInput(String address) {
 		
 		// For debugging
-		if (address != null && !address.isEmpty())
-			System.out.println("MapSearchPanel.java: setLocationFromInput(address=" + address + ")");
+//		if (address != null && !address.isEmpty())
+//			System.out.println("MapSearchPanel.java: setLocationFromInput(address=" + address + ")");
 		
 		Geocoder geocoder = Geocoder.create();
 		GeocoderRequest georequest = GeocoderRequest.create();

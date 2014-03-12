@@ -1,7 +1,5 @@
 package com.appspot.foodsorce.server.profile;
 
-import java.util.HashMap;
-
 import javax.jdo.PersistenceManager;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
@@ -23,21 +21,22 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		if (userEmail == null || userEmail.isEmpty())
 			throw new NotLoggedInException();
 
-		Profile profile = null;
+		Profile profile, detached = null;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			profile = pm.getObjectById(Profile.class, userEmail);
+			detached = pm.detachCopy(profile);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		} finally {
 			pm.close();
 		}
-		
-		if (profile == null)
-			profile = createProfile(userEmail);
-		
-		return profile;
+
+//		if (detached == null)
+//			detached = createProfile(userEmail);
+//			
+		return detached;
 	}
 
 	private Profile createProfile(String userEmail) {
@@ -54,7 +53,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public void updateProfile(String userEmail, HashMap<String, String> newSettings)
+	public void updateProfile(String userEmail, Profile profile)
 			throws NotLoggedInException {
 		checkLoggedIn();
 		if (userEmail == null || userEmail.isEmpty())
@@ -62,8 +61,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			Profile profile = pm.getObjectById(Profile.class, userEmail);
-			profile.setSettings(newSettings);
+			pm.makePersistent(profile);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		} finally {

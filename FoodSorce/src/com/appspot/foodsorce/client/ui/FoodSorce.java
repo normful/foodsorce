@@ -21,9 +21,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
 public class FoodSorce implements EntryPoint {
 	
 	private LoginInfo loginInfo = null;
@@ -64,6 +61,8 @@ public class FoodSorce implements EntryPoint {
 		
 		loadNavigationPanel("loggedOut");
 		createLayout();
+		west.setWidget(navigationPanel);
+		center.setWidget(vendorListPanel);
 		
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
@@ -72,12 +71,12 @@ public class FoodSorce implements EntryPoint {
 				loginInfo = result;
 				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
 				if (loginInfo.isLoggedIn()) {
+					loadNavigationPanel("loggedIn");
 					loadVendorListPanel();
 					viewProfilePanel = new ProfilePanel(loginInfo.getEmailAddress());
-					loadNavigationPanel("loggedIn");
 				} else {
-					loadVendorListPanel();
 					loadNavigationPanel("loggedOut");
+					loadVendorListPanel();
 				}
 			}
 			

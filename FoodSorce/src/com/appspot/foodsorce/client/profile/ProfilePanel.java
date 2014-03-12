@@ -20,8 +20,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ProfilePanel extends VerticalPanel {
 	
-	private String userEmail = "";
-	private Profile profile = new Profile();
+	private String userEmail;
+	private Profile profile;
 	private ProfileServiceAsync profileService = GWT.create(ProfileService.class);
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -38,6 +38,7 @@ public class ProfilePanel extends VerticalPanel {
 	public ProfilePanel(String userEmail) {
 		if (userEmail != null && !userEmail.isEmpty())
 			this.userEmail = userEmail;
+		getProfile();
 		
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
 		settingsTable.getColumnFormatter().setWidth(1, "400px");
@@ -49,18 +50,25 @@ public class ProfilePanel extends VerticalPanel {
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
 		
-		getProfile();
 	}
 	
 	public void getProfile() {
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onSuccess(Profile result) {
-				profile = result;
-				settingsMap = result.getSettings();
+				if (result == null) {
+					System.out.println("ProfilePanel.java: getProfile onSuccess but result == null");
+					profile = new Profile(userEmail);
+				}
+				else {
+					System.out.println("ProfilePanel.java: getProfile onSuccess and profile = result = " + result.toString());
+					profile = result;
+					settingsMap.putAll(result.getSettings());
+				}
 				loadViewLayout();
 			}
 			public void onFailure(Throwable error) {
-				getProfile();
+				System.err.println("ProfilePanel.java: getProfile onFailure");
+//				getProfile();
 			}
 		});
 	}
@@ -77,7 +85,10 @@ public class ProfilePanel extends VerticalPanel {
 
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
+		
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
+			System.out.println("ProfilePanel.java loadViewLayout key = " + setting.getKey());
+			System.out.println("ProfilePanel.java loadViewLayout value = " + setting.getValue());
 			if (!setting.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, setting.getKey());
@@ -118,8 +129,8 @@ public class ProfilePanel extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveNewSettings();
-				loadViewLayout();
 				updateProfile();
+				loadViewLayout();
 			}
 		});
 		
@@ -127,20 +138,21 @@ public class ProfilePanel extends VerticalPanel {
 	}
 
 	private void saveNewSettings() {
-		settingsMap.clear();
+//		settingsMap.clear();
 		for (Map.Entry<String, TextBox> entry : editBoxMap.entrySet())
 			settingsMap.put(entry.getKey(), entry.getValue().getText());
+		profile.setSettings(settingsMap);
 	}
 	
 	private void updateProfile() {
-		profileService.updateProfile(userEmail, settingsMap, new AsyncCallback<Void>() {
+		profileService.updateProfile(userEmail, profile, new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
-				Window.alert("Successfully updated profile.");
+				loadViewLayout();
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Failed to update profile. Please try again.");
+				loadViewLayout();
 			}
 		});
 	}

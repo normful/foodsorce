@@ -82,11 +82,11 @@ public class VendorListPanel extends VerticalPanel {
 	private void fetchAndDisplayVendors() {
 		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 			public void onFailure(Throwable error) {
-				System.err.println("fetchAndDisplayVendors onFailure");
+				System.err.println("VendorListPanel.java: fetchAndDisplayVendors onFailure");
 				handleError(error);
 			}
 			public void onSuccess(Vendor[] result) {
-				System.out.println("fetchAndDisplayVendors onSuccess");
+				System.out.println("VendorListPanel.java: fetchAndDisplayVendors onSuccess");
 				allVendors.clear();
 				allVendors.addAll(Arrays.asList(result));
 				mapSearchPanel.setAllVendors(allVendors);

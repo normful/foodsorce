@@ -61,7 +61,11 @@ public class NavigationPanel extends VerticalPanel {
 		} else {
 			loginLink.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-					foodSorce.loadLoginPanel();
+					try {
+						foodSorce.loadLoginPanel();
+					} catch (Throwable e) {
+						// Do nothing. This occurs when login link is shown but user is actually already logged in
+					}
 				}
 			});
 			loginLink.addStyleName("navigationLink");

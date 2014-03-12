@@ -11,10 +11,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Profile implements Serializable {
-
-	private static final long serialVersionUID = 1134649851446999024L;
+	
+	private static final long serialVersionUID = 6161037959068269805L;
 
 	// Key is an app-assigned string ID that is the user's email address
 	@PrimaryKey
@@ -54,6 +54,12 @@ public class Profile implements Serializable {
 
 	public void setSettings(HashMap<String, String> settings) {
 		this.settings = settings;
+	}
+
+	@Override
+	public String toString() {
+		return "Profile [encodedKey=" + encodedKey + ", userEmail=" + userEmail
+				+ ", settings=" + settings + "]";
 	}
 
 }
