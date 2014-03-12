@@ -50,14 +50,4 @@
 		<url-pattern>/foodsorce/vendor</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>reviewService</servlet-name>
-		<servlet-class>com.appspot.foodsorce.server.vendor.ReviewServiceImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>reviewService</servlet-name>
-		<url-pattern>/foodsorce/review</url-pattern>
-	</servlet-mapping>
-
 </web-app>

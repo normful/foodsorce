@@ -8,4 +8,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("vendor")
 public interface VendorService extends RemoteService {
 	public Vendor[] getVendors() throws NotLoggedInException;
+	public void setVendor(Vendor vendor);
 }

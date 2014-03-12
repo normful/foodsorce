@@ -35,5 +35,10 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		
 		return (Vendor[]) vendors.toArray(new Vendor[0]);
 	}
+
+	@Override
+	public void setVendor(Vendor vendor) {
+		// TODO Auto-generated method stub
+	}
 	
 }

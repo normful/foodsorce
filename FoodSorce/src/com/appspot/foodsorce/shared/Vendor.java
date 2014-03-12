@@ -10,7 +10,7 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vendor implements Serializable {
 
 	private static final long serialVersionUID = -6615277218094118492L;
@@ -41,7 +41,7 @@ public class Vendor implements Serializable {
 	@Persistent
 	private double longitude;
 	
-	@Persistent
+	@Persistent(defaultFetchGroup="true")
 	private ArrayList<Review> reviews;
 	
 	// Default no-arg constructor required for serialization
