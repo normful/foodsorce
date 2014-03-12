@@ -80,7 +80,7 @@ public class FoodSorce implements EntryPoint {
 					viewProfilePanel = new ViewProfilePanel(loginInfo.getEmailAddress());
 					loadNavigationPanel("loggedIn");
 				} else
-					loadLoginPanel();
+					loadVendorListPanel();
 			}
 		});
 	}
@@ -102,7 +102,7 @@ public class FoodSorce implements EntryPoint {
 		
 		dock.addNorth(north, 8);
 		dock.addEast(east, 40);
-		dock.addWest(west, 10);
+		dock.addWest(west, 14);
 		dock.add(center);
 		root.add(dock);
 	}
