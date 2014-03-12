@@ -8,23 +8,6 @@
   margin: 15px 15px 15px;
 }
 
-.vendorListHeader {
-  font-size: 14px;
-  font-weight: bold;
-  background-color: #EEEEEE;
-}
-
-.vendorListNameColumn {
-  color: #3B64A6;
-  font-weight: bold;
-}
-
-.vendorListTextColumn {
-}
-
-.vendorListRatingColumn {
-}
-
 h1 {
   font-size: 5em;
   font-weight: bold;
@@ -44,6 +27,31 @@ h2 {
   color: #B80C04;
   margin: 0px 0px 0px;
   text-align: left;
+}
+
+.vendorListHeader {
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #EEEEEE;
+}
+
+.vendorListNameColumn {
+  color: #3B64A6;
+  font-weight: bold;
+}
+
+.vendorListTextColumn {
+}
+
+.vendorListRatingColumn {
+}
+
+.profileGridKeys {
+  text-align: left;
+}
+
+.profileGridValues {
+  text-align: right;
 }
 
 .sendButton {

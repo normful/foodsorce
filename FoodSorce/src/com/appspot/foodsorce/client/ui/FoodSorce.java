@@ -7,8 +7,7 @@ import com.appspot.foodsorce.client.login.LoginService;
 import com.appspot.foodsorce.client.login.LoginServiceAsync;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.map.MapSearchPanel;
-import com.appspot.foodsorce.client.profile.EditProfilePanel;
-import com.appspot.foodsorce.client.profile.ViewProfilePanel;
+import com.appspot.foodsorce.client.profile.ProfilePanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -37,8 +36,7 @@ public class FoodSorce implements EntryPoint {
 	private SimpleLayoutPanel center = new SimpleLayoutPanel();
 	private LoginPanel loginPanel = new LoginPanel();
 	private AdminPanel adminPanel = new AdminPanel();
-	private ViewProfilePanel viewProfilePanel;
-	private EditProfilePanel editProfilePanel;
+	private ProfilePanel viewProfilePanel;
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	
 	// North panel
@@ -68,7 +66,24 @@ public class FoodSorce implements EntryPoint {
 		createLayout();
 		
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
-		loginService.login(GWT.getHostPageBaseURL(), new LoginAsyncCallback(this));
+		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+			@Override
+			public void onSuccess(LoginInfo result) {
+				loginInfo = result;
+				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
+				if (loginInfo.isLoggedIn()) {
+					loadVendorListPanel();
+					viewProfilePanel = new ProfilePanel(loginInfo.getEmailAddress());
+					loadNavigationPanel("loggedIn");
+				} else
+					loadVendorListPanel();
+			}
+			
+			@Override
+			public void onFailure(Throwable error) {
+				handleError(error);
+			}
+		});
 	}
 	
 	private void loadNavigationPanel(String loginState) {
@@ -131,40 +146,8 @@ public class FoodSorce implements EntryPoint {
 		center.setWidget(viewProfilePanel);
 	}
 
-	public void loadEditProfilePanel() {
-		System.out.println("FoodSorce.java loadEditProfilePanel()");
-		center.setWidget(editProfilePanel);
-	}
-
 	public LoginInfo getLoginInfo() {
 		return loginInfo;
-	}
-
-	private final class LoginAsyncCallback implements AsyncCallback<LoginInfo> {
-		
-		private FoodSorce foodSorce;
-		
-		public LoginAsyncCallback(final FoodSorce foodSorce) {
-			this.foodSorce = foodSorce;
-		}
-
-		public void onSuccess(LoginInfo result) {
-			loginInfo = result;
-			System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
-			if (loginInfo.isLoggedIn()) {
-				loadVendorListPanel();
-				viewProfilePanel = new ViewProfilePanel(foodSorce, loginInfo.getEmailAddress());
-				editProfilePanel = new EditProfilePanel(loginInfo.getEmailAddress());
-				loadNavigationPanel("loggedIn");
-			} else
-				loadVendorListPanel();
-		}
-		
-		public void onFailure(Throwable error) {
-			handleError(error);
-		}
-
-		
 	}
 	
 }
