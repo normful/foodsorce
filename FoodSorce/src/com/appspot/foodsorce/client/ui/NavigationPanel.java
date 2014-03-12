@@ -56,7 +56,7 @@ public class NavigationPanel extends VerticalPanel {
 			add(viewProfileLink);
 
 			logoutLink.addStyleName("navigationLink");
-			setSignOutLink(GWT.getHostPageBaseURL());
+			setLogoutLink(GWT.getHostPageBaseURL());
 			add(logoutLink);
 		} else {
 			loginLink.addClickHandler(new ClickHandler() {
@@ -69,7 +69,7 @@ public class NavigationPanel extends VerticalPanel {
 		}
 	}
 
-	public void setSignOutLink(String url) {
+	public void setLogoutLink(String url) {
 		if (url != null && !url.isEmpty())
 			logoutLink.setHref(url);
 		else

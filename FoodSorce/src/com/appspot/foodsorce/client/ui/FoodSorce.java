@@ -97,6 +97,7 @@ public class FoodSorce implements EntryPoint {
 	private void createLayout() {
 		System.out.println("FoodSorce.java: createLayout()");
 		HTML header = new HTML("<h1>FoodSorce</h1>");
+		
 		north.add(header);
 		east.add(mapSearchPanel);
 		
@@ -130,7 +131,7 @@ public class FoodSorce implements EntryPoint {
 	public void loadVendorListPanel() {
 		System.out.println("FoodSorce.java: loadVendorListPanel()");
 		if (loginInfo != null)
-			navigationPanel.setSignOutLink(loginInfo.getLogoutUrl());
+			navigationPanel.setLogoutLink(loginInfo.getLogoutUrl());
 		center.setWidget(vendorListPanel);
 	}
 

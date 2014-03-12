@@ -25,7 +25,8 @@ h1 {
   font-size: 5em;
   font-weight: bold;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
-  color: #CC2222;
+  background-color: #CC2222;
+  color: #FFFFFF;
   margin: 0px 0px 0px;
   text-align: center;
 }

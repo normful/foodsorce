@@ -21,6 +21,7 @@ import com.google.gwt.geolocation.client.PositionError;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -43,9 +44,10 @@ public class MapSearchPanel extends FlowPanel {
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	
-	private Button setAddressButton = new Button("Set Location");
 	private TextBox addressField = new TextBox();
+	private Button setAddressButton = new Button("Set Location");
 	
+	private HorizontalPanel distancePanel = new HorizontalPanel();
 	private Label radioLabel = new Label("Distance:");
 	private RadioButton optionAll = new RadioButton("radioGroup", "all");
 	private RadioButton option1 = new RadioButton("radioGroup", "1km");
@@ -162,12 +164,14 @@ public class MapSearchPanel extends FlowPanel {
 		
 		optionAll.setValue(true);
 		
-		this.add(radioLabel);
-		this.add(optionAll);
-		this.add(option1);
-		this.add(option2);
-		this.add(option5);
-		this.add(option10);
+		distancePanel.add(radioLabel);
+		distancePanel.add(optionAll);
+		distancePanel.add(option1);
+		distancePanel.add(option2);
+		distancePanel.add(option5);
+		distancePanel.add(option10);
+		
+		this.add(distancePanel);
 	}
 	
 	private void updateAndPlotMatchingVendors() {
@@ -185,7 +189,7 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private void createMap() {
 		mapPanel = new SimplePanel();
-		mapPanel.setSize("500px", "660px");
+		mapPanel.setSize("500px", "580px");
 		
 		mapOptions = MapOptions.create();
 		mapOptions.setCenter(LatLng.create(49.279641,-123.125625));
