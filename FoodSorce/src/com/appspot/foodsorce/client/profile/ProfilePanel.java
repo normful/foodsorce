@@ -55,15 +55,8 @@ public class ProfilePanel extends VerticalPanel {
 	public void getProfile() {
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onSuccess(Profile result) {
-				if (result == null) {
-					System.out.println("ProfilePanel.java: getProfile onSuccess but result == null");
-					profile = new Profile(userEmail);
-				}
-				else {
-					System.out.println("ProfilePanel.java: getProfile onSuccess and profile = result = " + result.toString());
-					profile = result;
-					settingsMap.putAll(result.getSettings());
-				}
+				profile = result;
+				settingsMap.putAll(result.getSettings());
 				loadViewLayout();
 			}
 			public void onFailure(Throwable error) {
