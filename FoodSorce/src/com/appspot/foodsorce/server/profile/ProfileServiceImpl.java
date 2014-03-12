@@ -35,9 +35,9 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			pm.close();
 		}
 
-//		if (detached == null)
-//			detached = createProfile(userEmail);
-//			
+		if (detached == null)
+			detached = createProfile(userEmail);
+			
 		return detached;
 	}
 
