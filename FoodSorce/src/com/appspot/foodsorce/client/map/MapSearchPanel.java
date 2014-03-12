@@ -189,7 +189,7 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private void createMap() {
 		mapPanel = new SimplePanel();
-		mapPanel.setSize("500px", "580px");
+		mapPanel.setSize("500px", "600px");
 		
 		mapOptions = MapOptions.create();
 		mapOptions.setCenter(LatLng.create(49.279641,-123.125625));

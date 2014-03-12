@@ -52,7 +52,7 @@ public class VendorListPanel extends VerticalPanel {
 		
 		// Add panels
 		scrollPanel = new ScrollPanel(vendorTable);
-		scrollPanel.setHeight("660px");
+		scrollPanel.setHeight("655px");
 		this.add(scrollPanel);
 		
 		// Retrieve and display vendors from server
