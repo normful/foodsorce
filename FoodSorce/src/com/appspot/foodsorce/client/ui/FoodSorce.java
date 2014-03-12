@@ -120,7 +120,7 @@ public class FoodSorce implements EntryPoint {
 			else if (loginInfo != null && loginInfo.isLoggedIn())
 				loadVendorListPanel();
 			else
-				Window.alert("handleError caught: " + error.getMessage() + error.toString());
+				Window.alert("handleError caught: " + error.getMessage());
 		}
 	}
 
