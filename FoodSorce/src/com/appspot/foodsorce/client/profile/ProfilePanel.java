@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.profile;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.appspot.foodsorce.shared.Profile;
@@ -10,8 +11,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -29,6 +28,8 @@ public class ProfilePanel extends VerticalPanel {
 	private Image profilePhoto = new Image("images/unknown_user.jpeg", 0, 0, 255, 255);
 	private FlexTable settingsTable = new FlexTable();
 	private Anchor editProfileLink = new Anchor("Edit Profile");
+	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
+	private HashMap<String, String> newSettingsMap = new HashMap<String, String>();
 	private Button submitButton;
 	
 	public ProfilePanel(String userEmail) {
@@ -51,20 +52,24 @@ public class ProfilePanel extends VerticalPanel {
 	private void getProfile() {
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onFailure(Throwable error) {
-				System.err.println("ViewProfilePanel.java: onFailure");
+//				System.err.println("ViewProfilePanel.java: onFailure");
 			}
 			public void onSuccess(Profile result) {
-				System.err.println("ViewProfilePanel.java: onSuccess");
-				profile = result;
-				loadViewLayout();
+//				System.err.println("ViewProfilePanel.java: onSuccess");
+//				profile = result;
+//				loadViewLayout();
 			}
 		});
 	}
 	
 	private void loadViewLayout() {
-	
-		profilePhoto = new Image(profile.getSettings().get("photoUrl"), 0, 0, 255, 255);
+		htmlPanel.remove(submitButton);
+		settingsTable.clear();
 		
+		profilePhoto = new Image(profile.getSettings().get("photoUrl"), 0, 0, 255, 255);
+		settingsTable.setText(0, 0, "Email");
+		settingsTable.setText(0, 1, userEmail);
+				
 		for (Map.Entry<String, String> entry : profile.getSettings().entrySet()) {
 			if (!entry.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
@@ -82,18 +87,55 @@ public class ProfilePanel extends VerticalPanel {
 		htmlPanel.add(editProfileLink);
 	}
 	
-
 	private void loadEditLayout() {
 		htmlPanel.remove(editProfileLink);
+		settingsTable.clear();
 		
-//		grid.setWidget(1, 1, headlineField);
-//		grid.setWidget(2, 1, genderField);
-//		grid.setWidget(3, 1, favouriteFoodField);
-//		grid.setWidget(4, 1, hometownField);
-//		grid.setWidget(5, 1, websiteUrlField);
+		for (Map.Entry<String, String> setting : profile.getSettings().entrySet()) {
+			if (!setting.getKey().equals("photoUrl")) {
+				int row = settingsTable.getRowCount();
+				final TextBox editBox = new TextBox();
+				editBox.setText(setting.getValue());
+				editBox.setWidth("100px");
+				editBox.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						editBox.selectAll();
+					}});
+				settingsTable.setText(row, 0, setting.getKey());
+				settingsTable.setWidget(row, 1, editBox);
+				editBoxMap.put(setting.getKey(), editBox);
+			}
+		}
 		
 		submitButton = new Button();
+		submitButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				saveNewSettings();
+				submitProfile();
+			}
+		});
 		
 		htmlPanel.add(submitButton);
+	}
+
+	private void saveNewSettings() {
+		newSettingsMap.clear();
+		for (Map.Entry<String, TextBox> e : editBoxMap.entrySet())
+			newSettingsMap.put(e.getKey(), e.getValue().getText());
+	}
+	
+	private void submitProfile() {
+//		profileService.updateProfile(userEmail, newSettingsMap, new AsyncCallback<Void>() {
+//			@Override
+//			public void onSuccess(Void result) {
+//				loadViewLayout();
+//				Window.alert("Successfully saved profile.");
+//			}
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Window.alert("Failed to save profile. Please try again.");
+//			}
+//		});
 	}
 }

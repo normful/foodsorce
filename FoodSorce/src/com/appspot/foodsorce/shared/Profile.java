@@ -1,6 +1,7 @@
 package com.appspot.foodsorce.shared;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.jdo.annotations.Extension;
@@ -10,12 +11,10 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import com.google.gwt.dev.util.collect.HashMap;
-
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Profile implements Serializable {
 
-	private static final long serialVersionUID = 7197512350099924634L;
+	private static final long serialVersionUID = -1513537323239247252L;
 
 	// Key is an app-assigned string ID that is the user's email address
 	@PrimaryKey
@@ -27,10 +26,10 @@ public class Profile implements Serializable {
 	@Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
 	private String userEmail;
 
-	@Persistent
+	@Persistent(serialized="true")
 	private Map<String, String> settings = new HashMap<String, String>();
 	
-	// Defualt no-arg constructor required for serialization
+	// Default no-arg constructor required for serialization
 	public Profile() {
 		this("");
 	}

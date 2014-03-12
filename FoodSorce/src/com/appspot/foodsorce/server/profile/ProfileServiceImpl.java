@@ -1,5 +1,7 @@
 package com.appspot.foodsorce.server.profile;
 
+import java.util.HashMap;
+
 import javax.jdo.PersistenceManager;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
@@ -8,7 +10,6 @@ import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.shared.Profile;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ProfileServiceImpl extends RemoteServiceServlet implements
@@ -22,7 +23,9 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		if (userEmail == null || userEmail.isEmpty())
 			throw new NotLoggedInException();
 
-		Profile profile = null;
+//		Profile profile = null;
+		Profile profile = new Profile(userEmail);
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			profile = pm.getObjectById(Profile.class, userEmail);
@@ -32,27 +35,24 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			pm.close();
 		}
 		
-		if (profile == null) {
-			System.out.println("ProfileServiceImpl: returning new Profile");
-			return createProfile(userEmail);
-		} else {
-			System.out.println("ProfileServiceImpl: returning retrieved Profile");
-			return profile;
-		}
+//		if (profile == null)
+//			profile = createProfile(userEmail);
+		
+		return profile;
 	}
 
-	private Profile createProfile(String userEmail) {
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Profile newProfile = new Profile(userEmail);
-		try {
-			pm.makePersistent(newProfile);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		} finally {
-			pm.close();
-		}
-		return newProfile;
-	}
+//	private Profile createProfile(String userEmail) {
+//		Profile newProfile = new Profile(userEmail);
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
+//		try {
+//			pm.makePersistent(newProfile);
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		} finally {
+//			pm.close();
+//		}
+//		return newProfile;
+//	}
 
 	@Override
 	public void updateProfile(String userEmail, HashMap<String, String> newSettings)
