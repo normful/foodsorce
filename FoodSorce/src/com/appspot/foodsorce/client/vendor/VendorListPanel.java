@@ -22,8 +22,8 @@ public class VendorListPanel extends VerticalPanel {
 	
 	private ScrollPanel scrollPanel;
 	private FlexTable vendorTable;
-	private List<Vendor> allVendors;
-	private List<Vendor> matchingVendors;
+	private ArrayList<Vendor> allVendors;
+	private ArrayList<Vendor> matchingVendors;
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 //	private static final int REFRESH_INTERVAL = 15000; // milliseconds
 

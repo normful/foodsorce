@@ -41,7 +41,7 @@ public class Vendor implements Serializable {
 	@Persistent
 	private double longitude;
 	
-	@Persistent(defaultFetchGroup="true")
+	@Persistent
 	private ArrayList<Review> reviews = new ArrayList<Review>();
 	
 	// Default no-arg constructor required for serialization
@@ -98,7 +98,7 @@ public class Vendor implements Serializable {
 	}
 	
 	public double getAverageCost() {
-		if (reviews != null && reviews.isEmpty())
+		if (reviews.isEmpty())
 			return -1;
 		double sum = 0.0;
 		for (Review review : reviews)
@@ -107,7 +107,7 @@ public class Vendor implements Serializable {
 	}
 	
 	public double getAverageQuality() {
-		if (reviews != null && reviews.isEmpty())
+		if (reviews.isEmpty())
 			return -1;
 		double sum = 0.0;
 		for (Review review : reviews)

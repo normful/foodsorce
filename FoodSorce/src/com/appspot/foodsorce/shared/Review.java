@@ -1,6 +1,7 @@
 package com.appspot.foodsorce.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdentityType;
@@ -9,7 +10,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-@PersistenceCapable(identityType = IdentityType.APPLICATION)
+@PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Review implements Serializable {
 	
 	private static final long serialVersionUID = 6916560426949332001L;
@@ -23,6 +24,9 @@ public class Review implements Serializable {
 	// The email of this Review's author
 	@Persistent
 	private String userEmail;
+	
+	@Persistent
+	private Date createDate;
 	
 	// Between 0 and 10 (corresponds to 0-5 stars)
 	@Persistent
@@ -44,6 +48,10 @@ public class Review implements Serializable {
 	public Review(String userEmail, int quality, int cost, String text)
 			throws IllegalArgumentException {
 		
+		this.userEmail = userEmail;
+		
+		this.createDate = new Date();
+		
 		if (quality < 0 || quality > 10)
 			throw new IllegalArgumentException("Invalid quality rating (must be between 0 and 10)");
 		else
@@ -58,8 +66,6 @@ public class Review implements Serializable {
 			this.text = text;
 		else
 			this.text = "";
-		
-		this.userEmail = userEmail;
 	}
 	
 	public int getQuality() {
