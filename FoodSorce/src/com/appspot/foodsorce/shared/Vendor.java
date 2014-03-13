@@ -13,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vendor implements Serializable {
 
-	private static final long serialVersionUID = -6615277218094118492L;
+	private static final long serialVersionUID = 6798024041102667120L;
 
 	// Key is an app-assigned string ID that corresponds
 	// to the "key" column in new_food_vendor_locations.xls

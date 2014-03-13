@@ -13,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Profile implements Serializable {
 	
-	private static final long serialVersionUID = 6161037959068269805L;
+	private static final long serialVersionUID = 5594172683743954656L;
 
 	// Key is an app-assigned string ID that is the user's email address
 	@PrimaryKey

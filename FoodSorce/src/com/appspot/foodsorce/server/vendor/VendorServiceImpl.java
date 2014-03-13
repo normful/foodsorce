@@ -13,9 +13,9 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {
-
-	private static final long serialVersionUID = -765688761851924539L;
 	
+	private static final long serialVersionUID = -5788857397262137930L;
+
 	@Override
 	public Vendor[] getVendors() throws NotLoggedInException {
 		ArrayList<Vendor> vendors = new ArrayList<Vendor>();
