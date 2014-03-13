@@ -8,6 +8,7 @@ import com.appspot.foodsorce.client.login.LoginServiceAsync;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.profile.ProfilePanel;
+import com.appspot.foodsorce.client.vendor.VendorInfoPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -39,6 +40,7 @@ public class FoodSorce implements EntryPoint {
 	// (Do not instantiate a viewReviewsPanel here; wait until the TODO further down
 	// because ViewReviewsPanel should take the userEmail as a parameter in its constructor)
 	// private ViewReviewsPanel viewReviewsPanel;
+	private VendorInfoPanel vendorInfoPanel;
 	
 	// North panel
 	private FlowPanel north = new FlowPanel();
