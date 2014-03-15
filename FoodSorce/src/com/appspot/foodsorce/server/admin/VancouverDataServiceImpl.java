@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.jdo.PersistenceManager;
@@ -25,7 +27,7 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 	
 	private static final long serialVersionUID = 979083175319069108L;
 
-	private String filepath = "excel/new_food_vendor_locations.xls";
+	private RemoteDataGetter dataGetter;
 	private ArrayList<Vendor> vendorsToStore;
 
 	public VancouverDataServiceImpl() {
@@ -35,22 +37,17 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 	@Override
 	public void importData() {
 		
-		// Object toRead = null;
-		//
-		// try {
-		// URL VanData = new
-		// URL("ftp://webftp.vancouver.ca/new_food_vendor_locations.xls");
-		// toRead = VanData.getContent();
-		// } catch (MalformedURLException e) {
-		// System.out.print("Problem with URL format");
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// System.out.print("IOexception reading data file");
-		// e.printStackTrace();
-		// }
+		try{
+			URL toGet = new URL("http://www.ugrad.cs.ubc.ca/~h0e9/new_food_vendor_locations.xls");
+			dataGetter = new RemoteDataGetter(toGet);
+			}
+			catch (MalformedURLException e) {
+			System.out.print("Problem with URL format");
+			e.printStackTrace();
+			}
 
 		try {
-			InputStream input = new FileInputStream(filepath);
+			InputStream input = dataGetter.getData();
 			Workbook wb = WorkbookFactory.create(input);
 			Sheet sheet0 = wb.getSheetAt(0);
 			sheet0.removeRow(sheet0.getRow(0));
