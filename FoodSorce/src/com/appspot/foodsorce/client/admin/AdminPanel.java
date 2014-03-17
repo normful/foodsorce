@@ -16,7 +16,7 @@ public class AdminPanel extends VerticalPanel {
 	
 	public AdminPanel() {
 		HTMLPanel htmlPanel = new HTMLPanel("<h2>Administrator Console</h2><br>"
-				+ "This button imports Vancouver food vendor data into FoodSorce.<br>");
+				+ "This button imports Vancouver food vendor data into FoodSorce.<br><br>");
 		
 		// TODO: Display a list of Profiles
 		

@@ -22,26 +22,23 @@ public class VendorListPanel extends VerticalPanel {
 	
 	private static final VendorListPanel INSTANCE = new VendorListPanel();
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
-	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
+	private MapSearchPanel mapSearchPanel;
 	private FoodSorce foodSorce;
 	
 	private ScrollPanel scrollPanel;
-	private FlexTable vendorTable;
+	private FlexTable vendorTable = new FlexTable();
 	
-	private ArrayList<Vendor> allVendors;
-	private ArrayList<Vendor> nearbyVendors;
+	private ArrayList<Vendor> allVendors = new ArrayList<Vendor>();
+	private ArrayList<Vendor> nearbyVendors = new ArrayList<Vendor>();
 	private Vendor selectedVendor;
 	private String searchText;
 	
 //	private static final int REFRESH_INTERVAL = 15000; // milliseconds
 
 	private VendorListPanel() {
-		allVendors = new ArrayList<Vendor>();
-		nearbyVendors = new ArrayList<Vendor>();
 		
 		GWT.log("VendorListPanel.java: VendorListPanel() constructor");
 		// Overall table settings
-		vendorTable = new FlexTable();
 		vendorTable.addStyleName("vendorList");
 		vendorTable.setCellPadding(5);
 		
@@ -101,6 +98,7 @@ public class VendorListPanel extends VerticalPanel {
 				GWT.log("VendorListPanel.java: fetchAndDisplayVendors onSuccess");
 				allVendors.clear();
 				allVendors.addAll(Arrays.asList(result));
+				mapSearchPanel = MapSearchPanel.getInstance();
 				mapSearchPanel.setAllVendors(allVendors);
 				setAndDisplayNearbyVendors(allVendors);
 			}
@@ -119,12 +117,7 @@ public class VendorListPanel extends VerticalPanel {
 		for (Vendor vendor : vendors)
 			displayVendor(vendor);
 		
-		// Add style names
-		vendorTable.getColumnFormatter().addStyleName(0, "vendorListNameColumn");
-		vendorTable.getColumnFormatter().addStyleName(1, "vendorListTextColumn");
-		vendorTable.getColumnFormatter().addStyleName(2, "vendorListTextColumn");
-		vendorTable.getColumnFormatter().addStyleName(3, "vendorListRatingColumn");
-		vendorTable.getColumnFormatter().addStyleName(4, "vendorListRatingColumn");
+		// Add header style
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 		
 		// Add ClickHandler for displaying VendorInfoPanel
@@ -147,6 +140,12 @@ public class VendorListPanel extends VerticalPanel {
 			vendorTable.setText(row, 3, String.valueOf(vendor.getAverageQuality()));
 		if (vendor.getAverageCost() != -1)
 			vendorTable.setText(row, 4, String.valueOf(vendor.getAverageCost()));
+		// Add styles names
+		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorListRatingColumn");
 	}
 
 	private void loadVendorInfoPanel(int rowIndex) {

@@ -31,13 +31,12 @@ h2 {
 
 .vendorListHeader {
   font-size: 14px;
-  font-weight: bold;
   background-color: #EEEEEE;
 }
 
 .vendorListNameColumn {
-  color: #3B64A6;
-  font-weight: bold;
+  color: #3B64A6 !important;
+  font-weight: bold !important;
 }
 
 .vendorListTextColumn {
