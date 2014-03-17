@@ -23,6 +23,7 @@ public class ProfilePanel extends VerticalPanel {
 	
 	private String userEmail;
 	private Profile profile;
+	private static final ProfilePanel INSTANCE = new ProfilePanel();
 	private ProfileServiceAsync profileService = GWT.create(ProfileService.class);
 	private static final int MAX_TRIES = 10;
 	private int getProfileTryCount;
@@ -41,12 +42,7 @@ public class ProfilePanel extends VerticalPanel {
 	private HashMap<String, String> settingsMap = new HashMap<String, String>();
 	private Button submitButton = new Button("Submit");
 	
-	public ProfilePanel(String userEmail) {
-		if (userEmail != null && !userEmail.isEmpty())
-			this.userEmail = userEmail;
-		
-		getProfile();
-		
+	private ProfilePanel() {
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
 		settingsTable.getColumnFormatter().setWidth(1, "400px");
 		settingsTable.getColumnFormatter().setStyleName(0, "profileGridKeys");
@@ -56,7 +52,11 @@ public class ProfilePanel extends VerticalPanel {
 		htmlPanel.add(settingsTable);
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
-		
+	}
+	
+	public static ProfilePanel getInstance() {
+		GWT.log("ProfilePanel.java: getInstance");
+		return INSTANCE;
 	}
 	
 	public void getProfile() {
@@ -78,6 +78,7 @@ public class ProfilePanel extends VerticalPanel {
 	}
 	
 	private void loadViewLayout() {
+		GWT.log("ProfilePanel.java: loadViewLayout()");
 		htmlPanel.remove(submitButton);
 		settingsTable.removeAllRows();
 
@@ -91,9 +92,13 @@ public class ProfilePanel extends VerticalPanel {
 		settingsTable.setText(0, 1, userEmail);
 		
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
-			if (!setting.getKey().equals("photoUrl") &&
-				!setting.getKey().equals("searchDistance") &&
-				!setting.getKey().equals("searchText")) {
+			// TODO: Uncomment after this has been tested
+//			if (setting.getKey().equals("searchText"))
+			if (setting.getKey().equals("searchDistance")) {
+				int row = settingsTable.getRowCount();
+				settingsTable.setText(row, 0, "Search Distance");
+				settingsTable.setText(row, 1, setting.getValue());
+			} else if (!setting.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, setting.getKey());
 				settingsTable.setText(row, 1, setting.getValue());
@@ -148,6 +153,7 @@ public class ProfilePanel extends VerticalPanel {
 	}
 	
 	private void updateProfile() {
+		GWT.log("ProfilePanel.java: updateProfile()");
 		profileService.updateProfile(userEmail, profile, new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
@@ -159,4 +165,19 @@ public class ProfilePanel extends VerticalPanel {
 			}
 		});
 	}
+
+	public void setUserEmail(String userEmail) {
+		if (userEmail != null && !userEmail.isEmpty())
+			this.userEmail = userEmail;
+	}
+
+	public void setSearchDistance(String searchDistance) {
+		GWT.log("ProfilePanel.java: setSearchDistance()");
+		if (profile != null) {
+			settingsMap.put("searchDistance", searchDistance);
+			profile.setSettings(settingsMap);
+			updateProfile();
+		}
+	}
+
 }

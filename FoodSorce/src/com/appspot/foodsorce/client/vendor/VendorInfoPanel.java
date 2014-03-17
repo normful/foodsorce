@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.vendor;
 
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -33,6 +34,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(vendorName);
 		htmlPanel.add(vendorDescription);
 		htmlPanel.add(vendorLocation);
+		htmlPanel.add(new HTML("<br>"));
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
 		
