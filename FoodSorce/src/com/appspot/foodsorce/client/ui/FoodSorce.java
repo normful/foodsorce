@@ -10,6 +10,7 @@ import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.profile.ProfilePanel;
 import com.appspot.foodsorce.client.vendor.VendorInfoPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 
 public class FoodSorce implements EntryPoint {
 	
+	private LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private LoginInfo loginInfo = null;
 	
 	// Main panels
@@ -69,17 +71,18 @@ public class FoodSorce implements EntryPoint {
 		createLayout();
 		west.setWidget(navigationPanel);
 		center.setWidget(vendorListPanel);
+		vendorListPanel.setFoodSorce(this);
+		mapSearchPanel.setFoodSorce(this);
 		
-		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 			@Override
 			public void onSuccess(LoginInfo result) {
+				GWT.log("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + result.toString());
 				loginInfo = result;
-				System.out.println("FoodSorce.java: onModuleLoad: loginService.login RPC success. loginInfo=" + loginInfo.toString());
-				if (loginInfo.isLoggedIn()) {
+				if (result.isLoggedIn()) {
 					loadNavigationPanel("loggedIn");
 					loadVendorListPanel();
-					viewProfilePanel = new ProfilePanel(loginInfo.getEmailAddress());
+					viewProfilePanel = new ProfilePanel(result.getEmailAddress());
 					// TODO: Uncomment the following line after RatingPanel is implemented
 					// viewReviewsPanel = new ViewReviewsPanel(loginInfo.getEmailAddress());
 				} else {
@@ -90,13 +93,14 @@ public class FoodSorce implements EntryPoint {
 			
 			@Override
 			public void onFailure(Throwable error) {
+				GWT.log("FoodSorce.java: onModuleLoad: loginService.login RPC failure" + error);
 				handleError(error);
 			}
 		});
 	}
 	
 	private void loadNavigationPanel(String loginState) {
-		System.out.println("FoodSorce.java loadNavigationPanel(" + loginState + ")");
+		GWT.log("FoodSorce.java loadNavigationPanel(" + loginState + ")");
 		if (loginState != null && loginState.equals("loggedIn"))
 			navigationPanel = new NavigationPanel(this, true);
 		else
@@ -105,7 +109,7 @@ public class FoodSorce implements EntryPoint {
 	}
 	
 	private void createLayout() {
-		System.out.println("FoodSorce.java: createLayout()");
+		GWT.log("FoodSorce.java: createLayout()");
 		HTML header = new HTML("<h1>FoodSorce</h1>");
 		
 		north.add(header);
@@ -120,7 +124,7 @@ public class FoodSorce implements EntryPoint {
 	
 	public void handleError(Throwable error) {
 		if (error instanceof NotLoggedInException) {
-			System.out.println("FoodSorce.java: NotLoggedInException thrown");
+			GWT.log("FoodSorce.java: NotLoggedInException thrown");
 			loadLoginPanel();
 		} else {
 			if (loginInfo != null && !loginInfo.isLoggedIn())
@@ -133,25 +137,33 @@ public class FoodSorce implements EntryPoint {
 	}
 
 	public void loadLoginPanel() {
-		System.out.println("FoodSorce.java: loadLoginPanel()");
+		GWT.log("FoodSorce.java: loadLoginPanel()");
 		loginPanel.setSignInLink((loginInfo.getLoginUrl()));
 		center.setWidget(loginPanel);
 	}
 	
 	public void loadVendorListPanel() {
-		System.out.println("FoodSorce.java: loadVendorListPanel()");
+		GWT.log("FoodSorce.java: loadVendorListPanel()");
 		if (loginInfo != null)
 			navigationPanel.setLogoutLink(loginInfo.getLogoutUrl());
 		center.setWidget(vendorListPanel);
+		vendorListPanel.setAndDisplayNearbyVendors(mapSearchPanel.getNearbyVendors());
+		mapSearchPanel.plotNearbyVendors();
+	}
+	
+	public void loadVendorInfoPanel(Vendor vendor) {
+		GWT.log("FoodSorce.java: loadVendorInfoPanel(" + vendor.getName() + ")");
+		vendorInfoPanel = new VendorInfoPanel(vendor);
+		center.setWidget(vendorInfoPanel);
 	}
 
 	public void loadAdminPanel() {
-		System.out.println("FoodSorce.java loadAdminPanel()");
+		GWT.log("FoodSorce.java loadAdminPanel()");
 		center.setWidget(adminPanel);
 	}
 	
 	public void loadViewProfilePanel() {
-		System.out.println("FoodSorce.java loadViewProfilePanel()");
+		GWT.log("FoodSorce.java loadViewProfilePanel()");
 		center.setWidget(viewProfilePanel);
 	}
 

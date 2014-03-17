@@ -64,7 +64,7 @@ public class ProfilePanel extends VerticalPanel {
 				loadViewLayout();
 			}
 			public void onFailure(Throwable error) {
-				System.err.println("ProfilePanel.java: getProfile onFailure");
+				GWT.log("ProfilePanel.java: getProfile onFailure", error);
 				getProfile();
 			}
 		});
@@ -84,8 +84,6 @@ public class ProfilePanel extends VerticalPanel {
 		settingsTable.setText(0, 1, userEmail);
 		
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
-			System.out.println("ProfilePanel.java loadViewLayout key = " + setting.getKey());
-			System.out.println("ProfilePanel.java loadViewLayout value = " + setting.getValue());
 			if (!setting.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, setting.getKey());

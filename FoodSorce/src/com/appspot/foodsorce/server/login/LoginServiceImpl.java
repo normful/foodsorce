@@ -15,9 +15,6 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	
 	@Override
 	public LoginInfo login(String requestUri) {
-		if (requestUri != null)
-			System.out.println("LoginServiceImpl.java: login(requestUri=" + requestUri + ")");
-		
 		User user = userService.getCurrentUser();
 		LoginInfo loginInfo = new LoginInfo();
 		
