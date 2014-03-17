@@ -36,6 +36,8 @@ public class Profile implements Serializable {
 	public Profile(String userEmail) {
 		this.userEmail = userEmail;
 		settings.put("photoUrl", "images/unknown_user.jpeg");
+		settings.put("searchDistance", "all");
+		settings.put("searchText", "");
 		settings.put("Gender", "");
 		settings.put("Headline", "");
 		settings.put("Favourite Food", "");

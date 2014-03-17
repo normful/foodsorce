@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class VendorListPanel extends VerticalPanel {
 	
 	private static final VendorListPanel INSTANCE = new VendorListPanel();
+	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
 	private FoodSorce foodSorce;
 	
@@ -30,8 +31,8 @@ public class VendorListPanel extends VerticalPanel {
 	private ArrayList<Vendor> allVendors;
 	private ArrayList<Vendor> nearbyVendors;
 	private Vendor selectedVendor;
+	private String searchText;
 	
-	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 //	private static final int REFRESH_INTERVAL = 15000; // milliseconds
 
 	private VendorListPanel() {
@@ -167,6 +168,10 @@ public class VendorListPanel extends VerticalPanel {
 
 	public ArrayList<Vendor> getAllVendors() {
 		return allVendors;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}
 
 }

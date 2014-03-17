@@ -58,7 +58,7 @@ public class MapSearchPanel extends FlowPanel {
 	private RadioButton option5 = new RadioButton("radioGroup", "5 km");
 	private RadioButton option10 = new RadioButton("radioGroup", "10 km");
 	private ArrayList<RadioButton> buttons = new ArrayList<RadioButton>();
-	private String radioButtonSelected = "all";
+	private String searchDistance = "all";
 	
 	private SimplePanel mapPanel;
 	private GoogleMap map;
@@ -157,7 +157,7 @@ public class MapSearchPanel extends FlowPanel {
 			button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					radioButtonSelected = button.getText();
+					searchDistance = button.getText();
 					updateAndPlotNearbyVendors();
 				}
 			});
@@ -176,7 +176,7 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void updateAndPlotNearbyVendors() {
-		updateNearbyVendors(radioButtonSelected);
+		updateNearbyVendors(searchDistance);
 		try {
 			vendorListPanel = VendorListPanel.getInstance();
 			vendorListPanel.setAndDisplayNearbyVendors(nearbyVendors);
@@ -369,6 +369,10 @@ public class MapSearchPanel extends FlowPanel {
 
 	public void setFoodSorce(FoodSorce foodSorce) {
 		this.foodSorce = foodSorce;
+	}
+	
+	public void setSearchDistance(String searchDistance) {
+		this.searchDistance = searchDistance;
 	}
 
 }

@@ -3,6 +3,8 @@ package com.appspot.foodsorce.client.profile;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.appspot.foodsorce.client.map.MapSearchPanel;
+import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.appspot.foodsorce.shared.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,6 +26,9 @@ public class ProfilePanel extends VerticalPanel {
 	private ProfileServiceAsync profileService = GWT.create(ProfileService.class);
 	private static final int MAX_TRIES = 10;
 	private int getProfileTryCount;
+	
+	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
+	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
@@ -62,6 +67,8 @@ public class ProfilePanel extends VerticalPanel {
 				profile = result;
 				settingsMap.putAll(result.getSettings());
 				loadViewLayout();
+				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
+				vendorListPanel.setSearchText(result.getSettings().get("searchText"));
 			}
 			public void onFailure(Throwable error) {
 				GWT.log("ProfilePanel.java: getProfile onFailure", error);
@@ -84,7 +91,9 @@ public class ProfilePanel extends VerticalPanel {
 		settingsTable.setText(0, 1, userEmail);
 		
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
-			if (!setting.getKey().equals("photoUrl")) {
+			if (!setting.getKey().equals("photoUrl") &&
+				!setting.getKey().equals("searchDistance") &&
+				!setting.getKey().equals("searchText")) {
 				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, setting.getKey());
 				settingsTable.setText(row, 1, setting.getValue());
