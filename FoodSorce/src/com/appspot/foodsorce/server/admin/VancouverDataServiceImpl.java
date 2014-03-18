@@ -25,13 +25,13 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class VancouverDataServiceImpl extends RemoteServiceServlet
 	implements VancouverDataService {
 
-<<<<<<< HEAD
+
 	private static final long serialVersionUID = -2926288307530133636L;
 	
 	private String filepath = "excel/new_food_vendor_locations.xls";
-=======
+
 	private RemoteDataGetter dataGetter;
->>>>>>> origin/import-branch
+
 	private ArrayList<Vendor> vendorsToStore;
 
 	public VancouverDataServiceImpl() {
