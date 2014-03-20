@@ -14,34 +14,74 @@ import com.google.gwt.event.dom.client.ClickHandler;
 //import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class VendorListPanel extends VerticalPanel {
-	
+
 	private static final VendorListPanel INSTANCE = new VendorListPanel();
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 	private MapSearchPanel mapSearchPanel;
 	private FoodSorce foodSorce;
-	
+
 	private ScrollPanel scrollPanel;
+	private TextBox searchField = new TextBox();
+	private HorizontalPanel searchPanel = new HorizontalPanel();
+	private Button searchButton = new Button("Search");
 	private FlexTable vendorTable = new FlexTable();
-	
+
+	private String searchText;
 	private ArrayList<Vendor> allVendors = new ArrayList<Vendor>();
 	private ArrayList<Vendor> nearbyVendors = new ArrayList<Vendor>();
 	private Vendor selectedVendor;
-	private String searchText;
-	
-//	private static final int REFRESH_INTERVAL = 15000; // milliseconds
+
+	// private static final int REFRESH_INTERVAL = 15000; // milliseconds
 
 	private VendorListPanel() {
-		
 		GWT.log("VendorListPanel.java: VendorListPanel() constructor");
+
+		createLayout();
+		
+		fetchAllVendors();
+
+		// // Setup timer to refresh vendor list automatically
+		// Timer refreshTimer = new Timer() {
+		// @Override
+		// public void run() {
+		// }
+		// };
+		// refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
+	}
+
+	private void createLayout() {
+		// Search field settings
+		searchField.setText("Search");
+		searchField.setWidth("400px");
+		searchField.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				searchField.selectAll();
+			}
+		});
+		searchField.setFocus(true);
+
+		// Search button settings
+		searchButton.addStyleName("searchButton");
+		searchButton.setWidth("100px");
+		searchButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				searchText = searchField.getText();
+				searchField.setFocus(true);
+			}
+		});
+		
 		// Overall table settings
 		vendorTable.addStyleName("vendorList");
 		vendorTable.setCellPadding(5);
-		
+
 		// Table header settings
 		vendorTable.setText(0, 0, "Vendor Name");
 		vendorTable.setText(0, 1, "Type of Food");
@@ -54,48 +94,35 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getColumnFormatter().setWidth(3, "50px");
 		vendorTable.getColumnFormatter().setWidth(4, "50px");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
-		
-		// Add panels
-		scrollPanel = new ScrollPanel(vendorTable);
+
+		// Add sub-panels to scrollPanel
+		searchPanel.add(searchField);
+		searchPanel.add(searchButton);
+		scrollPanel = new ScrollPanel(searchPanel);
+		scrollPanel.add(vendorTable);
 		scrollPanel.setHeight("655px");
 		this.add(scrollPanel);
-		
-		// Retrieve and display vendors from server
-		fetchAndDisplayVendors();
-		
-//		// Setup timer to refresh vendor list automatically
-//		Timer refreshTimer = new Timer() {
-//			@Override
-//			public void run() {
-//			}
-//		};
-//		refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
-	
+
 	public static VendorListPanel getInstance() {
 		GWT.log("VendorListPanel.java: getInstance");
 		return INSTANCE;
 	}
-	
+
 	public void setFoodSorce(FoodSorce foodSorce) {
 		this.foodSorce = foodSorce;
 	}
-	
-	public void setAndDisplayNearbyVendors(List<Vendor> nearbyVendors) {
-		GWT.log("VendorListPanel.java: setAndDisplayNearbyVendors");
-		this.nearbyVendors.clear();
-		this.nearbyVendors.addAll(nearbyVendors);
-		displayVendors(nearbyVendors);
-	}
-	
-	private void fetchAndDisplayVendors() {
+
+	private void fetchAllVendors() {
 		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 			public void onFailure(Throwable error) {
-				GWT.log("VendorListPanel.java: fetchAndDisplayVendors onFailure", error);
+				GWT.log("VendorListPanel.java: fetchAllVendors onFailure",
+						error);
 				handleError(error);
 			}
+
 			public void onSuccess(Vendor[] result) {
-				GWT.log("VendorListPanel.java: fetchAndDisplayVendors onSuccess");
+				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
 				allVendors.clear();
 				allVendors.addAll(Arrays.asList(result));
 				mapSearchPanel = MapSearchPanel.getInstance();
@@ -104,27 +131,35 @@ public class VendorListPanel extends VerticalPanel {
 			}
 		});
 	}
-	
+
+	public void setAndDisplayNearbyVendors(List<Vendor> nearbyVendors) {
+		GWT.log("VendorListPanel.java: setAndDisplayNearbyVendors");
+		this.nearbyVendors.clear();
+		this.nearbyVendors.addAll(nearbyVendors);
+		displayVendors(nearbyVendors);
+	}
+
 	private void displayVendors(List<Vendor> vendors) {
 		GWT.log("VendorListPanel.java: displayVendors");
-		
+
 		// Remove all rows except first header row
 		int numRows = vendorTable.getRowCount();
 		for (int i = 1; i < numRows; i++)
 			vendorTable.removeRow(1);
-		
+
 		// Add all vendors to vendorTable
 		for (Vendor vendor : vendors)
 			displayVendor(vendor);
-		
+
 		// Add header style
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
-		
+
 		// Add ClickHandler for displaying VendorInfoPanel
 		vendorTable.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				loadVendorInfoPanel(vendorTable.getCellForEvent(event).getRowIndex());
+				loadVendorInfoPanel(vendorTable.getCellForEvent(event)
+						.getRowIndex());
 			}
 		});
 	}
@@ -135,17 +170,25 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(row, 0, vendor.getName());
 		vendorTable.setText(row, 1, vendor.getDescription());
 		vendorTable.setText(row, 2, vendor.getLocation());
-		// TODO: Low priority task: display these ratings with stars instead of just text.
+		// TODO: Low priority task: display these ratings with stars instead of
+		// just text.
 		if (vendor.getAverageQuality() != -1)
-			vendorTable.setText(row, 3, String.valueOf(vendor.getAverageQuality()));
+			vendorTable.setText(row, 3,
+					String.valueOf(vendor.getAverageQuality()));
 		if (vendor.getAverageCost() != -1)
-			vendorTable.setText(row, 4, String.valueOf(vendor.getAverageCost()));
+			vendorTable
+					.setText(row, 4, String.valueOf(vendor.getAverageCost()));
 		// Add styles names
-		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListTextColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorListRatingColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 0,
+				"vendorListNameColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 1,
+				"vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 2,
+				"vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 3,
+				"vendorListRatingColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 4,
+				"vendorListRatingColumn");
 	}
 
 	private void loadVendorInfoPanel(int rowIndex) {
@@ -153,13 +196,12 @@ public class VendorListPanel extends VerticalPanel {
 		foodSorce.loadVendorInfoPanel(selectedVendor);
 		mapSearchPanel.plotSelectedVendor(selectedVendor);
 	}
-	
+
 	private void handleError(Throwable error) {
 		if (error instanceof NotLoggedInException) {
 			// Do nothing. Instantiating and viewing the VendorListPanel
 			// without being logged in is allowed.
-		}
-		else {
+		} else {
 			GWT.log("VendorListPanel.java: handleError", error);
 			Window.alert(error.getMessage());
 		}
