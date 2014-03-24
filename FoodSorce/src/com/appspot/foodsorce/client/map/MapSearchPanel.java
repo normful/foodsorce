@@ -176,11 +176,17 @@ public class MapSearchPanel extends FlowPanel {
 		else
 			updateNearbyVendors(searchDistance);
 		try {
-			VendorListPanel.getInstance().setAndDisplayNearbyVendors(nearbyVendors);
+			VendorListPanel.getInstance().setNearbyVendors(nearbyVendors);
+			VendorListPanel.getInstance().displayNearbyVendors();
 			foodSorce.loadVendorListPanel();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
+		
+		VendorListPanel.getInstance().filterNearbyVendors();
+		
+		// TODO: get the matchingVendors from VendorListPanel and make those the nearbyVendors in here
+		
 		plotNearbyVendors();
 	}
 	

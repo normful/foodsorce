@@ -75,7 +75,8 @@ public class VendorListPanel extends VerticalPanel {
 				searchText = searchField.getText().toLowerCase();
 				GWT.log("VendorListPanel.java: searchText = " + searchText);
 				filterNearbyVendors();
-				setAndDisplayNearbyVendors(matchingVendors);
+				setNearbyVendors(matchingVendors);
+				displayNearbyVendors();
 				MapSearchPanel.getInstance().setNearbyVendors(matchingVendors);
 				MapSearchPanel.getInstance().plotNearbyVendors();
 			}
@@ -129,14 +130,17 @@ public class VendorListPanel extends VerticalPanel {
 				MapSearchPanel.getInstance().setAllVendors(allVendors);
 				MapSearchPanel.getInstance().setNearbyVendors(allVendors);
 				MapSearchPanel.getInstance().plotNearbyVendors();
-				setAndDisplayNearbyVendors(allVendors);
+				setNearbyVendors(allVendors);
+				displayNearbyVendors();
 			}
 		});
 	}
 
-	private void filterNearbyVendors() {
-		if (searchText.equals(""))
+	public void filterNearbyVendors() {
+		if (searchText.equals("")) {
+			matchingVendors = new ArrayList<Vendor>(nearbyVendors);
 			return;
+		}
 	
 		ArrayList<Vendor> vendorsToKeep = new ArrayList<Vendor>();
 		for (Vendor vendor : nearbyVendors) {
@@ -159,9 +163,11 @@ public class VendorListPanel extends VerticalPanel {
 		matchingVendors = new ArrayList<Vendor>(vendorsToKeep);
 	}
 	
-	public void setAndDisplayNearbyVendors(ArrayList<Vendor> nearbyVendors) {
-		GWT.log("VendorListPanel.java: setAndDisplayNearbyVendors");
+	public void setNearbyVendors(ArrayList<Vendor> nearbyVendors) {
 		this.nearbyVendors = new ArrayList<Vendor>(nearbyVendors);
+	}
+	
+	public void displayNearbyVendors() {
 		displayVendors(nearbyVendors);
 	}
 

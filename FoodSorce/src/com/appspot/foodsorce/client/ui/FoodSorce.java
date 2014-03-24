@@ -148,7 +148,8 @@ public class FoodSorce implements EntryPoint {
 		if (loginInfo != null)
 			navigationPanel.setLogoutLink(loginInfo.getLogoutUrl());
 		center.setWidget(vendorListPanel);
-		vendorListPanel.setAndDisplayNearbyVendors(mapSearchPanel.getNearbyVendors());
+		vendorListPanel.setNearbyVendors(mapSearchPanel.getNearbyVendors());
+		vendorListPanel.displayNearbyVendors();
 		mapSearchPanel.plotNearbyVendors();
 	}
 	
