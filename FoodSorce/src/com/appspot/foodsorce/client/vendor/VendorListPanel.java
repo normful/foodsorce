@@ -76,11 +76,13 @@ public class VendorListPanel extends VerticalPanel {
 		searchButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				searchText = searchField.getText().toLowerCase();
-				GWT.log("VendorListPanel.java: searchText = " + searchText);
+				mapSearchPanel = MapSearchPanel.getInstance();
+				mapSearchPanel.setNearbyVendors(allVendors);
+				mapSearchPanel.filterNearbyVendors();
+				setNearbyVendors(mapSearchPanel.getNearbyVendors());
 				filterNearbyVendors();
 				setNearbyVendors(matchingVendors);
 				displayNearbyVendors();
-				mapSearchPanel = MapSearchPanel.getInstance();
 				mapSearchPanel.setNearbyVendors(matchingVendors);
 				mapSearchPanel.plotNearbyVendors();
 			}

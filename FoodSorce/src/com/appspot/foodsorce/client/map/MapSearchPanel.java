@@ -1,7 +1,6 @@
 package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.appspot.foodsorce.shared.Vendor;
 import com.appspot.foodsorce.client.profile.ProfilePanel;
@@ -172,11 +171,7 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void updateAndPlotNearbyVendors() {
-		if (searchDistance.isEmpty())
-			updateNearbyVendors("all");
-		else
-			updateNearbyVendors(searchDistance);
-		
+		filterNearbyVendors();
 		vendorListPanel.setNearbyVendors(nearbyVendors);
 		vendorListPanel.filterNearbyVendors();
 		nearbyVendors = vendorListPanel.getMatchingVendors();
@@ -303,7 +298,14 @@ public class MapSearchPanel extends FlowPanel {
 		plotNearbyVendor(selectedVendor);
 	}
 
-	private void updateNearbyVendors(String buttonText) {
+	public void filterNearbyVendors() {
+		String buttonText = null;
+		
+		if (searchDistance.isEmpty())
+			buttonText = "all";
+		else
+			buttonText = searchDistance;
+		
 		double travelDistance;
 		
 		if (buttonText.equals("1 km"))
