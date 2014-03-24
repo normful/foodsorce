@@ -17,7 +17,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,7 +25,6 @@ public class VendorListPanel extends VerticalPanel {
 
 	private static final VendorListPanel INSTANCE = new VendorListPanel();
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
-	private MapSearchPanel mapSearchPanel;
 	private FoodSorce foodSorce;
 
 	private ScrollPanel scrollPanel;
@@ -36,7 +34,7 @@ public class VendorListPanel extends VerticalPanel {
 	private Button searchButton = new Button("Search");
 	private FlexTable vendorTable = new FlexTable();
 
-	private String searchText;
+	private String searchText = "";
 	private ArrayList<Vendor> allVendors = new ArrayList<Vendor>();
 	private ArrayList<Vendor> nearbyVendors = new ArrayList<Vendor>();
 	private Vendor selectedVendor;
@@ -106,7 +104,6 @@ public class VendorListPanel extends VerticalPanel {
 	}
 
 	public static VendorListPanel getInstance() {
-		GWT.log("VendorListPanel.java: getInstance");
 		return INSTANCE;
 	}
 
@@ -117,26 +114,22 @@ public class VendorListPanel extends VerticalPanel {
 	private void fetchAllVendors() {
 		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 			public void onFailure(Throwable error) {
-				GWT.log("VendorListPanel.java: fetchAllVendors onFailure",
-						error);
+				GWT.log("VendorListPanel.java: fetchAllVendors onFailure", error);
 				handleError(error);
 			}
 
 			public void onSuccess(Vendor[] result) {
 				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
-				allVendors.clear();
-				allVendors.addAll(Arrays.asList(result));
-				mapSearchPanel = MapSearchPanel.getInstance();
-				mapSearchPanel.setAllVendors(allVendors);
+				allVendors = new ArrayList<Vendor>(Arrays.asList(result));
+				MapSearchPanel.getInstance().setAllVendors(allVendors);
 				setAndDisplayNearbyVendors(allVendors);
 			}
 		});
 	}
 
-	public void setAndDisplayNearbyVendors(List<Vendor> nearbyVendors) {
+	public void setAndDisplayNearbyVendors(ArrayList<Vendor> nearbyVendors) {
 		GWT.log("VendorListPanel.java: setAndDisplayNearbyVendors");
-		this.nearbyVendors.clear();
-		this.nearbyVendors.addAll(nearbyVendors);
+		this.nearbyVendors = new ArrayList<Vendor>(nearbyVendors);
 		displayVendors(nearbyVendors);
 	}
 
@@ -145,8 +138,10 @@ public class VendorListPanel extends VerticalPanel {
 
 		// Remove all rows except first header row
 		int numRows = vendorTable.getRowCount();
-		for (int i = 1; i < numRows; i++)
+		for (int i = 1; i < numRows; i++) {
+			// Remove the second row, numRow times
 			vendorTable.removeRow(1);
+		}
 
 		// Add all vendors to vendorTable
 		for (Vendor vendor : vendors)
@@ -159,8 +154,7 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				loadVendorInfoPanel(vendorTable.getCellForEvent(event)
-						.getRowIndex());
+				loadVendorInfoPanel(vendorTable.getCellForEvent(event).getRowIndex());
 			}
 		});
 	}
@@ -171,31 +165,23 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(row, 0, vendor.getName());
 		vendorTable.setText(row, 1, vendor.getDescription());
 		vendorTable.setText(row, 2, vendor.getLocation());
-		// TODO: Low priority task: display these ratings with stars instead of
-		// just text.
+		// TODO: Low priority task: display these ratings with stars instead of just text.
 		if (vendor.getAverageQuality() != -1)
-			vendorTable.setText(row, 3,
-					String.valueOf(vendor.getAverageQuality()));
+			vendorTable.setText(row, 3, String.valueOf(vendor.getAverageQuality()));
 		if (vendor.getAverageCost() != -1)
-			vendorTable
-					.setText(row, 4, String.valueOf(vendor.getAverageCost()));
+			vendorTable.setText(row, 4, String.valueOf(vendor.getAverageCost()));
 		// Add styles names
-		vendorTable.getCellFormatter().addStyleName(row, 0,
-				"vendorListNameColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 1,
-				"vendorListTextColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 2,
-				"vendorListTextColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 3,
-				"vendorListRatingColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 4,
-				"vendorListRatingColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListTextColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorListRatingColumn");
 	}
 
 	private void loadVendorInfoPanel(int rowIndex) {
 		selectedVendor = nearbyVendors.get(rowIndex - 1);
 		foodSorce.loadVendorInfoPanel(selectedVendor);
-		mapSearchPanel.plotSelectedVendor(selectedVendor);
+		MapSearchPanel.getInstance().plotSelectedVendor(selectedVendor);
 	}
 
 	private void handleError(Throwable error) {
@@ -206,10 +192,6 @@ public class VendorListPanel extends VerticalPanel {
 			GWT.log("VendorListPanel.java: handleError", error);
 			Window.alert(error.getMessage());
 		}
-	}
-
-	public ArrayList<Vendor> getAllVendors() {
-		return allVendors;
 	}
 
 	public void setSearchText(String searchText) {

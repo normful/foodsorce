@@ -46,7 +46,6 @@ public class MapSearchPanel extends FlowPanel {
 
 	private FoodSorce foodSorce;
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
-	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	private ProfilePanel profilePanel;
 	
 	private TextBox addressField = new TextBox();
@@ -109,10 +108,8 @@ public class MapSearchPanel extends FlowPanel {
 	
 	public void setAllVendors(List<Vendor> allVendors) {
 		GWT.log("MapSearchPanel.java: setAllVendors");
-		this.allVendors.clear();
-		this.allVendors.addAll(allVendors);
-		this.nearbyVendors.clear();
-		this.nearbyVendors.addAll(allVendors);
+		this.allVendors = new ArrayList<Vendor>(allVendors);
+		this.nearbyVendors = new ArrayList<Vendor>(allVendors);
 		this.plotNearbyVendors();
 	}
 	
@@ -182,8 +179,7 @@ public class MapSearchPanel extends FlowPanel {
 		else
 			updateNearbyVendors(searchDistance);
 		try {
-			vendorListPanel = VendorListPanel.getInstance();
-			vendorListPanel.setAndDisplayNearbyVendors(nearbyVendors);
+			VendorListPanel.getInstance().setAndDisplayNearbyVendors(nearbyVendors);
 			foodSorce.loadVendorListPanel();
 		} catch (Throwable e) {
 			e.printStackTrace();
