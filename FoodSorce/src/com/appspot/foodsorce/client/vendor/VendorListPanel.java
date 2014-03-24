@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -29,8 +30,9 @@ public class VendorListPanel extends VerticalPanel {
 	private FoodSorce foodSorce;
 
 	private ScrollPanel scrollPanel;
+	private VerticalPanel contentPanel = new VerticalPanel();
 	private TextBox searchField = new TextBox();
-	private HorizontalPanel searchPanel = new HorizontalPanel();
+	private FlowPanel searchPanel = new FlowPanel();
 	private Button searchButton = new Button("Search");
 	private FlexTable vendorTable = new FlexTable();
 
@@ -43,11 +45,8 @@ public class VendorListPanel extends VerticalPanel {
 
 	private VendorListPanel() {
 		GWT.log("VendorListPanel.java: VendorListPanel() constructor");
-
 		createLayout();
-		
 		fetchAllVendors();
-
 		// // Setup timer to refresh vendor list automatically
 		// Timer refreshTimer = new Timer() {
 		// @Override
@@ -59,8 +58,8 @@ public class VendorListPanel extends VerticalPanel {
 
 	private void createLayout() {
 		// Search field settings
-		searchField.setText("Search");
-		searchField.setWidth("400px");
+		searchField.setText("Seafood, hot dogs, Indian, etc.");
+		searchField.setWidth("580px");
 		searchField.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				searchField.selectAll();
@@ -74,6 +73,7 @@ public class VendorListPanel extends VerticalPanel {
 		searchButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				searchText = searchField.getText();
+				GWT.log("VendorListPanel.java: searchText = " + searchText);
 				searchField.setFocus(true);
 			}
 		});
@@ -95,11 +95,12 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getColumnFormatter().setWidth(4, "50px");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 
-		// Add sub-panels to scrollPanel
+		// Assemble panels
 		searchPanel.add(searchField);
 		searchPanel.add(searchButton);
-		scrollPanel = new ScrollPanel(searchPanel);
-		scrollPanel.add(vendorTable);
+		contentPanel.add(searchPanel);
+		contentPanel.add(vendorTable);
+		scrollPanel = new ScrollPanel(contentPanel);
 		scrollPanel.setHeight("655px");
 		this.add(scrollPanel);
 	}
