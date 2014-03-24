@@ -37,6 +37,7 @@ public class VendorListPanel extends VerticalPanel {
 	private String searchText = "";
 	private ArrayList<Vendor> allVendors = new ArrayList<Vendor>();
 	private ArrayList<Vendor> nearbyVendors = new ArrayList<Vendor>();
+	private ArrayList<Vendor> matchingVendors = new ArrayList<Vendor>();
 	private Vendor selectedVendor;
 
 	// private static final int REFRESH_INTERVAL = 15000; // milliseconds
@@ -56,11 +57,12 @@ public class VendorListPanel extends VerticalPanel {
 
 	private void createLayout() {
 		// Search field settings
-		searchField.setText("Seafood, hot dogs, Indian, etc.");
+		searchField.setText("Seafood, hot dogs, burgers...");
 		searchField.setWidth("580px");
 		searchField.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				searchField.selectAll();
+				searchField.setFocus(true);
 			}
 		});
 		searchField.setFocus(true);
@@ -70,9 +72,12 @@ public class VendorListPanel extends VerticalPanel {
 		searchButton.setWidth("100px");
 		searchButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				searchText = searchField.getText();
+				searchText = searchField.getText().toLowerCase();
 				GWT.log("VendorListPanel.java: searchText = " + searchText);
-				searchField.setFocus(true);
+				filterNearbyVendors();
+				setAndDisplayNearbyVendors(matchingVendors);
+				MapSearchPanel.getInstance().setNearbyVendors(matchingVendors);
+				MapSearchPanel.getInstance().plotNearbyVendors();
 			}
 		});
 		
@@ -122,11 +127,38 @@ public class VendorListPanel extends VerticalPanel {
 				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
 				allVendors = new ArrayList<Vendor>(Arrays.asList(result));
 				MapSearchPanel.getInstance().setAllVendors(allVendors);
+				MapSearchPanel.getInstance().setNearbyVendors(allVendors);
+				MapSearchPanel.getInstance().plotNearbyVendors();
 				setAndDisplayNearbyVendors(allVendors);
 			}
 		});
 	}
 
+	private void filterNearbyVendors() {
+		if (searchText.equals(""))
+			return;
+	
+		ArrayList<Vendor> vendorsToKeep = new ArrayList<Vendor>();
+		for (Vendor vendor : nearbyVendors) {
+			String name = null, description = null, location = null;
+			try {
+				name = vendor.getName().toLowerCase();
+				description = vendor.getDescription().toLowerCase();
+				location = vendor.getLocation().toLowerCase();
+			} catch (Throwable e) {
+				// Do nothing
+			}
+			if (name != null && name.contains(searchText)) {
+				vendorsToKeep.add(vendor);
+			} else if (description != null && description.contains(searchText)) {
+				vendorsToKeep.add(vendor);
+			} else if (location != null && location.contains(searchText)) {
+				vendorsToKeep.add(vendor);
+			}
+		}
+		matchingVendors = new ArrayList<Vendor>(vendorsToKeep);
+	}
+	
 	public void setAndDisplayNearbyVendors(ArrayList<Vendor> nearbyVendors) {
 		GWT.log("VendorListPanel.java: setAndDisplayNearbyVendors");
 		this.nearbyVendors = new ArrayList<Vendor>(nearbyVendors);
@@ -134,8 +166,6 @@ public class VendorListPanel extends VerticalPanel {
 	}
 
 	private void displayVendors(List<Vendor> vendors) {
-		GWT.log("VendorListPanel.java: displayVendors");
-
 		// Remove all rows except first header row
 		int numRows = vendorTable.getRowCount();
 		for (int i = 1; i < numRows; i++) {

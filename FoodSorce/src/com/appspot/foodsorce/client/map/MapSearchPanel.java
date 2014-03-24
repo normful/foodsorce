@@ -69,14 +69,14 @@ public class MapSearchPanel extends FlowPanel {
 	private MarkerOptions userOptions;
 	private MarkerImage userMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png");
 	
-	private ArrayList<Marker> vendorMarkers;
+	private ArrayList<Marker> vendorMarkers = new ArrayList<Marker>();
 	private MarkerImage vendorMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png");
 	
 	private Geolocation geolocation;
 	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
 	
-	private ArrayList<Vendor> allVendors;
-	private ArrayList<Vendor> nearbyVendors;
+	private ArrayList<Vendor> allVendors = new ArrayList<Vendor>();
+	private ArrayList<Vendor> nearbyVendors = new ArrayList<Vendor>();
 	
 	//Added GPS field to save from the method convertGPStoAddress.
 	@SuppressWarnings("unused")
@@ -84,11 +84,6 @@ public class MapSearchPanel extends FlowPanel {
 	
 	private MapSearchPanel() {
 		GWT.log("MapSearchPanel.java: MapSearchPanel() constructor");
-		
-		allVendors = new ArrayList<Vendor>();
-		nearbyVendors = new ArrayList<Vendor>();
-		
-		vendorMarkers = new ArrayList<Marker>();
 		
 		createAddressTextBox();
 		createRadioButtons();
@@ -102,15 +97,17 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	public static MapSearchPanel getInstance() {
-		GWT.log("MapSearchPanel.java: getInstance");
 		return INSTANCE;
 	}
 	
-	public void setAllVendors(List<Vendor> allVendors) {
+	public void setAllVendors(ArrayList<Vendor> vendors) {
 		GWT.log("MapSearchPanel.java: setAllVendors");
-		this.allVendors = new ArrayList<Vendor>(allVendors);
-		this.nearbyVendors = new ArrayList<Vendor>(allVendors);
-		this.plotNearbyVendors();
+		allVendors = new ArrayList<Vendor>(vendors);
+	}
+	
+	public void setNearbyVendors(ArrayList<Vendor> vendors) {
+		GWT.log("MapSearchPanel.java: setNearbyVendors");
+		nearbyVendors = new ArrayList<Vendor>(vendors);
 	}
 	
 	private void createAddressTextBox() {
@@ -371,17 +368,17 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	public void setSearchDistance(String searchDistance) {
-		if (searchDistance == null)
-			return;
-		if (searchDistance.isEmpty())
+		if (searchDistance == null || searchDistance.isEmpty())
 			return;
 		this.searchDistance = searchDistance;
 		
 		updateAndPlotNearbyVendors();
 		
+		// Save search setting to Profile
 		profilePanel = ProfilePanel.getInstance();
 		profilePanel.setSearchDistance(searchDistance);
 		
+		// Change radio button appearance
 		if (searchDistance.equals("1 km"))
 			option1.setValue(true);
 		else if (searchDistance.equals("2 km"))
