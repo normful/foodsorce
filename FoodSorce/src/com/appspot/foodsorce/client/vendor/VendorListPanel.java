@@ -11,6 +11,8 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 //import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -25,6 +27,7 @@ public class VendorListPanel extends VerticalPanel {
 
 	private static final VendorListPanel INSTANCE = new VendorListPanel();
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
+	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
 	private FoodSorce foodSorce;
 
 	private ScrollPanel scrollPanel;
@@ -77,8 +80,9 @@ public class VendorListPanel extends VerticalPanel {
 				filterNearbyVendors();
 				setNearbyVendors(matchingVendors);
 				displayNearbyVendors();
-				MapSearchPanel.getInstance().setNearbyVendors(matchingVendors);
-				MapSearchPanel.getInstance().plotNearbyVendors();
+				mapSearchPanel = MapSearchPanel.getInstance();
+				mapSearchPanel.setNearbyVendors(matchingVendors);
+				mapSearchPanel.plotNearbyVendors();
 			}
 		});
 		
@@ -127,9 +131,10 @@ public class VendorListPanel extends VerticalPanel {
 			public void onSuccess(Vendor[] result) {
 				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
 				allVendors = new ArrayList<Vendor>(Arrays.asList(result));
-				MapSearchPanel.getInstance().setAllVendors(allVendors);
-				MapSearchPanel.getInstance().setNearbyVendors(allVendors);
-				MapSearchPanel.getInstance().plotNearbyVendors();
+				mapSearchPanel = MapSearchPanel.getInstance();
+				mapSearchPanel.setAllVendors(allVendors);
+				mapSearchPanel.setNearbyVendors(allVendors);
+				mapSearchPanel.plotNearbyVendors();
 				setNearbyVendors(allVendors);
 				displayNearbyVendors();
 			}
@@ -232,6 +237,10 @@ public class VendorListPanel extends VerticalPanel {
 
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
+	}
+	
+	public ArrayList<Vendor> getMatchingVendors() {
+		return matchingVendors;
 	}
 
 }

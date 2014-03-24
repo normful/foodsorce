@@ -46,6 +46,7 @@ public class MapSearchPanel extends FlowPanel {
 
 	private FoodSorce foodSorce;
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
+	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	private ProfilePanel profilePanel;
 	
 	private TextBox addressField = new TextBox();
@@ -175,18 +176,12 @@ public class MapSearchPanel extends FlowPanel {
 			updateNearbyVendors("all");
 		else
 			updateNearbyVendors(searchDistance);
-		try {
-			VendorListPanel.getInstance().setNearbyVendors(nearbyVendors);
-			VendorListPanel.getInstance().displayNearbyVendors();
-			foodSorce.loadVendorListPanel();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
 		
-		VendorListPanel.getInstance().filterNearbyVendors();
-		
-		// TODO: get the matchingVendors from VendorListPanel and make those the nearbyVendors in here
-		
+		vendorListPanel.setNearbyVendors(nearbyVendors);
+		vendorListPanel.filterNearbyVendors();
+		nearbyVendors = vendorListPanel.getMatchingVendors();
+		vendorListPanel.displayNearbyVendors();
+		foodSorce.loadVendorListPanel();
 		plotNearbyVendors();
 	}
 	
