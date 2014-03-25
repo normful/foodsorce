@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.appspot.foodsorce.shared.Vendor;
-import com.appspot.foodsorce.client.profile.ProfilePanel;
 import com.appspot.foodsorce.client.ui.FoodSorce;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.Callback;
@@ -47,7 +46,6 @@ public class MapSearchPanel extends FlowPanel {
 	private FoodSorce foodSorce;
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
-	private ProfilePanel profilePanel;
 	
 	private TextBox addressField = new TextBox();
 	private Button setAddressButton = new Button("Set Location");
@@ -60,7 +58,7 @@ public class MapSearchPanel extends FlowPanel {
 	private RadioButton option5 = new RadioButton("radioGroup", "5 km");
 	private RadioButton option10 = new RadioButton("radioGroup", "10 km");
 	private ArrayList<RadioButton> buttons = new ArrayList<RadioButton>();
-	private String searchDistance = "";
+	private String searchDistance = "all";
 	
 	private SimplePanel mapPanel;
 	private GoogleMap map;
@@ -159,7 +157,8 @@ public class MapSearchPanel extends FlowPanel {
 			button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					setSearchDistance(button.getText());
+					searchDistance = button.getText();
+					updateAndPlotNearbyVendors();
 				}
 			});
 		}
@@ -177,10 +176,7 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void updateAndPlotNearbyVendors() {
-		if (searchDistance.isEmpty())
-			updateNearbyVendors("all");
-		else
-			updateNearbyVendors(searchDistance);
+		updateNearbyVendors(searchDistance);
 		try {
 			vendorListPanel = VendorListPanel.getInstance();
 			vendorListPanel.setAndDisplayNearbyVendors(nearbyVendors);
@@ -189,6 +185,7 @@ public class MapSearchPanel extends FlowPanel {
 			e.printStackTrace();
 		}
 		plotNearbyVendors();
+	
 	}
 	
 	private void createMap() {
@@ -375,27 +372,7 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	public void setSearchDistance(String searchDistance) {
-		if (searchDistance == null)
-			return;
-		if (searchDistance.isEmpty())
-			return;
 		this.searchDistance = searchDistance;
-		
-		updateAndPlotNearbyVendors();
-		
-		profilePanel = ProfilePanel.getInstance();
-		profilePanel.setSearchDistance(searchDistance);
-		
-		if (searchDistance.equals("1 km"))
-			option1.setValue(true);
-		else if (searchDistance.equals("2 km"))
-			option2.setValue(true);
-		else if (searchDistance.equals("5 km"))
-			option5.setValue(true);
-		else if (searchDistance.equals("10 km"))
-			option10.setValue(true);
-		else
-			optionAll.setValue(true);
 	}
 
 }
