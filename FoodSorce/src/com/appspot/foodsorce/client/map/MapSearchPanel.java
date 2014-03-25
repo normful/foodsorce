@@ -34,12 +34,15 @@ import com.google.maps.gwt.client.GeocoderStatus;
 import com.google.maps.gwt.client.GeocoderRequest;
 import com.google.maps.gwt.client.GeocoderResult;
 import com.google.maps.gwt.client.GoogleMap;
+import com.google.maps.gwt.client.InfoWindow;
+import com.google.maps.gwt.client.InfoWindowOptions;
 import com.google.maps.gwt.client.LatLng;
 import com.google.maps.gwt.client.MapOptions;
 import com.google.maps.gwt.client.MapTypeId;
 import com.google.maps.gwt.client.Marker;
 import com.google.maps.gwt.client.MarkerImage;
 import com.google.maps.gwt.client.MarkerOptions;
+import com.google.maps.gwt.client.MouseEvent;
 import com.google.maps.gwt.client.geometry.Spherical;
 
 public class MapSearchPanel extends FlowPanel {
@@ -297,7 +300,22 @@ public class MapSearchPanel extends FlowPanel {
 		MarkerOptions options = MarkerOptions.create();
 		options.setAnimation(Animation.DROP);
 		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
-		Marker vendorMarker = Marker.create(options);
+			      
+		final Marker vendorMarker = Marker.create(options);
+		
+		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
+		infoWindowOpts.setContent("hello");
+
+		final InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
+		infoWindow.open(map);
+
+		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
+		      public void handle(MouseEvent event) {
+		        infoWindow.open(map, vendorMarker);
+		      }
+
+		    });
+
 		vendorMarker.setIcon(vendorMarkerImage);
 		vendorMarkers.add(vendorMarker);
 		vendorMarker.setMap(map);
