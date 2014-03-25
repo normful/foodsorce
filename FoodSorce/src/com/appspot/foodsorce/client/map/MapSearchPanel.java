@@ -300,18 +300,24 @@ public class MapSearchPanel extends FlowPanel {
 		MarkerOptions options = MarkerOptions.create();
 		options.setAnimation(Animation.DROP);
 		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
-			      
+		final Vendor vendorforListener = vendor;	      
 		final Marker vendorMarker = Marker.create(options);
 		
 		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
-		infoWindowOpts.setContent("hello");
+		infoWindowOpts.setContent("Name: " + vendor.getName() 
+				 				+ "\nDescription: " + vendor.getDescription()
+				 				+ "\nLocation: " + vendor.getLocation()
+				 				+ "\nNumber of Reviews: " + vendor.getReviews().size()
+				 				+ "\nAverage Cost: " + vendor.getAverageCost()
+				 				+ "\nAverage Quality: " + vendor.getAverageQuality()
+				 				);
 
 		final InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
-		infoWindow.open(map);
 
 		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
 		      public void handle(MouseEvent event) {
 		        infoWindow.open(map, vendorMarker);
+		        VendorListPanel.getInstance().getFoodSorce().loadVendorInfoPanel(vendorforListener);
 		      }
 
 		    });

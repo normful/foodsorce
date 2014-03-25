@@ -77,6 +77,10 @@ public class VendorListPanel extends VerticalPanel {
 		return INSTANCE;
 	}
 	
+	public FoodSorce getFoodSorce() {
+		return foodSorce;
+	}
+	
 	public void setFoodSorce(FoodSorce foodSorce) {
 		this.foodSorce = foodSorce;
 	}
