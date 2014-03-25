@@ -75,6 +75,8 @@ public class MapSearchPanel extends FlowPanel {
 	private ArrayList<Marker> vendorMarkers;
 	private MarkerImage vendorMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png");
 	
+	private InfoWindow currentInfoWindow;
+	
 	private Geolocation geolocation;
 	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
 	
@@ -313,19 +315,38 @@ public class MapSearchPanel extends FlowPanel {
 				 				);
 
 		final InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
-
-		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
-		      public void handle(MouseEvent event) {
-		        infoWindow.open(map, vendorMarker);
-		        VendorListPanel.getInstance().getFoodSorce().loadVendorInfoPanel(vendorforListener);
-		      }
-
-		    });
+			
+		setMarkListenerInitial(infoWindow, vendor, vendorMarker);
 
 		vendorMarker.setIcon(vendorMarkerImage);
 		vendorMarkers.add(vendorMarker);
 		vendorMarker.setMap(map);
 	}
+	
+	private void setMarkListenerInitial(final InfoWindow infoWindow, final Vendor vendor, final Marker vendorMarker) {
+		vendorMarker.addClickListenerOnce(new com.google.maps.gwt.client.Marker.ClickHandler() {
+			public void handle(MouseEvent event) {
+				infoWindow.open(map, vendorMarker);
+				VendorListPanel.getInstance().getFoodSorce().loadVendorInfoPanel(vendor);
+				setMarkListenerClose(infoWindow, vendor, vendorMarker);
+				if (currentInfoWindow != null)
+					currentInfoWindow.close();
+				currentInfoWindow = infoWindow;
+			}});
+	}
+	
+	private void setMarkListenerClose(final InfoWindow infoWindow, final Vendor vendor, final Marker vendorMarker) {
+		vendorMarker.addClickListenerOnce(new com.google.maps.gwt.client.Marker.ClickHandler() {
+			public void handle(MouseEvent event) {
+				infoWindow.close();
+				setMarkListenerInitial(infoWindow, vendor, vendorMarker);
+				currentInfoWindow = null;
+			}});
+	}
+	
+	
+
+		      
 	
 	public void plotSelectedVendor(Vendor selectedVendor) {
 		clearVendorMarkers();
