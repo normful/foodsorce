@@ -301,9 +301,8 @@ public class MapSearchPanel extends FlowPanel {
 	private void plotNearbyVendor(Vendor vendor) {
 		MarkerOptions options = MarkerOptions.create();
 		options.setAnimation(Animation.DROP);
-		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
-		final Vendor vendorforListener = vendor;	      
-		final Marker vendorMarker = Marker.create(options);
+		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));      
+		Marker vendorMarker = Marker.create(options);
 		
 		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
 		infoWindowOpts.setContent("Name: " + vendor.getName() 
