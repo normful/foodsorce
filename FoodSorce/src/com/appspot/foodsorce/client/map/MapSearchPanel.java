@@ -305,13 +305,32 @@ public class MapSearchPanel extends FlowPanel {
 		Marker vendorMarker = Marker.create(options);
 		
 		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
-		infoWindowOpts.setContent("Name: " + vendor.getName() 
-				 				+ "\nDescription: " + vendor.getDescription()
-				 				+ "\nLocation: " + vendor.getLocation()
-				 				+ "\nNumber of Reviews: " + vendor.getReviews().size()
-				 				+ "\nAverage Cost: " + vendor.getAverageCost()
-				 				+ "\nAverage Quality: " + vendor.getAverageQuality()
-				 				);
+		
+		String averageCost = "";
+		String averageQuality = "";
+		
+		if (vendor.getAverageCost() != -1) 
+			averageCost = "<p><b>Average Cost: </b>" + vendor.getAverageCost() + "</p>";
+		
+		if (vendor.getAverageQuality() != -1) 
+			averageQuality = "<p><b>Average Quality: </b>" + vendor.getAverageQuality() + "</p>";
+
+		
+		String markerInformation = "<div id=\"content\">"
+			      + "<div id=\"siteNotice\">"
+			      + "</div>"
+			      + "<div id=\"bodyContent\">"
+			      + "<p><b>Name: </b>" + vendor.getName() + "</p>"
+			      + "<p><b>Description: </b>" + vendor.getDescription() + "</p>"
+			      + "<p><b>Location: </b>" + vendor.getLocation() + "</p>"
+			      + "<p><b>Number of Reviews: </b>" + vendor.getReviews().size() + "</p>"
+			      + averageCost
+			      + averageQuality
+			      + "</div>"
+			      + "</div>";
+		
+		
+		infoWindowOpts.setContent(markerInformation);
 
 		final InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
 			
@@ -323,10 +342,11 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void setMarkListenerInitial(final InfoWindow infoWindow, final Vendor vendor, final Marker vendorMarker) {
-		vendorMarker.addClickListenerOnce(new com.google.maps.gwt.client.Marker.ClickHandler() {
+		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
 			public void handle(MouseEvent event) {
 				infoWindow.open(map, vendorMarker);
 				VendorListPanel.getInstance().getFoodSorce().loadVendorInfoPanel(vendor);
+				vendorMarker.clearClickListeners();
 				setMarkListenerClose(infoWindow, vendor, vendorMarker);
 				if (currentInfoWindow != null)
 					currentInfoWindow.close();
@@ -335,9 +355,10 @@ public class MapSearchPanel extends FlowPanel {
 	}
 	
 	private void setMarkListenerClose(final InfoWindow infoWindow, final Vendor vendor, final Marker vendorMarker) {
-		vendorMarker.addClickListenerOnce(new com.google.maps.gwt.client.Marker.ClickHandler() {
+		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
 			public void handle(MouseEvent event) {
 				infoWindow.close();
+				vendorMarker.clearClickListeners();
 				setMarkListenerInitial(infoWindow, vendor, vendorMarker);
 				currentInfoWindow = null;
 			}});
