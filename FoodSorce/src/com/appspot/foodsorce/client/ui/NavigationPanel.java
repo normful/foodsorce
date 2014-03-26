@@ -18,27 +18,14 @@ public class NavigationPanel extends VerticalPanel {
 	private Anchor adminLink = new Anchor("Admin");
 	private Anchor loginLink = new Anchor("Log In");
 	private Anchor logoutLink = new Anchor("Log Out");
-	private HorizontalPanel socialMediaPanel;
+	private HorizontalPanel socialMediaPanel = new HorizontalPanel();
+	private HTML twitterButton = new HTML("<a href=\"https://twitter.com/FoodSorce\" class=\"twitter-follow-button\" data-show-count=\"false\">Follow @FoodSorce</a>");
+	private HTML facebookButton = new HTML ("<div class=\"fb-like\" data-href=\"https://www.facebook.com/pages/Foodsorce/\" data-layout=\"standard\" data-action=\"like\" data-show-faces=\"false\" data-share=\"true\"></div>");
 
 	public NavigationPanel(FoodSorce foodSorce, boolean loggedIn) {
 		this.foodSorce = foodSorce;
 		this.loggedIn = loggedIn;
 		createLinks();
-		createSocialMediaPanel();
-
-	}
-
-	private void createSocialMediaPanel() {
-		HTML twitterButton = new HTML("<a href=\"https://twitter.com/FoodSorce\" class=\"twitter-follow-button\" data-show-count=\"false\">Follow @FoodSorce</a>");
-		VerticalPanel socialMediaPanel = new VerticalPanel();
-
-		
-		HTML facebookButton = new HTML ("<div class=\"fb-like\" data-href=\"https://www.facebook.com/pages/Foodsorce/\" data-layout=\"standard\" data-action=\"like\" data-show-faces=\"false\" data-share=\"true\"></div>");
-		socialMediaPanel.add(facebookButton);
-		socialMediaPanel.add(facebookButton);
-		this.add(socialMediaPanel);
-
-
 	}
 
 	private void createLinks() {
@@ -89,6 +76,10 @@ public class NavigationPanel extends VerticalPanel {
 			loginLink.addStyleName("navigationLink");
 			add(loginLink);
 		}
+		
+		socialMediaPanel.add(facebookButton);
+		socialMediaPanel.add(twitterButton);
+		add(socialMediaPanel);
 	}
 
 	public void setLogoutLink(String url) {
