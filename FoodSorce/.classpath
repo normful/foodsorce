@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.0"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/poi-3.10-FINAL-20140208.jar"/>
@@ -13,7 +12,6 @@
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-test-utils-0.45.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-test-utils-0.45-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-test-utils-0.45-javadoc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/User/Downloads/jdo-api-3.1-rc1.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
