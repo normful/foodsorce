@@ -29,6 +29,10 @@ h2 {
   text-align: left;
 }
 
+.north {
+  background-color: #B80C04;
+}
+
 .vendorListHeader {
   font-size: 14px;
   background-color: #EEEEEE;

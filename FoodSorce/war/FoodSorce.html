@@ -21,31 +21,20 @@
 <!-- be added before this line.                -->
 <!--                                           -->
 <script type="text/javascript" language="javascript" src="foodsorce/foodsorce.nocache.js"></script>
+
+<!-- Google Maps API -->
 <script type="text/javascript" language="javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
+
+<!-- Twitter API -->
 <script>
-	(function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id))
-					return;
-				js = d.createElement(s);
-				js.id = id;
-				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-				fjs.parentNode.insertBefore(js, fjs);
-			}
-		(document, 'script', 'facebook-jssdk')
-	);
-</script>
-<script>
-	!function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-				if (!d.getElementById(id)) {
-					js = d.createElement(s);
-					js.id = id;
-					js.src = p + '://platform.twitter.com/widgets.js';
-					fjs.parentNode.insertBefore(js, fjs);
-				}
-			}
-		(document, 'script', 'twitter-wjs');
+	!function(d,s,id){
+		var js,fjs=d.getElementsByTagName(s)[0];
+		if(!d.getElementById(id)){
+			js=d.createElement(s);
+			js.id=id;
+			js.src="https://platform.twitter.com/widgets.js";
+			fjs.parentNode.insertBefore(js,fjs);}
+	}(document,"script","twitter-wjs");
 </script>
 </head>
 
@@ -55,6 +44,20 @@
 <!-- to create a completely dynamic UI.        -->
 <!--                                           -->
 <body>
+
+	<!-- Facebook API -->
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id))
+				return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
 
 	<!-- OPTIONAL: include this if you want history support -->
 	<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position: absolute; width: 0; height: 0; border: 0"></iframe>
@@ -68,21 +71,6 @@
 	</noscript>
 
 	<div id="foodSorceCanvas"></div>
-	<div>
-		<a href="https://twitter.com/FoodSorce" class="twitter-follow-button" data-show-count="false">Follow @FoodSorce</a>
-		<script>
-		!function(d,s,id){
-					var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
-					if(!d.getElementById(id)){
-						js=d.createElement(s);
-						js.id=id;
-						js.src=p+'://platform.twitter.com/widgets.js';
-						fjs.parentNode.insertBefore(js,fjs);
-					}
-				}
-			(document, 'script', 'twitter-wjs');
-		</script>
-	</div>
 
 </body>
 </html>

@@ -9,5 +9,6 @@ public class TitlePanel extends VerticalPanel {
 	
 	public TitlePanel() {
 		add(titleText);
+		addStyleName("titlePanel");
 	}
 }

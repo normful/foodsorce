@@ -19,7 +19,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 
@@ -45,7 +47,7 @@ public class FoodSorce implements EntryPoint {
 	private VendorInfoPanel vendorInfoPanel;
 	
 	// North panel
-	private FlowPanel north = new FlowPanel();
+	private HorizontalPanel north = new HorizontalPanel();
 	private TitlePanel headerPanel = new TitlePanel();
 	private SocialMediaPanel socialMediaPanel = new SocialMediaPanel();
 	
@@ -115,6 +117,12 @@ public class FoodSorce implements EntryPoint {
 		GWT.log("FoodSorce.java: createLayout()");
 		north.add(headerPanel);
 		north.add(socialMediaPanel);
+		north.setCellWidth(headerPanel, "93%");
+		north.setCellWidth(socialMediaPanel, "7%");
+		north.setWidth("100%");
+		north.setCellHorizontalAlignment(headerPanel, HasHorizontalAlignment.ALIGN_CENTER);
+		north.setCellHorizontalAlignment(socialMediaPanel, HasHorizontalAlignment.ALIGN_RIGHT);
+		north.setStyleName("north");
 		
 		east.add(mapSearchPanel);
 		
