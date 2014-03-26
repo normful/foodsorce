@@ -351,10 +351,10 @@ public class MapSearchPanel extends FlowPanel {
 				infoWindow.open(map, vendorMarker);
 				VendorListPanel.getInstance().getFoodSorce().loadVendorInfoPanel(vendor);
 				vendorMarker.clearClickListeners();
-				setMarkListenerClose(infoWindow, vendor, vendorMarker);
 				if (currentInfoWindow != null)
 					currentInfoWindow.close();
 				currentInfoWindow = infoWindow;
+				setMarkListenerClose(infoWindow, vendor, vendorMarker);
 			}});
 	}
 
@@ -363,8 +363,8 @@ public class MapSearchPanel extends FlowPanel {
 			public void handle(MouseEvent event) {
 				infoWindow.close();
 				vendorMarker.clearClickListeners();
-				setMarkListenerInitial(infoWindow, vendor, vendorMarker);
 				currentInfoWindow = null;
+				setMarkListenerInitial(infoWindow, vendor, vendorMarker);
 			}});
 	}
 
