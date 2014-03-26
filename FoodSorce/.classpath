@@ -13,8 +13,8 @@
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-test-utils-0.45.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-test-utils-0.45-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="war/WEB-INF/lib/gwt-test-utils-0.45-javadoc.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="test-classes" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
