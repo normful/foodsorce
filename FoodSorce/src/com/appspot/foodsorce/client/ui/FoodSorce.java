@@ -46,6 +46,8 @@ public class FoodSorce implements EntryPoint {
 	
 	// North panel
 	private FlowPanel north = new FlowPanel();
+	private TitlePanel headerPanel = new TitlePanel();
+	private SocialMediaPanel socialMediaPanel = new SocialMediaPanel();
 	
 	// East panel
 	private FlowPanel east = new FlowPanel();
@@ -111,9 +113,9 @@ public class FoodSorce implements EntryPoint {
 	
 	private void createLayout() {
 		GWT.log("FoodSorce.java: createLayout()");
-		HTML header = new HTML("<h1>FoodSorce</h1>");
+		north.add(headerPanel);
+		north.add(socialMediaPanel);
 		
-		north.add(header);
 		east.add(mapSearchPanel);
 		
 		dock.addNorth(north, 8);
