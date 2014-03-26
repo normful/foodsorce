@@ -50,10 +50,10 @@ public class MapSearchPanel extends FlowPanel {
 	private FoodSorce foodSorce;
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
-	
+
 	private TextBox addressField = new TextBox();
 	private Button setAddressButton = new Button("Set Location");
-	
+
 	private HorizontalPanel distancePanel = new HorizontalPanel();
 	private Label radioLabel = new Label("Distance:");
 	private RadioButton optionAll = new RadioButton("radioGroup", "all");
@@ -63,54 +63,54 @@ public class MapSearchPanel extends FlowPanel {
 	private RadioButton option10 = new RadioButton("radioGroup", "10 km");
 	private ArrayList<RadioButton> buttons = new ArrayList<RadioButton>();
 	private String searchDistance = "all";
-	
+
 	private SimplePanel mapPanel;
 	private GoogleMap map;
 	private MapOptions mapOptions;
-	
+
 	private Marker userMarker;
 	private MarkerOptions userOptions;
 	private MarkerImage userMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_red.png");
-	
+
 	private ArrayList<Marker> vendorMarkers;
 	private MarkerImage vendorMarkerImage = MarkerImage.create("https://maps.gstatic.com/mapfiles/ridefinder-images/mm_20_blue.png");
-	
+
 	private InfoWindow currentInfoWindow;
-	
+
 	private Geolocation geolocation;
 	private LatLng userLocation = LatLng.create(49.279641,-123.125625);
-	
+
 	private ArrayList<Vendor> allVendors;
 	private ArrayList<Vendor> nearbyVendors;
-	
+
 	//Added GPS field to save from the method convertGPStoAddress.
 	@SuppressWarnings("unused")
 	private String coordinateConversionResults;
-	
+
 	private MapSearchPanel() {
 		GWT.log("MapSearchPanel.java: MapSearchPanel() constructor");
-		
+
 		allVendors = new ArrayList<Vendor>();
 		nearbyVendors = new ArrayList<Vendor>();
-		
+
 		vendorMarkers = new ArrayList<Marker>();
-		
+
 		createAddressTextBox();
 		createRadioButtons();
 		createMap();
-		
+
 		geolocation = Geolocation.getIfSupported();
 		if (geolocation != null)
 			setLocationFromBrowser(geolocation);
-		
+
 		plotNearbyVendors();
 	}
-	
+
 	public static MapSearchPanel getInstance() {
 		GWT.log("MapSearchPanel.java: getInstance");
 		return INSTANCE;
 	}
-	
+
 	public void setAllVendors(List<Vendor> allVendors) {
 		GWT.log("MapSearchPanel.java: setAllVendors");
 		this.allVendors.clear();
@@ -119,7 +119,7 @@ public class MapSearchPanel extends FlowPanel {
 		this.nearbyVendors.addAll(allVendors);
 		this.plotNearbyVendors();
 	}
-	
+
 	private void createAddressTextBox() {
 		addressField.setText("Address");
 		addressField.setWidth("350px");
@@ -131,12 +131,12 @@ public class MapSearchPanel extends FlowPanel {
 					addressField.setFocus(true);
 				}
 			}});
-		
+
 		addressField.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				addressField.selectAll();
 			}});
-		
+
 		setAddressButton.addStyleName("setAddressButton");
 		setAddressButton.setWidth("140px");
 		setAddressButton.addClickHandler(new ClickHandler() {
@@ -146,12 +146,12 @@ public class MapSearchPanel extends FlowPanel {
 				addressField.setFocus(true);
 			}
 		});
-		
+
 		addressField.setFocus(true);
 		this.add(addressField);
 		this.add(setAddressButton);
 	}
-		
+
 	private void createRadioButtons() {
 		buttons.add(optionAll);
 		buttons.add(option1);
@@ -168,19 +168,19 @@ public class MapSearchPanel extends FlowPanel {
 				}
 			});
 		}
-		
+
 		optionAll.setValue(true);
-		
+
 		distancePanel.add(radioLabel);
 		distancePanel.add(optionAll);
 		distancePanel.add(option1);
 		distancePanel.add(option2);
 		distancePanel.add(option5);
 		distancePanel.add(option10);
-		
+
 		this.add(distancePanel);
 	}
-	
+
 	private void updateAndPlotNearbyVendors() {
 		updateNearbyVendors(searchDistance);
 		try {
@@ -191,13 +191,13 @@ public class MapSearchPanel extends FlowPanel {
 			e.printStackTrace();
 		}
 		plotNearbyVendors();
-	
+
 	}
-	
+
 	private void createMap() {
 		mapPanel = new SimplePanel();
 		mapPanel.setSize("500px", "600px");
-		
+
 		mapOptions = MapOptions.create();
 		mapOptions.setCenter(LatLng.create(49.279641,-123.125625));
 		mapOptions.setZoom(14);
@@ -211,21 +211,21 @@ public class MapSearchPanel extends FlowPanel {
 		userOptions = MarkerOptions.create();
 		userOptions.setPosition(userLocation);
 		userOptions.setMap(map);
-		
+
 		userMarker = Marker.create(userOptions);
 		userMarker.setIcon(userMarkerImage);
-		
+
 		this.add(mapPanel);
 	}
-	
+
 	private void setLocationFromBrowser(Geolocation geolocation) {
-		
+
 		// For debugging
 		if (geolocation != null)
 			GWT.log("MapSearchPanel.java: setLocationFromBrowser(geolocation=" + geolocation.toString() + ")");
-		
+
 		geolocation.getCurrentPosition(new Callback<Position, PositionError>() {
-			
+
 			@Override
 			public void onSuccess(Position result) {
 				Coordinates coordinates = result.getCoordinates();
@@ -233,7 +233,7 @@ public class MapSearchPanel extends FlowPanel {
 				plotUser(latlong);
 				updateAndPlotNearbyVendors();
 			}
-			
+
 			@Override
 			public void onFailure(PositionError reason) {
 				// For debugging
@@ -245,18 +245,18 @@ public class MapSearchPanel extends FlowPanel {
 		Geocoder geocoder = Geocoder.create();
 		GeocoderRequest georequest = GeocoderRequest.create();
 		georequest.setAddress(address);
-		
+
 		geocoder.geocode(georequest, new Geocoder.Callback() {
 			@Override
 			public void handle(JsArray<GeocoderResult> a, GeocoderStatus b) {
 				if (b == GeocoderStatus.OK) {
-					
+
 					GeocoderResult result = a.shift();
-					
+
 					// For debugging
 					GWT.log("MapSearchPanel.java: setLocationFromInput result.getFormattedAddres()=" + result.getFormattedAddress());
 					GWT.log("MapSearchPanel.java: setLocationFromInput result.getGeometry().getLocation()=" + result.getGeometry().getLocation());
-					
+
 					if (isInVancouver(result.getGeometry().getLocation()) == true) {
 						plotUser(result.getGeometry().getLocation());
 						updateAndPlotNearbyVendors();
@@ -268,9 +268,9 @@ public class MapSearchPanel extends FlowPanel {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	private boolean isInVancouver(LatLng location) {
 		double lat = location.lat();
 		GWT.log("MapSearchPanel.java: isInVancouver latitude:" + lat);
@@ -284,7 +284,7 @@ public class MapSearchPanel extends FlowPanel {
 		userMarker.setPosition(location);
 		map.setCenter(location);
 	}
-	
+
 	public void plotNearbyVendors() {
 		GWT.log("MapSearchPanel.java: plotNearbyVendorMarkers()");
 		clearVendorMarkers();
@@ -303,44 +303,48 @@ public class MapSearchPanel extends FlowPanel {
 		options.setAnimation(Animation.DROP);
 		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));      
 		Marker vendorMarker = Marker.create(options);
-		
-		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
-		
-		String averageCost = "";
-		String averageQuality = "";
-		
-		if (vendor.getAverageCost() != -1) 
-			averageCost = "<p><b>Average Cost: </b>" + vendor.getAverageCost() + "</p>";
-		
-		if (vendor.getAverageQuality() != -1) 
-			averageQuality = "<p><b>Average Quality: </b>" + vendor.getAverageQuality() + "</p>";
 
-		
-		String markerInformation = "<div id=\"content\">"
-			      + "<div id=\"siteNotice\">"
-			      + "</div>"
-			      + "<div id=\"bodyContent\">"
-			      + "<p><b>Name: </b>" + vendor.getName() + "</p>"
-			      + "<p><b>Description: </b>" + vendor.getDescription() + "</p>"
-			      + "<p><b>Location: </b>" + vendor.getLocation() + "</p>"
-			      + "<p><b>Number of Reviews: </b>" + vendor.getReviews().size() + "</p>"
-			      + averageCost
-			      + averageQuality
-			      + "</div>"
-			      + "</div>";
-		
-		
-		infoWindowOpts.setContent(markerInformation);
-
-		final InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
-			
-		setMarkListenerInitial(infoWindow, vendor, vendorMarker);
+		setMarkerDescription(vendor, vendorMarker);
 
 		vendorMarker.setIcon(vendorMarkerImage);
 		vendorMarkers.add(vendorMarker);
 		vendorMarker.setMap(map);
 	}
-	
+
+	private void setMarkerDescription(Vendor vendor, Marker vendorMarker) {
+		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
+
+		String averageCost = "";
+		String averageQuality = "";
+
+		if (vendor.getAverageCost() != -1) 
+			averageCost = "<p><b>Average Cost: </b>" + vendor.getAverageCost() + "</p>";
+
+		if (vendor.getAverageQuality() != -1) 
+			averageQuality = "<p><b>Average Quality: </b>" + vendor.getAverageQuality() + "</p>";
+
+
+		String markerInformation = "<div id=\"content\">"
+				+ "<div id=\"siteNotice\">"
+				+ "</div>"
+				+ "<div id=\"bodyContent\">"
+				+ "<p><b>Name: </b>" + vendor.getName() + "</p>"
+				+ "<p><b>Description: </b>" + vendor.getDescription() + "</p>"
+				+ "<p><b>Location: </b>" + vendor.getLocation() + "</p>"
+				+ "<p><b>Number of Reviews: </b>" + vendor.getReviews().size() + "</p>"
+				+ averageCost
+				+ averageQuality
+				+ "</div>"
+				+ "</div>";
+
+
+		infoWindowOpts.setContent(markerInformation);
+		InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
+
+		setMarkListenerInitial(infoWindow, vendor, vendorMarker);
+
+	}
+
 	private void setMarkListenerInitial(final InfoWindow infoWindow, final Vendor vendor, final Marker vendorMarker) {
 		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
 			public void handle(MouseEvent event) {
@@ -353,7 +357,7 @@ public class MapSearchPanel extends FlowPanel {
 				currentInfoWindow = infoWindow;
 			}});
 	}
-	
+
 	private void setMarkListenerClose(final InfoWindow infoWindow, final Vendor vendor, final Marker vendorMarker) {
 		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
 			public void handle(MouseEvent event) {
@@ -363,11 +367,11 @@ public class MapSearchPanel extends FlowPanel {
 				currentInfoWindow = null;
 			}});
 	}
-	
-	
 
-		      
-	
+
+
+
+
 	public void plotSelectedVendor(Vendor selectedVendor) {
 		clearVendorMarkers();
 		plotNearbyVendor(selectedVendor);
@@ -375,7 +379,7 @@ public class MapSearchPanel extends FlowPanel {
 
 	private void updateNearbyVendors(String buttonText) {
 		double travelDistance;
-		
+
 		if (buttonText.equals("1 km"))
 			travelDistance = 1000.0;
 		else if (buttonText.equals("2 km"))
@@ -386,15 +390,15 @@ public class MapSearchPanel extends FlowPanel {
 			travelDistance = 10000.0;
 		else //  buttonText.equals("all")
 			travelDistance = 999999.0;
-		
+
 		nearbyVendors.clear();
-		
+
 		// Radio button "all" is selected
 		if (travelDistance == 999999.0) {
 			nearbyVendors.addAll(allVendors);
 			return;
 		}
-		
+
 		// Radio button "1km", "2km", "5km", or "10km" is selected
 		for (Vendor vendor: allVendors) {
 			LatLng vendorLocation = LatLng.create(vendor.getLatitude(), vendor.getLongitude());
@@ -403,7 +407,7 @@ public class MapSearchPanel extends FlowPanel {
 				nearbyVendors.add(vendor);
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void convertGPStoAddress(LatLng location) {
 		Geocoder geocoder = Geocoder.create();
@@ -413,13 +417,13 @@ public class MapSearchPanel extends FlowPanel {
 			@Override
 			public void handle(JsArray<GeocoderResult> a, GeocoderStatus b) {
 				if (b == GeocoderStatus.OK) {
-					
+
 					GeocoderResult result = a.shift();
-					
+
 					// For debugging
 					GWT.log("MapSearchPanel.java: convertGPStoAddress GeocoderResult=" + result.getFormattedAddress());
 					GWT.log("MapSearchPanel.java: convertGPStoAddress GPS GeocoderResult=" + result.getGeometry().getLocation());
-					
+
 					coordinateConversionResults = result.getFormattedAddress();
 
 				} else {
@@ -437,7 +441,7 @@ public class MapSearchPanel extends FlowPanel {
 	public void setFoodSorce(FoodSorce foodSorce) {
 		this.foodSorce = foodSorce;
 	}
-	
+
 	public void setSearchDistance(String searchDistance) {
 		this.searchDistance = searchDistance;
 	}
