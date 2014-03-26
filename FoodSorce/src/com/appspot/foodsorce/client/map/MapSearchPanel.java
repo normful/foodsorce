@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.maps.gwt.client.Animation;
 import com.google.maps.gwt.client.Geocoder;
 import com.google.maps.gwt.client.GeocoderStatus;
 import com.google.maps.gwt.client.GeocoderRequest;
@@ -300,7 +299,6 @@ public class MapSearchPanel extends FlowPanel {
 
 	private void plotNearbyVendor(Vendor vendor) {
 		MarkerOptions options = MarkerOptions.create();
-		options.setAnimation(Animation.DROP);
 		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));      
 		Marker vendorMarker = Marker.create(options);
 
