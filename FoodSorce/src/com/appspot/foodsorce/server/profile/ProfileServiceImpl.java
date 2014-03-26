@@ -54,7 +54,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Profile.class);
-		q.setOrdering("name ascending");
+		q.setOrdering("userEmail ascending");
  
 		try {
 			@SuppressWarnings("unchecked")
