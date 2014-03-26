@@ -50,7 +50,6 @@ public class FoodSorce implements EntryPoint {
 	// East panel
 	private FlowPanel east = new FlowPanel();
 	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
-
 	
 	// West panels
 	private SimpleLayoutPanel west = new SimpleLayoutPanel();
@@ -107,10 +106,7 @@ public class FoodSorce implements EntryPoint {
 			navigationPanel = new NavigationPanel(this, true);
 		else
 			navigationPanel = new NavigationPanel(this, false);
-
 		west.setWidget(navigationPanel);
-
-
 	}
 	
 	private void createLayout() {
@@ -119,7 +115,7 @@ public class FoodSorce implements EntryPoint {
 		
 		north.add(header);
 		east.add(mapSearchPanel);
-		  
+		
 		dock.addNorth(north, 8);
 		dock.addEast(east, 40);
 		dock.addWest(west, 14);
