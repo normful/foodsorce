@@ -1,6 +1,5 @@
 package com.appspot.foodsorce.server.admin;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.jdo.PersistenceManager;
+import javax.jdo.PersistenceManagerFactory;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -28,8 +28,6 @@ public class VancouverDataServiceImpl extends RemoteServiceServlet
 
 	private static final long serialVersionUID = -2926288307530133636L;
 	
-	private String filepath = "excel/new_food_vendor_locations.xls";
-
 	private RemoteDataGetter dataGetter;
 
 	private ArrayList<Vendor> vendorsToStore;
