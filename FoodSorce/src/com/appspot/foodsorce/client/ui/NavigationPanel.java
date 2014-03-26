@@ -4,6 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NavigationPanel extends VerticalPanel {
@@ -16,11 +18,26 @@ public class NavigationPanel extends VerticalPanel {
 	private Anchor adminLink = new Anchor("Admin");
 	private Anchor loginLink = new Anchor("Log In");
 	private Anchor logoutLink = new Anchor("Log Out");
+	private HorizontalPanel socialMediaPanel;
 
 	public NavigationPanel(FoodSorce foodSorce, boolean loggedIn) {
 		this.foodSorce = foodSorce;
 		this.loggedIn = loggedIn;
 		createLinks();
+		createSocialMediaPanel();
+
+	}
+
+	private void createSocialMediaPanel() {
+		HTML twitterButton = new HTML("<a href=\"https://twitter.com/FoodSorce\" class=\"twitter-follow-button\" data-show-count=\"false\">Follow @FoodSorce</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>");
+		VerticalPanel socialMediaPanel = new VerticalPanel();
+
+		
+		HTML facebookButton = new HTML ("<div class=\"fb-like\" data-href=\"https://www.facebook.com/pages/Foodsorce/\" data-layout=\"standard\" data-action=\"like\" data-show-faces=\"false\" data-share=\"true\"></div>");
+		socialMediaPanel.add(facebookButton);
+		socialMediaPanel.add(twitterButton);
+		this.add(socialMediaPanel);
+		
 	}
 
 	private void createLinks() {
