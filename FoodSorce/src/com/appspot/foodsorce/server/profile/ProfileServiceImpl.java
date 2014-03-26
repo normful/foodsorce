@@ -1,12 +1,17 @@
 package com.appspot.foodsorce.server.profile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.profile.ProfileService;
 import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.shared.Profile;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -39,6 +44,28 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			detached = createProfile(userEmail);
 			
 		return detached;
+	}
+	
+	@Override
+	public Profile[] getAllProfiles() throws NotLoggedInException {	
+		checkLoggedIn();
+		
+		ArrayList<Profile> profiles = new ArrayList<Profile>();
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query q = pm.newQuery(Profile.class);
+		q.setOrdering("name ascending");
+ 
+		try {
+			@SuppressWarnings("unchecked")
+			List<Profile> results = (List<Profile>) q.execute();
+			profiles.addAll(results);
+		} finally {
+			q.closeAll();
+			pm.close();
+		}
+
+		return (Profile[]) profiles.toArray(new Profile[0]);
 	}
 
 	private Profile createProfile(String userEmail) {
