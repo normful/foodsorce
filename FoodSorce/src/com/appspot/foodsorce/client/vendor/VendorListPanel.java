@@ -92,7 +92,7 @@ public class VendorListPanel extends VerticalPanel {
 		displayVendors(nearbyVendors);
 	}
 	
-	private void fetchAndDisplayVendors() {
+	public void fetchAndDisplayVendors() {
 		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 			public void onFailure(Throwable error) {
 				GWT.log("VendorListPanel.java: fetchAndDisplayVendors onFailure", error);
