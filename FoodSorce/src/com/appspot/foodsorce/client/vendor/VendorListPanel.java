@@ -23,7 +23,6 @@ public class VendorListPanel extends VerticalPanel {
 	private static final VendorListPanel INSTANCE = new VendorListPanel();
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 	private MapSearchPanel mapSearchPanel;
-	private FoodSorce foodSorce;
 	
 	private ScrollPanel scrollPanel;
 	private FlexTable vendorTable = new FlexTable();
@@ -75,14 +74,6 @@ public class VendorListPanel extends VerticalPanel {
 	public static VendorListPanel getInstance() {
 		GWT.log("VendorListPanel.java: getInstance");
 		return INSTANCE;
-	}
-	
-	public FoodSorce getFoodSorce() {
-		return foodSorce;
-	}
-	
-	public void setFoodSorce(FoodSorce foodSorce) {
-		this.foodSorce = foodSorce;
 	}
 	
 	public void setAndDisplayNearbyVendors(List<Vendor> nearbyVendors) {
@@ -154,7 +145,7 @@ public class VendorListPanel extends VerticalPanel {
 
 	private void loadVendorInfoPanel(int rowIndex) {
 		selectedVendor = nearbyVendors.get(rowIndex - 1);
-		foodSorce.loadVendorInfoPanel(selectedVendor);
+		FoodSorce.getInstance().loadVendorInfoPanel(selectedVendor);
 		mapSearchPanel.plotSelectedVendor(selectedVendor);
 	}
 	

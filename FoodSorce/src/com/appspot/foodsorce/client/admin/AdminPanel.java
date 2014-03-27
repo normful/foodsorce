@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.admin;
 
+import com.appspot.foodsorce.client.ui.FoodSorce;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,8 +41,9 @@ public class AdminPanel extends VerticalPanel {
 				Window.alert("Failed to import data: " + error.toString());
 			}
 			public void onSuccess(Void voidResult) {
-				Window.alert("Successfully imported data.");
 				VendorListPanel.getInstance().fetchAndDisplayVendors();
+				FoodSorce.getInstance().loadVendorListPanel();
+				Window.alert("Successfully imported data.");
 			}
 		});
 	}
