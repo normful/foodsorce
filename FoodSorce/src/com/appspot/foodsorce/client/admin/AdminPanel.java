@@ -1,6 +1,5 @@
 package com.appspot.foodsorce.client.admin;
 
-import com.appspot.foodsorce.client.ui.FoodSorce;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
