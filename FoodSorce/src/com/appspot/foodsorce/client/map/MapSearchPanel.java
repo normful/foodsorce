@@ -47,6 +47,7 @@ import com.google.maps.gwt.client.geometry.Spherical;
 
 public class MapSearchPanel extends FlowPanel {
 
+	private FoodSorce foodSorce;
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 
@@ -175,7 +176,7 @@ public class MapSearchPanel extends FlowPanel {
 		try {
 			vendorListPanel = VendorListPanel.getInstance();
 			vendorListPanel.setAndDisplayNearbyVendors(nearbyVendors);
-			FoodSorce.getInstance().loadVendorListPanel();
+			foodSorce.loadVendorListPanel();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -335,7 +336,7 @@ public class MapSearchPanel extends FlowPanel {
 		vendorMarker.addClickListener(new com.google.maps.gwt.client.Marker.ClickHandler() {
 			public void handle(MouseEvent event) {
 				infoWindow.open(map, vendorMarker);
-				FoodSorce.getInstance().loadVendorInfoPanel(vendor);
+				VendorListPanel.getInstance().getFoodSorce().loadVendorInfoPanel(vendor);
 				vendorMarker.clearClickListeners();
 				if (currentInfoWindow != null)
 					currentInfoWindow.close();
@@ -394,12 +395,17 @@ public class MapSearchPanel extends FlowPanel {
 		return nearbyVendors;
 	}
 
+	public void setFoodSorce(FoodSorce foodSorce) {
+		this.foodSorce = foodSorce;
+	}
+
 	public void setSearchDistance(String searchDistance) {
 		if (searchDistance == null || searchDistance.isEmpty())
 			return;
 		this.searchDistance = searchDistance;
+		
 		if (searchDistance.equals("1 km"))
-				option1.setValue(true);
+			option1.setValue(true);
 		else if (searchDistance.equals("2 km"))
 			option2.setValue(true);
 		else if (searchDistance.equals("5 km"))

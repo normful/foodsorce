@@ -27,7 +27,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class FoodSorce implements EntryPoint {
 	
-	private static final FoodSorce INSTANCE = new FoodSorce();
 	private LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private LoginInfo loginInfo = null;
 	
@@ -61,8 +60,6 @@ public class FoodSorce implements EntryPoint {
 	private SimpleLayoutPanel west = new SimpleLayoutPanel();
 	private NavigationPanel navigationPanel;
 
-	private FoodSorce() {}
-	
 	/** Entry point method **/
 	public void onModuleLoad() {
 		
@@ -79,6 +76,8 @@ public class FoodSorce implements EntryPoint {
 		createLayout();
 		west.setWidget(navigationPanel);
 		center.setWidget(vendorListPanel);
+		vendorListPanel.setFoodSorce(this);
+		mapSearchPanel.setFoodSorce(this);
 		
 		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 			@Override
@@ -104,10 +103,6 @@ public class FoodSorce implements EntryPoint {
 				handleError(error);
 			}
 		});
-	}
-	
-	public static FoodSorce getInstance() {
-		return INSTANCE;
 	}
 	
 	private void loadNavigationPanel(String loginState) {
