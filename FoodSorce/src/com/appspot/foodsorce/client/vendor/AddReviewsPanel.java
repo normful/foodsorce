@@ -27,6 +27,7 @@ public class AddReviewsPanel extends VerticalPanel{
 	public AddReviewsPanel(Vendor vendor,String userEmail) {
 		this.vendor=vendor;
 		this.userEmail=userEmail;
+		constructWidgets();
 		
 	}
 
@@ -215,31 +216,11 @@ public class AddReviewsPanel extends VerticalPanel{
 				sendReview();
 				clear();
 			}
-
-					private void sendReview() {
-						vendorService.setVendor(vendor,new AsyncCallback<Void>(){
-
-							@Override
-							public void onFailure(Throwable caught) {
-								sendReviewTries++;
-								if(sendReviewTries<10)
-									sendReview();
-								
-							}
-
-						
-
-					@Override
-					public void onSuccess(Void result) {
-						sendReviewTries=0;
-						
-					}
-					
-				});
-				
-			}
-			
 		});
+
+
+			
+
 		this.add(submitButton);
 		
 		
@@ -247,6 +228,24 @@ public class AddReviewsPanel extends VerticalPanel{
 
 	}
 
+	private void sendReview() {
+		vendorService.setVendor(vendor,new AsyncCallback<Void>(){
 
+			@Override
+			public void onFailure(Throwable caught) {
+				sendReviewTries++;
+				if(sendReviewTries<10)
+								sendReview();		
+						}
+
+			@Override
+			public void onSuccess(Void result) {
+					sendReviewTries=0;
+					
+				}
+		});
+
+			
+		}
 
 }

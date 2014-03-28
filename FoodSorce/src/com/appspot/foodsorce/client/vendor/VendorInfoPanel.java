@@ -40,7 +40,6 @@ public class VendorInfoPanel extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 
-					addReviewsPanel.constructWidgets();
 					remove(addReviewButton);
 					add(addReviewsPanel);
 				}
