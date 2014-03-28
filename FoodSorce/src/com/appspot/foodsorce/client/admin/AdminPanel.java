@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.admin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
@@ -34,15 +35,29 @@ public class AdminPanel extends VerticalPanel {
 	private ArrayList<Profile> profiles = new ArrayList<Profile>();
 	
 	private void testMakeProfileList() {
-		Profile p1 = new Profile("test1");
-		Profile p2 = new Profile("test2");
-		Profile p3 = new Profile("test3");
-		Profile p4 = new Profile("test4");
+//		Profile p1 = new Profile("test1");
+//		Profile p2 = new Profile("test2");
+//		Profile p3 = new Profile("test3");
+//		Profile p4 = new Profile("test4");
+//		
+//		profiles.add(p1);
+//		profiles.add(p2);
+//		profiles.add(p3);
+//		profiles.add(p4);
 		
-		profiles.add(p1);
-		profiles.add(p2);
-		profiles.add(p3);
-		profiles.add(p4);
+		profileService.getAllProfiles(new AsyncCallback<Profile[]>() {
+			public void onFailure(Throwable error) {
+				GWT.log("AdminPanel.java: testMakeProfileList() onFailure", error);
+				handleError(error);
+			}
+			public void onSuccess(Profile[] result) {
+				GWT.log("AdminPanel.java: testMakeProfileList() onSuccess");
+				Collections.addAll(profiles, result); 
+				GWT.log(profiles.get(0).getUserEmail());
+				displayProfiles(profiles);
+			}
+
+		});
 	}
 	
 	public AdminPanel() {
@@ -83,7 +98,6 @@ public class AdminPanel extends VerticalPanel {
 		this.add(scrollPanel);
 		
 		testMakeProfileList();
-		
 		displayProfiles(profiles);
 		
 //		fetchAndDisplayProfiles();
@@ -121,11 +135,11 @@ public class AdminPanel extends VerticalPanel {
 		GWT.log("ProfilePanel.java: displayProfiles");
 
 		// Remove all rows except first header row
-//		int numRows = profileTable.getRowCount();
-//		for (int i = 1; i < numRows; i++)
-//			profileTable.removeRow(1);
+		int numRows = profileTable.getRowCount();
+		for (int i = 1; i < numRows; i++) {		
+			profileTable.removeRow(1);
+		}
 
-		System.out.println("before for loop");
 		
 		// Add all profiles to profileTable
 		for (Profile profile : profiles)
