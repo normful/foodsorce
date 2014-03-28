@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.appspot.foodsorce.shared.Review;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ViewReviewsPanel extends VerticalPanel {
@@ -23,19 +25,29 @@ public class ViewReviewsPanel extends VerticalPanel {
 		for(Review r:reviews){
 			int i=reviewsTable.getRowCount();
 			reviewsTable.setText(i,0,r.getUserEmail());
-			reviewsTable.setHTML(i, 1, renderQuality(r.getQuality()));
-			reviewsTable.setHTML(i, 2, renderCost(r.getCost()));
+			reviewsTable.setWidget(i, 1, renderQuality(r.getQuality()));
+			reviewsTable.setText(i, 2, renderCost(r.getCost()));
 			reviewsTable.setText(i, 3, r.getText());
 		}
+		this.add(reviewsTable);
 	}
 
 	private String renderCost(int cost) {
-		// TODO Auto-generated method stub
-		return null;
+		String costs ="";
+		for(int i=0;i<cost;i++){
+			costs= costs + "$";
+		}
+		return costs;
 	}
 
-	private String renderQuality(int quality) {
-		// TODO Auto-generated method stub
-		return null;
+	private FlowPanel renderQuality(int quality) {
+		FlowPanel stars =new FlowPanel();
+		for(int i=0;i<=quality;i++){
+			if(i%2==0)
+				stars.add(new Image("images/leftStar.jpg"));
+			else
+				stars.add(new Image("images/rightStar.png"));
+		}
+		return stars;
 	}
 }

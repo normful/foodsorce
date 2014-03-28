@@ -40,8 +40,9 @@ public class VendorInfoPanel extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 
-					remove(addReviewButton);
+					remove(viewReviewsPanel);
 					add(addReviewsPanel);
+					add(viewReviewsPanel);
 				}
 			
 		});

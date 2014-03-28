@@ -9,6 +9,7 @@ import javax.jdo.Query;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.vendor.VendorService;
 import com.appspot.foodsorce.server.PMF;
+import com.appspot.foodsorce.shared.Profile;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -38,7 +39,15 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 
 	@Override
 	public void setVendor(Vendor vendor) {
-		// TODO Auto-generated method stub
+
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(vendor);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
-	
 }
+	
