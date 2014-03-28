@@ -25,7 +25,7 @@ public class ViewReviewsPanel extends VerticalPanel {
 		for(Review r:reviews){
 			int i=reviewsTable.getRowCount();
 			reviewsTable.setText(i,0,r.getUserEmail());
-			reviewsTable.setWidget(i, 1, renderQuality(r.getQuality()));
+			reviewsTable.setText(i, 1, renderQuality(r.getQuality()));
 			reviewsTable.setText(i, 2, renderCost(r.getCost()));
 			reviewsTable.setText(i, 3, r.getText());
 		}
@@ -40,13 +40,13 @@ public class ViewReviewsPanel extends VerticalPanel {
 		return costs;
 	}
 
-	private FlowPanel renderQuality(int quality) {
-		FlowPanel stars =new FlowPanel();
-		for(int i=0;i<=quality;i++){
+	private String renderQuality(int quality) {
+		String stars ="";
+		for(int i=0;i<quality;i++){
 			if(i%2==0)
-				stars.add(new Image("images/leftStar.jpg"));
+				stars=stars+"<";
 			else
-				stars.add(new Image("images/rightStar.png"));
+				stars=stars+">";
 		}
 		return stars;
 	}

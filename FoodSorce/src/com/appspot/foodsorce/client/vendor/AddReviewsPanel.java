@@ -46,7 +46,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q15 = new RadioButton("quality","1.5 ");
-		q1.addClickHandler(new ClickHandler(){
+		q15.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -56,7 +56,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q2 = new RadioButton("quality","2 ");
-		q1.addClickHandler(new ClickHandler(){
+		q2.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -66,7 +66,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q25 = new RadioButton("quality","2.5 ");
-		q1.addClickHandler(new ClickHandler(){
+		q25.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -76,7 +76,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q3 = new RadioButton("quality","3 ");
-		q1.addClickHandler(new ClickHandler(){
+		q3.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -86,7 +86,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q35 = new RadioButton("quality","3.5 ");
-		q1.addClickHandler(new ClickHandler(){
+		q35.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -96,7 +96,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q4 = new RadioButton("quality","4 ");
-		q1.addClickHandler(new ClickHandler(){
+		q4.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -106,7 +106,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q45 = new RadioButton("quality","4.5 ");
-		q1.addClickHandler(new ClickHandler(){
+		q45.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -116,7 +116,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton q5 = new RadioButton("quality","5 ");
-		q1.addClickHandler(new ClickHandler(){
+		q5.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -141,7 +141,7 @@ public class AddReviewsPanel extends VerticalPanel{
 		
 		this.add(new HTML("Vendor cost"));
 		RadioButton c1 = new RadioButton("cost","$ "); 
-		q1.addClickHandler(new ClickHandler(){
+		c1.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -151,7 +151,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton c2 = new RadioButton("cost","$$ "); 
-		q1.addClickHandler(new ClickHandler(){
+		c2.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -161,7 +161,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton c3 = new RadioButton("cost","$$$ ");
-		q1.addClickHandler(new ClickHandler(){
+		c3.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -171,7 +171,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton c4 = new RadioButton("cost","$$$$ "); 
-		q1.addClickHandler(new ClickHandler(){
+		c4.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -181,7 +181,7 @@ public class AddReviewsPanel extends VerticalPanel{
 			
 		});
 		RadioButton c5 = new RadioButton("cost","$$$$$ ");
-		q1.addClickHandler(new ClickHandler(){
+		c5.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
