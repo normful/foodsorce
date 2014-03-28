@@ -1,6 +1,8 @@
 package com.appspot.foodsorce.client.vendor;
 
 import com.appspot.foodsorce.shared.Vendor;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -17,6 +19,8 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Label vendorDescription;
 	private Button addReviewButton;
 	private ViewReviewsPanel viewReviewsPanel;
+	private AddReviewsPanel addReviewsPanel;
+	private boolean isReviewing=false;
 	
 	public VendorInfoPanel(Vendor vendor) {
 		vendorName = new Label(vendor.getName());
@@ -29,6 +33,21 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
 		
 		addReviewButton = new Button("Add Review");
+		addReviewsPanel= new AddReviewsPanel(vendor);
+		addReviewButton.addClickHandler(new ClickHandler() {
+
+
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(!isReviewing){
+					isReviewing = true;
+					addReviewsPanel.constructWidgets();
+					add(addReviewsPanel);
+				}
+			}
+			
+		});
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
 		
 		htmlPanel.add(vendorName);
