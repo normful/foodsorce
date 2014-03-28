@@ -11,15 +11,15 @@ import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.profile.ProfileService;
 import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.shared.Profile;
-import com.appspot.foodsorce.shared.Vendor;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class ProfileServiceImpl extends RemoteServiceServlet implements
 		ProfileService {
-	
-	private static final long serialVersionUID = -8004853891233679909L;
+
+	private static final long serialVersionUID = 2325771712463720356L;
 
 	@Override
 	public Profile getProfile(String userEmail) throws NotLoggedInException {
@@ -48,24 +48,42 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 	
 	@Override
 	public Profile[] getAllProfiles() throws NotLoggedInException {	
-		checkLoggedIn();
 		
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Profile.class);
-		q.setOrdering("userEmail ascending");
  
 		try {
 			@SuppressWarnings("unchecked")
 			List<Profile> results = (List<Profile>) q.execute();
 			profiles.addAll(results);
+//			GWT.log(profiles.get(0).getUserEmail());
 		} finally {
 			q.closeAll();
 			pm.close();
 		}
 
 		return (Profile[]) profiles.toArray(new Profile[0]);
+		
+//		Profile[] profiles = new Profile[4];
+//		
+//		
+//		Profile p1 = new Profile("test1");
+//		Profile p2 = new Profile("test2");
+//		Profile p3 = new Profile("test3");
+//		Profile p4 = new Profile("test4");
+//		
+//		profiles[0] = p1;
+//		profiles[1] = p2;
+//		profiles[2] = p3;
+//		profiles[3] = p4;
+//		
+//		System.out.println("before");
+//		
+//		
+//
+//		return profiles;
 	}
 
 	private Profile createProfile(String userEmail) {
