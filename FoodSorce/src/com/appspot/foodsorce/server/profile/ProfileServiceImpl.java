@@ -11,7 +11,6 @@ import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.profile.ProfileService;
 import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.shared.Profile;
-import com.appspot.foodsorce.shared.Vendor;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -35,13 +34,10 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			profile = pm.getObjectById(Profile.class, userEmail);
 			detached = pm.detachCopy(profile);
 		} catch (Throwable e) {
-			e.printStackTrace();
+			detached = createProfile(userEmail);
 		} finally {
 			pm.close();
 		}
-
-		if (detached == null)
-			detached = createProfile(userEmail);
 			
 		return detached;
 	}
@@ -59,7 +55,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		try {
 			@SuppressWarnings("unchecked")
 			List<Profile> results = (List<Profile>) q.execute();
-			profiles.addAll(results);
+			profiles.addAll(pm.detachCopyAll(results));
 		} finally {
 			q.closeAll();
 			pm.close();
@@ -69,7 +65,10 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 	}
 
 	private Profile createProfile(String userEmail) {
+		// Create the new Profile object
 		Profile newProfile = new Profile(userEmail);
+		
+		// Persist the new Profile object
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistent(newProfile);
@@ -78,7 +77,21 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
-		return newProfile;
+		
+		// Fetch and get a detached copy of the newly persisted Profile object
+		pm = PMF.get().getPersistenceManager();
+		Profile detachedNewProfile = null;
+		try {
+			pm.getFetchPlan().setGroup(FetchPlan.ALL);
+			newProfile = pm.getObjectById(Profile.class, userEmail);
+			detachedNewProfile = pm.detachCopy(newProfile);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
+			
+		return detachedNewProfile;
 	}
 
 	@Override
