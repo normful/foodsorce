@@ -20,9 +20,8 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Button addReviewButton;
 	private ViewReviewsPanel viewReviewsPanel;
 	private AddReviewsPanel addReviewsPanel;
-	private boolean isReviewing=false;
 	
-	public VendorInfoPanel(Vendor vendor) {
+	public VendorInfoPanel(Vendor vendor,String userEmail) {
 		vendorName = new Label(vendor.getName());
 		vendorName.setStylePrimaryName("vendorInfoPanelName");
 		
@@ -33,19 +32,18 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
 		
 		addReviewButton = new Button("Add Review");
-		addReviewsPanel= new AddReviewsPanel(vendor);
+		addReviewsPanel= new AddReviewsPanel(vendor,userEmail);
 		addReviewButton.addClickHandler(new ClickHandler() {
 
 
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(!isReviewing){
-					isReviewing = true;
+
 					addReviewsPanel.constructWidgets();
+					remove(addReviewButton);
 					add(addReviewsPanel);
 				}
-			}
 			
 		});
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
