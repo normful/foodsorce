@@ -149,7 +149,7 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorListRatingColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 4, "costColumn");
 	}
 
 	private void loadVendorInfoPanel(int rowIndex) {

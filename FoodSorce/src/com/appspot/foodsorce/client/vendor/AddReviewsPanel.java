@@ -21,12 +21,13 @@ public class AddReviewsPanel extends VerticalPanel{
 	private int quality=10;
 	private String review= "";
 	private int sendReviewTries=0;
-	
 	private TextArea reviewArea = new TextArea();
+	private VendorInfoPanel toUpdate;
 
-	public AddReviewsPanel(Vendor vendor,String userEmail) {
+	public AddReviewsPanel(Vendor vendor,String userEmail,VendorInfoPanel toUpdate) {
 		this.vendor=vendor;
 		this.userEmail=userEmail;
+		this.toUpdate=toUpdate;
 		constructWidgets();
 		
 	}
@@ -215,6 +216,8 @@ public class AddReviewsPanel extends VerticalPanel{
 				vendor.addReview(toSubmit);
 				sendReview();
 				clear();
+				toUpdate.updateReviews();
+				
 			}
 		});
 

@@ -32,7 +32,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
 		
 		addReviewButton = new Button("Add Review");
-		addReviewsPanel= new AddReviewsPanel(vendor,userEmail);
+		addReviewsPanel= new AddReviewsPanel(vendor,userEmail,this);
 		addReviewButton.addClickHandler(new ClickHandler() {
 
 
@@ -57,6 +57,14 @@ public class VendorInfoPanel extends VerticalPanel {
 		
 		scrollPanel.add(htmlPanel);
 		this.add(scrollPanel);
+	}
+
+	public void updateReviews() {
+		Vendor vendor = viewReviewsPanel.getVendor();
+		remove(viewReviewsPanel);
+		viewReviewsPanel = new ViewReviewsPanel(vendor);
+		add(viewReviewsPanel);
+		
 	}
 	
 }
