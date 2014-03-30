@@ -60,25 +60,6 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		}
 
 		return (Profile[]) profiles.toArray(new Profile[0]);
-		
-//		Profile[] profiles = new Profile[4];
-//		
-//		
-//		Profile p1 = new Profile("test1");
-//		Profile p2 = new Profile("test2");
-//		Profile p3 = new Profile("test3");
-//		Profile p4 = new Profile("test4");
-//		
-//		profiles[0] = p1;
-//		profiles[1] = p2;
-//		profiles[2] = p3;
-//		profiles[3] = p4;
-//		
-//		System.out.println("before");
-//		
-//		
-//
-//		return profiles;
 	}
 
 	private Profile createProfile(String userEmail) {
@@ -127,11 +108,31 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			pm.close();
 		}
 	}
+	
+	@Override
+	public void deleteProfile(String userEmail) throws NotLoggedInException {
+		checkLoggedIn();
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Profile profile;
+		
+		try {
+			pm.getFetchPlan().setGroup(FetchPlan.ALL);
+			profile = pm.getObjectById(Profile.class, userEmail);
+			pm.deletePersistent(profile);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
+	}
 
 	private void checkLoggedIn() throws NotLoggedInException {
 		UserService userService = UserServiceFactory.getUserService();
 		if (!userService.isUserLoggedIn())
 			throw new NotLoggedInException("Not logged in.");
 	}
+
 
 }

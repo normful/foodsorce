@@ -34,7 +34,7 @@ public class AdminPanel extends VerticalPanel {
 	
 	private ArrayList<Profile> profiles = new ArrayList<Profile>();
 	
-	private void testMakeProfileList() {
+	private void fetchAndDisplayProfiles() {
 //		Profile p1 = new Profile("test1");
 //		Profile p2 = new Profile("test2");
 //		Profile p3 = new Profile("test3");
@@ -53,7 +53,6 @@ public class AdminPanel extends VerticalPanel {
 			public void onSuccess(Profile[] result) {
 				GWT.log("AdminPanel.java: testMakeProfileList() onSuccess");
 				Collections.addAll(profiles, result); 
-				GWT.log(profiles.get(0).getUserEmail());
 				displayProfiles(profiles);
 			}
 
@@ -97,10 +96,8 @@ public class AdminPanel extends VerticalPanel {
 		scrollPanel.setHeight("655px");
 		this.add(scrollPanel);
 		
-		testMakeProfileList();
-		displayProfiles(profiles);
-		
-//		fetchAndDisplayProfiles();
+
+		fetchAndDisplayProfiles();
 	}
 	
 	private void callImportData() {
@@ -114,21 +111,6 @@ public class AdminPanel extends VerticalPanel {
 			}
 		});
 	}
-	
-	// TODO: Fix this method so that it correctly grabs the data
-//	private void fetchAndDisplayProfiles() {
-//		profileService.getAllProfiles(new AsyncCallback<Profile[]>() {
-//			public void onFailure(Throwable error) {
-//				GWT.log("AdminPanel.java: fetchAndDisplayProfiles onFailure", error);
-//				handleError(error);
-//			}
-//			public void onSuccess(Profile[] result) {
-//				GWT.log("AdminPanel.java: fetchAndDisplayProfiles onSuccess");
-//				displayProfiles(result);
-//			}
-//
-//		});
-//	}
 	
 	private void displayProfiles(List<Profile> profiles) {
 		
@@ -164,8 +146,7 @@ public class AdminPanel extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				for (Profile profileToFind : profiles) {
 					if (profileToFind.getUserEmail().equals(profile.getUserEmail())) {
-						profiles.remove(profileToFind);
-						displayProfiles(profiles);
+						deleteProfile(profileToFind);
 					}
 				}
 				
@@ -177,6 +158,29 @@ public class AdminPanel extends VerticalPanel {
 		// Add styles names
 		profileTable.getCellFormatter().addStyleName(row, 0, "vendorListTextColumn");
 	}
+	
+	private void deleteProfile (Profile profile){
+		profiles.remove(profile);
+		displayProfiles(profiles);
+		try {
+			profileService.deleteProfile(profile.getUserEmail(), new AsyncCallback<Void>(){
+
+				@Override
+				public void onFailure(Throwable error) {
+					GWT.log("AdminPanel.java: deleteProfile() onFailure", error);
+					handleError(error);
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+					// Do as our own local list of prilfes is updated
+				}});
+		} catch (NotLoggedInException e) {
+			handleError(e);
+		}
+	}
+	
+
 	
 	
 	
