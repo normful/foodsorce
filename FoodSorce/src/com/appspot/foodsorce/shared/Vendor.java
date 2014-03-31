@@ -105,6 +105,10 @@ public class Vendor implements Serializable {
 		favourites.add(email);
 	}
 	
+	public void removeFavourites(String email) {
+		favourites.remove(email);
+	}
+	
 	public ArrayList<String> getFavourites() {
 		return favourites;
 	}

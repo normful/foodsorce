@@ -2,11 +2,15 @@ package com.appspot.foodsorce.client.vendor;
 
 import com.appspot.foodsorce.client.login.LoginInfo;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
+import com.appspot.foodsorce.client.profile.ProfileService;
+import com.appspot.foodsorce.client.profile.ProfileServiceAsync;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -15,6 +19,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class VendorInfoPanel extends VerticalPanel {
+
+	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("");
@@ -46,7 +52,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(new HTML("<br>"));
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
-		
+
 		checkIfFavourited(vendor, loginInfo);
 
 		if (loginInfo != null) {
@@ -66,9 +72,20 @@ public class VendorInfoPanel extends VerticalPanel {
 				@Override
 				public void onClick(ClickEvent event) {
 					vendor.addFavourites(loginInfo.getEmailAddress());
-					
-				}
+					vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onSuccess(Void result) {
+							// TODO Auto-generated method stub
+
+						}
+					});}
 			});
 		} else {
 			favouriteButton = new Button("Delete from Favourite");
@@ -76,13 +93,24 @@ public class VendorInfoPanel extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					vendor.removeFavourites(loginInfo.getEmailAddress());
+					vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onSuccess(Void result) {
+							// TODO Auto-generated method stub
+
+						}
+					});
 				}
-
 			});
 		}
-
-
 	}
 
 	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
@@ -92,8 +120,6 @@ public class VendorInfoPanel extends VerticalPanel {
 			} else {
 				favourited = false;
 			}
-
 		}
-
 	}
 }
