@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.map.MapSearchPanel;
+import com.appspot.foodsorce.client.profile.ProfilePanel;
 import com.appspot.foodsorce.client.ui.FoodSorce;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
@@ -253,6 +254,7 @@ public class VendorListPanel extends VerticalPanel {
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
 		searchField.setText(searchText);
+		ProfilePanel.getInstance().setSearchText(searchText);
 	}
 	
 	public ArrayList<Vendor> getMatchingVendors() {
