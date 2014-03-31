@@ -14,7 +14,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-//import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -44,19 +43,10 @@ public class VendorListPanel extends VerticalPanel {
 	private ArrayList<Vendor> matchingVendors = new ArrayList<Vendor>();
 	private Vendor selectedVendor;
 
-	// private static final int REFRESH_INTERVAL = 15000; // milliseconds
-
 	private VendorListPanel() {
 		GWT.log("VendorListPanel.java: VendorListPanel() constructor");
 		createLayout();
 		fetchAllVendors();
-		// // Setup timer to refresh vendor list automatically
-		// Timer refreshTimer = new Timer() {
-		// @Override
-		// public void run() {
-		// }
-		// };
-		// refreshTimer.scheduleRepeating(REFRESH_INTERVAL);
 	}
 
 	private void createLayout() {
