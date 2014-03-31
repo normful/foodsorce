@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
@@ -120,11 +121,13 @@ public class FoodSorce implements EntryPoint {
 		north.add(spacerPanel);
 		north.add(headerPanel);
 		north.add(socialMediaPanel);
-		north.setCellWidth(spacerPanel, "15%");
-		north.setCellWidth(headerPanel, "70%");
-		north.setCellWidth(socialMediaPanel, "15%");
+		north.setCellWidth(spacerPanel, "25%");
+		north.setCellWidth(headerPanel, "50%");
+		north.setCellWidth(socialMediaPanel, "25%");
 		north.setWidth("100%");
 		north.setCellHorizontalAlignment(headerPanel, HasHorizontalAlignment.ALIGN_CENTER);
+		north.setCellVerticalAlignment(socialMediaPanel, HasVerticalAlignment.ALIGN_BOTTOM);
+		north.setCellHorizontalAlignment(socialMediaPanel, HasHorizontalAlignment.ALIGN_RIGHT);
 		north.setStyleName("north");
 		
 		east.add(mapSearchPanel);
