@@ -44,11 +44,9 @@ h2 {
   font-weight: bold !important;
 }
 
-.vendorListTextColumn {
-}
+.vendorListTextColumn { }
 
-.vendorListRatingColumn {
-}
+.vendorListRatingColumn { }
 
 .vendorInfoPanelName {
   font-size: 2.5em;
@@ -73,6 +71,42 @@ h2 {
   font-weight: normal;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
   color: #555555;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
+.vendorMarkerInfoWindowContentName {
+  font-size: 1.25em;
+  font-weight: bold;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #3B64A6;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
+.vendorMarkerInfoWindowContentDesc {
+  font-size: 0.75em;
+  font-weight: bold;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #333333;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
+.vendorMarkerInfoWindowContentLoc {
+  font-size: 0.75em;
+  font-weight: normal;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #555555;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
+.vendorMarkerInfoWindowContentReviews {
+  font-size: 0.75em;
+  font-weight: normal;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #3B64A6;
   margin: 0px 0px 0px;
   text-align: left;
 }

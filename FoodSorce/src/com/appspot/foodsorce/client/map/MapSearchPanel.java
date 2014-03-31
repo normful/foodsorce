@@ -281,43 +281,28 @@ public class MapSearchPanel extends FlowPanel {
 		MarkerOptions options = MarkerOptions.create();
 		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
 		Marker vendorMarker = Marker.create(options);
-
 		setMarkerDescription(vendor, vendorMarker);
-
 		vendorMarker.setIcon(vendorMarkerImage);
-		vendorMarkers.add(vendorMarker);
 		vendorMarker.setMap(map);
+		vendorMarkers.add(vendorMarker);
 	}
 
 	private void setMarkerDescription(Vendor vendor, Marker vendorMarker) {
-		InfoWindowOptions infoWindowOpts = InfoWindowOptions.create();
-
+		InfoWindowOptions infoWindowOptions = InfoWindowOptions.create();
 		String averageCost = "";
 		String averageQuality = "";
-
 		if (vendor.getAverageCost() != -1)
 			averageCost = "<p><b>Average Cost: </b>" + vendor.getAverageCost() + "</p>";
-
 		if (vendor.getAverageQuality() != -1)
 			averageQuality = "<p><b>Average Quality: </b>" + vendor.getAverageQuality() + "</p>";
-
-
-		String markerInformation = "<div id=\"content\">"
-				+ "<div id=\"siteNotice\">"
-				+ "</div>"
-				+ "<div id=\"bodyContent\">"
-				+ "<p>" + vendor.getName() + "</p>"
-				+ "<p>" + vendor.getDescription() + "</p>"
-				+ "<p>" + vendor.getLocation() + "</p>"
-				+ "<p><b>Reviews: </b>" + vendor.getReviews().size() + "</p>"
+		String infoWindowContent = "<div class=\"vendorMarkerInfoWindowContentName\">" + vendor.getName() + "</div><br>"
+				+ "<div class=\"vendorMarkerInfoWindowContentDesc\">" + vendor.getDescription() + "</div><br>"
+				+ "<div class=\"vendorMarkerInfoWindowContentLoc\">" + vendor.getLocation() + "</div><br>"
+				+ "<div class=\"vendorMarkerInfoWindowContentReviews\">Reviews: " + vendor.getReviews().size() + "</div>"
 				+ averageCost
-				+ averageQuality
-				+ "</div>"
-				+ "</div>";
-
-		infoWindowOpts.setContent(markerInformation);
-		InfoWindow infoWindow = InfoWindow.create(infoWindowOpts);
-
+				+ averageQuality;
+		infoWindowOptions.setContent(infoWindowContent);
+		InfoWindow infoWindow = InfoWindow.create(infoWindowOptions);
 		setMarkListenerInitial(infoWindow, vendor, vendorMarker);
 	}
 
