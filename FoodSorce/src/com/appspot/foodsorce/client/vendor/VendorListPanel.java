@@ -123,30 +123,38 @@ public class VendorListPanel extends VerticalPanel {
 			public void onSuccess(Vendor[] result) {
 				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
 				allVendors = new ArrayList<Vendor>(Arrays.asList(result));
-				mapSearchPanel = MapSearchPanel.getInstance();
-				mapSearchPanel.setAllVendors(allVendors);
-				mapSearchPanel.setNearbyVendors(allVendors);
-				mapSearchPanel.plotNearbyVendors();
-				setNearbyVendors(allVendors);
-				displayNearbyVendors();
+				setupMapSearchPanel();
 			}
 		});
 	}
 
+	private void setupMapSearchPanel() {
+		mapSearchPanel = MapSearchPanel.getInstance();
+		mapSearchPanel.setAllVendors(allVendors);
+		mapSearchPanel.setNearbyVendors(allVendors);
+		mapSearchPanel.plotNearbyVendors();
+		
+		setNearbyVendors(allVendors);
+		displayNearbyVendors();
+	}
+
 	public void searchVendor() {
 		setSearchText(searchField.getText().toLowerCase());
+		
 		mapSearchPanel = MapSearchPanel.getInstance();
 		mapSearchPanel.setNearbyVendors(allVendors);
-		mapSearchPanel.filterNearbyVendors();
+		mapSearchPanel.filterAllVendorsIntoNearbyVendors();
+		
 		setNearbyVendors(mapSearchPanel.getNearbyVendors());
-		filterNearbyVendors();
+		filterNearbyVendorsIntoMatchingVendors();
 		setNearbyVendors(matchingVendors);
 		displayNearbyVendors();
+		
 		mapSearchPanel.setNearbyVendors(matchingVendors);
 		mapSearchPanel.plotNearbyVendors();
 	}
 	
-	public void filterNearbyVendors() {
+	public void filterNearbyVendorsIntoMatchingVendors() {
 		if (searchText.equals("")) {
 			matchingVendors = new ArrayList<Vendor>(nearbyVendors);
 			GWT.log("VendorListPanel.java: filterNearbyVendors(): matchingVendors = " + matchingVendors.toString());
