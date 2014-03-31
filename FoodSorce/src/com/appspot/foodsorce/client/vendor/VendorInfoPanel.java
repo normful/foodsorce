@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.vendor;
 
+import com.appspot.foodsorce.client.login.LoginInfo;
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.appengine.api.users.UserService;
@@ -23,22 +24,22 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Button addReviewButton;
 	private Button favouriteButton;
 	private ViewReviewsPanel viewReviewsPanel;
-	
+
 	private boolean favourited;
-	
-	public VendorInfoPanel(Vendor vendor) {
+
+	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
 		vendorName = new Label(vendor.getName());
 		vendorName.setStylePrimaryName("vendorInfoPanelName");
-		
+
 		vendorDescription = new Label(vendor.getDescription());
 		vendorDescription.setStylePrimaryName("vendorInfoPanelDescription");
-		
+
 		vendorLocation = new Label(vendor.getLocation());
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
-		
+
 		addReviewButton = new Button("Add Review");
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
-		
+
 		htmlPanel.add(vendorName);
 		htmlPanel.add(vendorDescription);
 		htmlPanel.add(vendorLocation);
@@ -46,22 +47,25 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
 		
-		if (UserServiceFactory.getUserService().isUserLoggedIn()) {
-			createFavouritesButton(vendor);
+		checkIfFavourited(vendor, loginInfo);
+
+		if (loginInfo != null) {
+			createFavouritesButton(vendor, loginInfo);
 			htmlPanel.add(favouriteButton);
 		}
-		
+
 		scrollPanel.add(htmlPanel);
 		this.add(scrollPanel);
 	}
 
-	private void createFavouritesButton (Vendor vendor) {
+	private void createFavouritesButton (final Vendor vendor, final LoginInfo loginInfo) {
 		if (favourited == false) {
 			favouriteButton = new Button("Add to Favourite");
 			favouriteButton.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
+					vendor.addFavourites(loginInfo.getEmailAddress());
 					
 				}
 
@@ -72,7 +76,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					
+
 				}
 
 			});
@@ -80,5 +84,16 @@ public class VendorInfoPanel extends VerticalPanel {
 
 
 	}
-	
+
+	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
+		for (String user : vendor.getFavourites()) {
+			if (loginInfo.getEmailAddress() == user) {
+				favourited = true;
+			} else {
+				favourited = false;
+			}
+
+		}
+
+	}
 }

@@ -171,7 +171,7 @@ public class FoodSorce implements EntryPoint {
 	
 	public void loadVendorInfoPanel(Vendor vendor) {
 		GWT.log("FoodSorce.java: loadVendorInfoPanel(" + vendor.getName() + ")");
-		vendorInfoPanel = new VendorInfoPanel(vendor);
+		vendorInfoPanel = new VendorInfoPanel(vendor, loginInfo);
 		center.setWidget(vendorInfoPanel);
 	}
 
