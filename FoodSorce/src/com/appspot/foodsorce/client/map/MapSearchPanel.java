@@ -78,10 +78,6 @@ public class MapSearchPanel extends FlowPanel {
 	private ArrayList<Vendor> allVendors = new ArrayList<Vendor>();
 	private ArrayList<Vendor> nearbyVendors = new ArrayList<Vendor>();
 	
-	//Added GPS field to save from the method convertGPStoAddress.
-	@SuppressWarnings("unused")
-	private String coordinateConversionResults;
-	
 	private MapSearchPanel() {
 		GWT.log("MapSearchPanel.java: MapSearchPanel() constructor");
 		
@@ -327,27 +323,6 @@ public class MapSearchPanel extends FlowPanel {
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private void convertGPStoAddress(LatLng location) {
-		Geocoder geocoder = Geocoder.create();
-		GeocoderRequest georequest = GeocoderRequest.create();
-		georequest.setLocation(location);
-		geocoder.geocode(georequest, new Geocoder.Callback() {
-			@Override
-			public void handle(JsArray<GeocoderResult> a, GeocoderStatus b) {
-				if (b == GeocoderStatus.OK) {
-					GeocoderResult result = a.shift();
-					GWT.log("MapSearchPanel.java: convertGPStoAddress GeocoderResult=" + result.getFormattedAddress());
-					GWT.log("MapSearchPanel.java: convertGPStoAddress GPS GeocoderResult=" + result.getGeometry().getLocation());
-					coordinateConversionResults = result.getFormattedAddress();
-				} else {
-					Window.alert("Google Maps could not return address from coordinates.");
-					coordinateConversionResults = "N/A";
-				}
-			}
-		});
-	}
-
 	public ArrayList<Vendor> getNearbyVendors() {
 		return nearbyVendors;
 	}
