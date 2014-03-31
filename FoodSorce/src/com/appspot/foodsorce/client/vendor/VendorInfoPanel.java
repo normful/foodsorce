@@ -57,7 +57,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void createFavouritesButton (Vendor vendor) {
 		if (favourited == false) {
-			favouriteButton = new Button("Add Review");
+			favouriteButton = new Button("Add to Favourite");
 			favouriteButton.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -67,7 +67,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 			});
 		} else {
-			favouriteButton = new Button("Delete Review");
+			favouriteButton = new Button("Delete from Favourite");
 			favouriteButton.addClickHandler(new ClickHandler(){
 
 				@Override
