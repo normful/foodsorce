@@ -70,6 +70,7 @@ public class ProfilePanel extends VerticalPanel {
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
 				mapSearchPanel.updateAndPlotNearbyVendors();
 				vendorListPanel.setSearchText(result.getSettings().get("searchText"));
+				vendorListPanel.searchVendor();
 			}
 			public void onFailure(Throwable error) {
 				GWT.log("ProfilePanel.java: getProfile onFailure", error);
@@ -93,13 +94,16 @@ public class ProfilePanel extends VerticalPanel {
 		settingsTable.setText(0, 1, userEmail);
 		
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
-			// TODO: Uncomment after this has been tested
-//			if (setting.getKey().equals("searchText"))
-			if (setting.getKey().equals("searchDistance")) {
+			if (setting.getKey().equals("searchText")) {
+				int row = settingsTable.getRowCount();
+				settingsTable.setText(row, 0, "Search Text");
+				settingsTable.setText(row, 1, setting.getValue());
+			} else if (setting.getKey().equals("searchDistance")) {
 				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, "Search Distance");
 				settingsTable.setText(row, 1, setting.getValue());
 			} else if (!setting.getKey().equals("photoUrl")) {
+				// All other settings
 				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, setting.getKey());
 				settingsTable.setText(row, 1, setting.getValue());
@@ -176,6 +180,15 @@ public class ProfilePanel extends VerticalPanel {
 		GWT.log("ProfilePanel.java: setSearchDistance()");
 		if (profile != null) {
 			settingsMap.put("searchDistance", searchDistance);
+			profile.setSettings(settingsMap);
+			updateProfile();
+		}
+	}
+	
+	public void setSearchText(String searchText) {
+		GWT.log("ProfilePanel.java: setSearchText()");
+		if (profile != null) {
+			settingsMap.put("searchText", searchText);
 			profile.setSettings(settingsMap);
 			updateProfile();
 		}

@@ -1,7 +1,6 @@
 package com.appspot.foodsorce.client.map;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.appspot.foodsorce.shared.Vendor;
 import com.appspot.foodsorce.client.profile.ProfilePanel;
@@ -50,6 +49,7 @@ public class MapSearchPanel extends FlowPanel {
 	private FoodSorce foodSorce;
 	private static final MapSearchPanel INSTANCE = new MapSearchPanel();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
+	private ProfilePanel profilePanel;
 
 	private TextBox addressField = new TextBox();
 	private Button setAddressButton = new Button("Set Location");
@@ -85,6 +85,7 @@ public class MapSearchPanel extends FlowPanel {
 
 	private MapSearchPanel() {
 		GWT.log("MapSearchPanel.java: MapSearchPanel() constructor");
+
 		createAddressTextBox();
 		createRadioButtons();
 		createMap();
@@ -97,17 +98,17 @@ public class MapSearchPanel extends FlowPanel {
 	}
 
 	public static MapSearchPanel getInstance() {
-		GWT.log("MapSearchPanel.java: getInstance");
 		return INSTANCE;
 	}
 
-	public void setAllVendors(List<Vendor> allVendors) {
+	public void setAllVendors(ArrayList<Vendor> vendors) {
 		GWT.log("MapSearchPanel.java: setAllVendors");
-		this.allVendors.clear();
-		this.allVendors.addAll(allVendors);
-		this.nearbyVendors.clear();
-		this.nearbyVendors.addAll(allVendors);
-		this.plotNearbyVendors();
+		allVendors = new ArrayList<Vendor>(vendors);
+	}
+
+	public void setNearbyVendors(ArrayList<Vendor> vendors) {
+		GWT.log("MapSearchPanel.java: setNearbyVendors");
+		nearbyVendors = new ArrayList<Vendor>(vendors);
 	}
 
 	private void createAddressTextBox() {
@@ -172,14 +173,14 @@ public class MapSearchPanel extends FlowPanel {
 	}
 
 	public void updateAndPlotNearbyVendors() {
-		updateNearbyVendors(searchDistance);
-		try {
-			vendorListPanel = VendorListPanel.getInstance();
-			vendorListPanel.setAndDisplayNearbyVendors(nearbyVendors);
-			foodSorce.loadVendorListPanel();
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+		filterAllVendorsIntoNearbyVendors();
+
+		vendorListPanel.setNearbyVendors(nearbyVendors);
+		vendorListPanel.filterNearbyVendorsIntoMatchingVendors();
+		nearbyVendors = vendorListPanel.getMatchingVendors();
+		vendorListPanel.displayNearbyVendors();
+		foodSorce.loadVendorListPanel();
+
 		plotNearbyVendors();
 
 	}
@@ -209,44 +210,33 @@ public class MapSearchPanel extends FlowPanel {
 	}
 
 	private void setLocationFromBrowser(Geolocation geolocation) {
-
-		// For debugging
 		if (geolocation != null)
 			GWT.log("MapSearchPanel.java: setLocationFromBrowser(geolocation=" + geolocation.toString() + ")");
 
 		geolocation.getCurrentPosition(new Callback<Position, PositionError>() {
-
-			@Override
 			public void onSuccess(Position result) {
 				Coordinates coordinates = result.getCoordinates();
 				LatLng latlong = LatLng.create(coordinates.getLatitude(), coordinates.getLongitude());
 				plotUser(latlong);
 				updateAndPlotNearbyVendors();
 			}
-
-			@Override
 			public void onFailure(PositionError reason) {
-				// For debugging
 				GWT.log("MapSearchPanel.java: setLocationFromBrowser geo.getCurrentPosition Callback onFailure");
 			}
 		});
 	}
+
 	private void setLocationFromInput(String address) {
 		Geocoder geocoder = Geocoder.create();
 		GeocoderRequest georequest = GeocoderRequest.create();
 		georequest.setAddress(address);
-
 		geocoder.geocode(georequest, new Geocoder.Callback() {
 			@Override
 			public void handle(JsArray<GeocoderResult> a, GeocoderStatus b) {
 				if (b == GeocoderStatus.OK) {
-
 					GeocoderResult result = a.shift();
-
-					// For debugging
 					GWT.log("MapSearchPanel.java: setLocationFromInput result.getFormattedAddres()=" + result.getFormattedAddress());
 					GWT.log("MapSearchPanel.java: setLocationFromInput result.getGeometry().getLocation()=" + result.getGeometry().getLocation());
-
 					if (isInVancouver(result.getGeometry().getLocation()) == true) {
 						plotUser(result.getGeometry().getLocation());
 						updateAndPlotNearbyVendors();
@@ -258,7 +248,6 @@ public class MapSearchPanel extends FlowPanel {
 				}
 			}
 		});
-
 	}
 
 	private boolean isInVancouver(LatLng location) {
@@ -290,7 +279,7 @@ public class MapSearchPanel extends FlowPanel {
 
 	private void plotNearbyVendor(Vendor vendor) {
 		MarkerOptions options = MarkerOptions.create();
-		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));      
+		options.setPosition(LatLng.create(vendor.getLatitude(),vendor.getLongitude()));
 		Marker vendorMarker = Marker.create(options);
 
 		setMarkerDescription(vendor, vendorMarker);
@@ -306,10 +295,10 @@ public class MapSearchPanel extends FlowPanel {
 		String averageCost = "";
 		String averageQuality = "";
 
-		if (vendor.getAverageCost() != -1) 
+		if (vendor.getAverageCost() != -1)
 			averageCost = "<p><b>Average Cost: </b>" + vendor.getAverageCost() + "</p>";
 
-		if (vendor.getAverageQuality() != -1) 
+		if (vendor.getAverageQuality() != -1)
 			averageQuality = "<p><b>Average Quality: </b>" + vendor.getAverageQuality() + "</p>";
 
 
@@ -354,13 +343,20 @@ public class MapSearchPanel extends FlowPanel {
 				setMarkListenerInitial(infoWindow, vendor, vendorMarker);
 			}});
 	}
-	
+
 	public void plotSelectedVendor(Vendor selectedVendor) {
 		clearVendorMarkers();
 		plotNearbyVendor(selectedVendor);
 	}
 
-	private void updateNearbyVendors(String buttonText) {
+	public void filterAllVendorsIntoNearbyVendors() {
+		String buttonText = null;
+
+		if (searchDistance.isEmpty())
+			buttonText = "all";
+		else
+			buttonText = searchDistance;
+
 		double travelDistance;
 
 		if (buttonText.equals("1 km"))
@@ -403,7 +399,12 @@ public class MapSearchPanel extends FlowPanel {
 		if (searchDistance == null || searchDistance.isEmpty())
 			return;
 		this.searchDistance = searchDistance;
-		
+
+		// Save search setting to Profile
+		profilePanel = ProfilePanel.getInstance();
+		profilePanel.setSearchDistance(searchDistance);
+
+		// Change radio button appearance
 		if (searchDistance.equals("1 km"))
 			option1.setValue(true);
 		else if (searchDistance.equals("2 km"))
@@ -414,7 +415,6 @@ public class MapSearchPanel extends FlowPanel {
 			option10.setValue(true);
 		else
 			optionAll.setValue(true);
-		ProfilePanel.getInstance().setSearchDistance(searchDistance);
 	}
 
 }
