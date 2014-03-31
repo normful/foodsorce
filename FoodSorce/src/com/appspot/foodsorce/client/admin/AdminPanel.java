@@ -41,6 +41,8 @@ public class AdminPanel extends VerticalPanel {
 			}
 			public void onSuccess(Void voidResult) {
 				VendorListPanel.getInstance().fetchAllVendors();
+				VendorListPanel.getInstance().searchVendor();
+				VendorListPanel.getInstance().getFoodSorce().loadVendorListPanel();
 				Window.alert("Successfully imported data.");
 			}
 		});
