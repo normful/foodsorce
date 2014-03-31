@@ -68,7 +68,9 @@ public class ProfilePanel extends VerticalPanel {
 				settingsMap.putAll(result.getSettings());
 				loadViewLayout();
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
+				mapSearchPanel.updateAndPlotNearbyVendors();
 				vendorListPanel.setSearchText(result.getSettings().get("searchText"));
+				vendorListPanel.searchVendor();
 			}
 			public void onFailure(Throwable error) {
 				GWT.log("ProfilePanel.java: getProfile onFailure", error);

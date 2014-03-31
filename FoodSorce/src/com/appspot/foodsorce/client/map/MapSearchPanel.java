@@ -154,6 +154,7 @@ public class MapSearchPanel extends FlowPanel {
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
 					setSearchDistance(button.getText());
+					updateAndPlotNearbyVendors();
 				}
 			});
 		}
@@ -170,7 +171,7 @@ public class MapSearchPanel extends FlowPanel {
 		this.add(distancePanel);
 	}
 	
-	private void updateAndPlotNearbyVendors() {
+	public void updateAndPlotNearbyVendors() {
 		filterNearbyVendors();
 		vendorListPanel.setNearbyVendors(nearbyVendors);
 		vendorListPanel.filterNearbyVendors();
@@ -374,8 +375,6 @@ public class MapSearchPanel extends FlowPanel {
 		if (searchDistance == null || searchDistance.isEmpty())
 			return;
 		this.searchDistance = searchDistance;
-		
-		updateAndPlotNearbyVendors();
 		
 		// Save search setting to Profile
 		profilePanel = ProfilePanel.getInstance();

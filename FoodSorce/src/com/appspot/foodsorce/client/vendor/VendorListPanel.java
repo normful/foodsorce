@@ -133,7 +133,7 @@ public class VendorListPanel extends VerticalPanel {
 		});
 	}
 
-	private void searchVendor() {
+	public void searchVendor() {
 		searchText = searchField.getText().toLowerCase();
 		mapSearchPanel = MapSearchPanel.getInstance();
 		mapSearchPanel.setNearbyVendors(allVendors);
