@@ -40,7 +40,7 @@ public class AdminPanel extends VerticalPanel {
 				Window.alert("Failed to import data: " + error.toString());
 			}
 			public void onSuccess(Void voidResult) {
-				VendorListPanel.getInstance().fetchAndDisplayVendors();
+				VendorListPanel.getInstance().fetchAllVendors();
 				Window.alert("Successfully imported data.");
 			}
 		});

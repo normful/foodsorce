@@ -118,7 +118,7 @@ public class VendorListPanel extends VerticalPanel {
 		this.foodSorce = foodSorce;
 	}
 
-	private void fetchAllVendors() {
+	public void fetchAllVendors() {
 		vendorService.getVendors(new AsyncCallback<Vendor[]>() {
 			public void onFailure(Throwable error) {
 				GWT.log("VendorListPanel.java: fetchAllVendors onFailure", error);
@@ -128,6 +128,8 @@ public class VendorListPanel extends VerticalPanel {
 			public void onSuccess(Vendor[] result) {
 				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
 				allVendors = new ArrayList<Vendor>(Arrays.asList(result));
+				setNearbyVendors(allVendors);
+				displayNearbyVendors();
 				setupMapSearchPanel();
 			}
 		});
@@ -138,9 +140,6 @@ public class VendorListPanel extends VerticalPanel {
 		mapSearchPanel.setAllVendors(allVendors);
 		mapSearchPanel.setNearbyVendors(allVendors);
 		mapSearchPanel.plotNearbyVendors();
-
-		setNearbyVendors(allVendors);
-		displayNearbyVendors();
 	}
 
 	public void searchVendor() {
@@ -215,7 +214,10 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				loadVendorInfoPanel(vendorTable.getCellForEvent(event).getRowIndex());
+				int rowClicked = vendorTable.getCellForEvent(event).getRowIndex();
+				if (rowClicked >= 1) {
+					loadVendorInfoPanel(rowClicked);
+				}
 			}
 		});
 	}
