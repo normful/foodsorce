@@ -11,6 +11,7 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 //import com.google.gwt.user.client.Timer;
@@ -68,6 +69,14 @@ public class VendorListPanel extends VerticalPanel {
 				searchField.setFocus(true);
 			}
 		});
+		searchField.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				boolean enterPressed = KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode();
+				if (enterPressed) {
+					searchVendor();
+				}
+			}
+		});
 		searchField.setFocus(true);
 
 		// Search button settings
@@ -75,16 +84,7 @@ public class VendorListPanel extends VerticalPanel {
 		searchButton.setWidth("100px");
 		searchButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				searchText = searchField.getText().toLowerCase();
-				mapSearchPanel = MapSearchPanel.getInstance();
-				mapSearchPanel.setNearbyVendors(allVendors);
-				mapSearchPanel.filterNearbyVendors();
-				setNearbyVendors(mapSearchPanel.getNearbyVendors());
-				filterNearbyVendors();
-				setNearbyVendors(matchingVendors);
-				displayNearbyVendors();
-				mapSearchPanel.setNearbyVendors(matchingVendors);
-				mapSearchPanel.plotNearbyVendors();
+				searchVendor();
 			}
 		});
 		
@@ -143,6 +143,19 @@ public class VendorListPanel extends VerticalPanel {
 		});
 	}
 
+	private void searchVendor() {
+		searchText = searchField.getText().toLowerCase();
+		mapSearchPanel = MapSearchPanel.getInstance();
+		mapSearchPanel.setNearbyVendors(allVendors);
+		mapSearchPanel.filterNearbyVendors();
+		setNearbyVendors(mapSearchPanel.getNearbyVendors());
+		filterNearbyVendors();
+		setNearbyVendors(matchingVendors);
+		displayNearbyVendors();
+		mapSearchPanel.setNearbyVendors(matchingVendors);
+		mapSearchPanel.plotNearbyVendors();
+	}
+	
 	public void filterNearbyVendors() {
 		if (searchText.equals("")) {
 			matchingVendors = new ArrayList<Vendor>(nearbyVendors);
