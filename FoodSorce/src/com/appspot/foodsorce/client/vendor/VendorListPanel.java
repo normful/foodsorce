@@ -149,6 +149,7 @@ public class VendorListPanel extends VerticalPanel {
 	public void filterNearbyVendors() {
 		if (searchText.equals("")) {
 			matchingVendors = new ArrayList<Vendor>(nearbyVendors);
+			GWT.log("VendorListPanel.java: filterNearbyVendors(): matchingVendors = " + matchingVendors.toString());
 			return;
 		}
 	
@@ -171,6 +172,7 @@ public class VendorListPanel extends VerticalPanel {
 			}
 		}
 		matchingVendors = new ArrayList<Vendor>(vendorsToKeep);
+		GWT.log("VendorListPanel.java: filterNearbyVendors(): matchingVendors = " + matchingVendors.toString());
 	}
 	
 	public void setNearbyVendors(ArrayList<Vendor> nearbyVendors) {
@@ -242,6 +244,7 @@ public class VendorListPanel extends VerticalPanel {
 
 	public void setSearchText(String searchText) {
 		this.searchText = searchText;
+		searchField.setText(searchText);
 	}
 	
 	public ArrayList<Vendor> getMatchingVendors() {
