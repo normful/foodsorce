@@ -75,7 +75,7 @@ h2 {
   text-align: left;
 }
 
-.vendorMarkerInfoWindowContentName {
+.vendorMarkerInfoWindowTitle {
   font-size: 1.25em;
   font-weight: bold;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
@@ -84,29 +84,20 @@ h2 {
   text-align: left;
 }
 
-.vendorMarkerInfoWindowContentDesc {
+.vendorMarkerInfoWindowCategory {
   font-size: 0.75em;
   font-weight: bold;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
-  color: #333333;
+  color: #3B64A6;
   margin: 0px 0px 0px;
   text-align: left;
 }
 
-.vendorMarkerInfoWindowContentLoc {
+.vendorMarkerInfoWindowText {
   font-size: 0.75em;
   font-weight: normal;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
   color: #555555;
-  margin: 0px 0px 0px;
-  text-align: left;
-}
-
-.vendorMarkerInfoWindowContentReviews {
-  font-size: 0.75em;
-  font-weight: normal;
-  font-family: Geneva, Tahoma, Verdana, sans-serif;
-  color: #3B64A6;
   margin: 0px 0px 0px;
   text-align: left;
 }

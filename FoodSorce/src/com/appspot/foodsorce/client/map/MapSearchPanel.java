@@ -292,15 +292,23 @@ public class MapSearchPanel extends FlowPanel {
 		String averageCost = "";
 		String averageQuality = "";
 		if (vendor.getAverageCost() != -1)
-			averageCost = "<p><b>Average Cost: </b>" + vendor.getAverageCost() + "</p>";
+			averageCost = String.valueOf(vendor.getAverageCost());
 		if (vendor.getAverageQuality() != -1)
-			averageQuality = "<p><b>Average Quality: </b>" + vendor.getAverageQuality() + "</p>";
-		String infoWindowContent = "<div class=\"vendorMarkerInfoWindowContentName\">" + vendor.getName() + "</div><br>"
-				+ "<div class=\"vendorMarkerInfoWindowContentDesc\">" + vendor.getDescription() + "</div><br>"
-				+ "<div class=\"vendorMarkerInfoWindowContentLoc\">" + vendor.getLocation() + "</div><br>"
-				+ "<div class=\"vendorMarkerInfoWindowContentReviews\">Reviews: " + vendor.getReviews().size() + "</div>"
+			averageQuality = String.valueOf(vendor.getAverageQuality());
+		String infoWindowContent = "<div class=\"vendorMarkerInfoWindowTitle\"><b>"
+				+ vendor.getName()
+				+ "</b></div>"
+				+ "<div class=\"vendorMarkerInfoWindowText\">"
+				+ averageQuality
+				+ vendor.getReviews().size() + " reviews <br>"
 				+ averageCost
-				+ averageQuality;
+				+ "</div>"
+				+ "<div class=\"vendorMarkerInfoWindowCategory\">"
+				+ vendor.getDescription() + "<br>"
+				+ "</div>"
+				+ "<div class=\"vendorMarkerInfoWindowText\">"
+				+ vendor.getLocation()
+				+ "</div>";
 		infoWindowOptions.setContent(infoWindowContent);
 		InfoWindow infoWindow = InfoWindow.create(infoWindowOptions);
 		setMarkListenerInitial(infoWindow, vendor, vendorMarker);
