@@ -89,9 +89,9 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(0, 2, "Location");
 		vendorTable.setText(0, 3, "Quality");
 		vendorTable.setText(0, 4, "Cost");
-		vendorTable.getColumnFormatter().setWidth(0, "95px");
-		vendorTable.getColumnFormatter().setWidth(1, "95px");
-		vendorTable.getColumnFormatter().setWidth(2, "380px");
+		vendorTable.getColumnFormatter().setWidth(0, "100px");
+		vendorTable.getColumnFormatter().setWidth(1, "100px");
+		vendorTable.getColumnFormatter().setWidth(2, "400px");
 		vendorTable.getColumnFormatter().setWidth(3, "50px");
 		vendorTable.getColumnFormatter().setWidth(4, "50px");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
