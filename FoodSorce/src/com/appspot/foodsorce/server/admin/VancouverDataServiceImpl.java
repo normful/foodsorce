@@ -18,7 +18,7 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VancouverDataServiceImpl extends RemoteServiceServlet implements
-VancouverDataService {
+	VancouverDataService {
 
 	private static final long serialVersionUID = -2926288307530133636L;
 
