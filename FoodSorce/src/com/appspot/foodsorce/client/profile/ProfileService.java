@@ -10,5 +10,5 @@ public interface ProfileService extends RemoteService {
 	public Profile[] getAllProfiles() throws NotLoggedInException;
 	public Profile getProfile(String userEmail) throws NotLoggedInException;
 	public void updateProfile(String userEmail, Profile profile) throws NotLoggedInException;
-	public void deleteProfile(String userEmail) throws NotLoggedInException;
+	public void deleteProfile(Profile profile) throws NotLoggedInException;
 }

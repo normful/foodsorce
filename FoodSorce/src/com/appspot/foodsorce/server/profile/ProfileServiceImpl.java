@@ -109,17 +109,15 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 	
+
 	@Override
-	public void deleteProfile(String userEmail) throws NotLoggedInException {
+	public void deleteProfile(Profile profile) throws NotLoggedInException {
 		checkLoggedIn();
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Profile profile;
+		pm.flush();
 		
 		try {
-			pm.getFetchPlan().setGroup(FetchPlan.ALL);
-			profile = pm.getObjectById(Profile.class, userEmail);
 			pm.deletePersistent(profile);
 		} catch (Throwable e) {
 			e.printStackTrace();

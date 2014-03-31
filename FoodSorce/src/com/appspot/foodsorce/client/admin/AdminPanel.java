@@ -159,11 +159,10 @@ public class AdminPanel extends VerticalPanel {
 		profileTable.getCellFormatter().addStyleName(row, 0, "vendorListTextColumn");
 	}
 	
-	private void deleteProfile (Profile profile){
+	private void deleteProfile (Profile profile) {
 		profiles.remove(profile);
 		displayProfiles(profiles);
-		try {
-			profileService.deleteProfile(profile.getUserEmail(), new AsyncCallback<Void>(){
+		profileService.deleteProfile(profile, new AsyncCallback<Void>(){
 
 				@Override
 				public void onFailure(Throwable error) {
@@ -173,12 +172,11 @@ public class AdminPanel extends VerticalPanel {
 
 				@Override
 				public void onSuccess(Void result) {
+					GWT.log("AdminPanel.java: deleteProfile() onSuccess");
 					// Do as our own local list of prilfes is updated
 				}});
-		} catch (NotLoggedInException e) {
-			handleError(e);
 		}
-	}
+	
 	
 
 	
