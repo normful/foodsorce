@@ -1,5 +1,6 @@
 package com.appspot.foodsorce.client.vendor;
 
+import com.appspot.foodsorce.client.login.LoginInfo;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,6 +13,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class VendorInfoPanel extends VerticalPanel {
 
+	private Vendor vendor;
+	private String userEmail;
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("");
 	private Label vendorName;
@@ -20,43 +23,44 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Button addReviewButton;
 	private ViewReviewsPanel viewReviewsPanel;
 	private AddReviewsPanel addReviewsPanel;
-	
-	public VendorInfoPanel(Vendor vendor,String userEmail) {
-		vendorName = new Label(vendor.getName());
-		vendorName.setStylePrimaryName("vendorInfoPanelName");
-		
-		vendorDescription = new Label(vendor.getDescription());
-		vendorDescription.setStylePrimaryName("vendorInfoPanelDescription");
-		
-		vendorLocation = new Label(vendor.getLocation());
-		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
-		
+
+	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
+		this.vendor = vendor;
+		this.userEmail = loginInfo.getEmailAddress();
+		createHeader();
+		if (loginInfo.isLoggedIn())
+			createAddReviewsButton();
+		scrollPanel.add(htmlPanel);
+		add(scrollPanel);
+	}
+
+	private void createAddReviewsButton() {
 		addReviewButton = new Button("Add Review");
-		addReviewsPanel= new AddReviewsPanel(vendor,userEmail,this);
+		addReviewsPanel = new AddReviewsPanel(vendor, userEmail, this);
+		viewReviewsPanel = new ViewReviewsPanel(vendor);
 		addReviewButton.addClickHandler(new ClickHandler() {
-
-
-
 			@Override
 			public void onClick(ClickEvent event) {
-
-					remove(viewReviewsPanel);
-					add(addReviewsPanel);
-					add(viewReviewsPanel);
-				}
-			
+				remove(viewReviewsPanel);
+				add(addReviewsPanel);
+				add(viewReviewsPanel);
+			}
 		});
-		viewReviewsPanel = new ViewReviewsPanel(vendor);
-		
-		htmlPanel.add(vendorName);
-		htmlPanel.add(vendorDescription);
-		htmlPanel.add(vendorLocation);
 		htmlPanel.add(new HTML("<br>"));
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
-		
-		scrollPanel.add(htmlPanel);
-		this.add(scrollPanel);
+	}
+
+	private void createHeader() {
+		vendorName = new Label(vendor.getName());
+		vendorName.setStylePrimaryName("vendorInfoPanelName");
+		vendorDescription = new Label(vendor.getDescription());
+		vendorDescription.setStylePrimaryName("vendorInfoPanelDescription");
+		vendorLocation = new Label(vendor.getLocation());
+		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
+		htmlPanel.add(vendorName);
+		htmlPanel.add(vendorDescription);
+		htmlPanel.add(vendorLocation);
 	}
 
 	public void updateReviews() {
@@ -64,7 +68,5 @@ public class VendorInfoPanel extends VerticalPanel {
 		remove(viewReviewsPanel);
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
 		add(viewReviewsPanel);
-		
 	}
-	
 }
