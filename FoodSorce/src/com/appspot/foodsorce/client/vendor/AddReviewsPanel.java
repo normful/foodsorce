@@ -149,6 +149,8 @@ public class AddReviewsPanel extends VerticalPanel {
 			public void onSuccess(Void result) {
 				Window.alert("Review successfully submitted.");
 				vendorInfoPanel.removeAddReviewsPanel();
+				vendorInfoPanel.createViewReviewsPanel();
+				VendorListPanel.getInstance().searchVendor();
 			}
 			public void onFailure(Throwable e) {
 				Window.alert("Review submission failed.");

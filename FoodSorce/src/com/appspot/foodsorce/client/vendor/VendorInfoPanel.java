@@ -81,17 +81,21 @@ public class VendorInfoPanel extends VerticalPanel {
 		addReviewButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				remove(addReviewButton);
 				add(addReviewsPanel);
+				removeAddReviewButton();
 			}
 		});
 	}
 	
-	private void createViewReviewsPanel() {
+	void createViewReviewsPanel() {
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
 		add(viewReviewsPanel);
 	}
 
+	public void removeAddReviewButton() {
+		remove(addReviewButton);
+	}
+	
 	public void removeAddReviewsPanel() {
 		remove(addReviewsPanel);
 	}
