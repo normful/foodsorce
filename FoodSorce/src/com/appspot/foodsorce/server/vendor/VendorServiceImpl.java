@@ -38,7 +38,14 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 
 	@Override
 	public void setVendor(Vendor vendor) {
-		// TODO Auto-generated method stub
+//		PersistenceManager pm = PMF.get().getPersistenceManager();
+//		try {
+//			pm.makePersistent(vendor);
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		} finally {
+//			pm.close();
+//		}
 	}
 	
 }

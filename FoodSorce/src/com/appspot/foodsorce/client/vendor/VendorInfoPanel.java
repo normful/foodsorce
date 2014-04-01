@@ -29,7 +29,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	private boolean favourited;
 
 	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
-		System.out.println("beginning of method");
 		vendorName = new Label(vendor.getName());
 		vendorName.setStylePrimaryName("vendorInfoPanelName");
 
@@ -48,10 +47,9 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(new HTML("<br>"));
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
-		
-		System.out.println("before conditional");
 
-		if (loginInfo != null) {
+
+		if (loginInfo.isLoggedIn()) {
 			checkIfFavourited(vendor, loginInfo);
 			createFavouritesButton(vendor, loginInfo);
 			htmlPanel.add(favouriteButton);
@@ -70,6 +68,7 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void setButtonToAdd(final Vendor vendor, final LoginInfo loginInfo) {
+		favouriteButton = null;
 		favouriteButton = new Button("Add to Favourite");
 		favouriteButton.addClickHandler(new ClickHandler(){
 
@@ -86,12 +85,14 @@ public class VendorInfoPanel extends VerticalPanel {
 					@Override
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
+						setButtonToRemove(vendor,loginInfo);
 					}
 				});}
 		});
 	}
 
 	private void setButtonToRemove (final Vendor vendor, final LoginInfo loginInfo) {
+		System.out.println("in Remove");
 		favouriteButton = new Button("Delete from Favourite");
 		favouriteButton.addClickHandler(new ClickHandler(){
 
@@ -109,20 +110,22 @@ public class VendorInfoPanel extends VerticalPanel {
 					@Override
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
+						setButtonToAdd(vendor,loginInfo);
 
 					}
 				});
 			}
 		});
 	}
-
+// TODO: Fix this
 	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
-		for (String user : vendor.getFavourites()) {
-			if (loginInfo.getEmailAddress() == user) {
-				favourited = true;
-			} else {
-				favourited = false;
-			}
-		}
+//		for (String user : vendor.getFavourites()) {
+//			if (loginInfo.getEmailAddress() == user) {
+//				favourited = true;
+//			} else {
+//				favourited = false;
+//			}
+//		}
+		favourited = false;
 	}
 }
