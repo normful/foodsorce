@@ -59,7 +59,6 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
 		if (loginInfo.isLoggedIn()) {
-		loginInfo.setEmailAddress("emailAddress");
 			checkIfFavourited(vendor, loginInfo);
 			setButtonToAdd(vendor, loginInfo);
 			setButtonToRemove(vendor, loginInfo);
