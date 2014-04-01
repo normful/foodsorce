@@ -41,7 +41,7 @@ public class Vendor implements Serializable {
 	@Persistent
 	private double longitude;
 	
-	@Persistent(serialized="true")
+	@Persistent(serialized="true", defaultFetchGroup="true")
 	private ArrayList<Review> reviews;
 	
 	// Default no-arg constructor required for serialization
