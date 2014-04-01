@@ -36,7 +36,7 @@ public class AdminPanel extends VerticalPanel {
 		add(headerPanel);
 		createImportDataButton();
 		
-		HTMLPanel textDescribingTable = new HTMLPanel("<br>The following users are registered with FoodSorce.<br><br>");
+		HTMLPanel textDescribingTable = new HTMLPanel("<br>Saved user profiles can be removed from FoodSorce here.<br><br>");
 		add(textDescribingTable);
 		createProfileTable();
 		
@@ -76,10 +76,10 @@ public class AdminPanel extends VerticalPanel {
 	private void createProfileTable() {
 		profileTable.addStyleName("vendorList");
 		profileTable.setCellPadding(5);
-		profileTable.setText(0, 0, "Email");
+		profileTable.setText(0, 0, "User");
 		profileTable.setText(0, 1, "Delete User");
-		profileTable.getColumnFormatter().setWidth(0, "200px");
-		profileTable.getColumnFormatter().setWidth(1, "200px");
+		profileTable.getColumnFormatter().setWidth(0, "300px");
+		profileTable.getColumnFormatter().setWidth(1, "150px");
 		profileTable.getRowFormatter().addStyleName(0, "adminPanelProfileListHeader");
 		scrollPanel = new ScrollPanel(profileTable);
 		scrollPanel.setHeight("655px");
