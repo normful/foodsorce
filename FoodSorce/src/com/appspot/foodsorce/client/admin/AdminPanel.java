@@ -77,7 +77,7 @@ public class AdminPanel extends VerticalPanel {
 		profileTable.addStyleName("vendorList");
 		profileTable.setCellPadding(5);
 		profileTable.setText(0, 0, "User");
-		profileTable.setText(0, 1, "Delete User");
+		profileTable.setText(0, 1, "Action");
 		profileTable.getColumnFormatter().setWidth(0, "300px");
 		profileTable.getColumnFormatter().setWidth(1, "150px");
 		profileTable.getCellFormatter().setAlignment(0, 1, ALIGN_CENTER, ALIGN_MIDDLE);

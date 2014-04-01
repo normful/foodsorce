@@ -139,7 +139,7 @@ public class AddReviewsPanel extends VerticalPanel {
 				+ "Please don't review this business if you are in "
 				+ "any way associated with its owner or employees.");
 		reviewTextArea.setWidth("600px");
-		reviewTextArea.setHeight("225px");
+		reviewTextArea.setHeight("125px");
 		reviewTextArea.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				reviewTextArea.selectAll();

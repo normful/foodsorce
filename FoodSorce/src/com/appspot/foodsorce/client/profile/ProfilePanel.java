@@ -45,7 +45,7 @@ public class ProfilePanel extends VerticalPanel {
 	private ProfilePanel() {
 		settingsTable.setCellPadding(5);
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
-		settingsTable.getColumnFormatter().setWidth(1, "400px");
+		settingsTable.getColumnFormatter().setWidth(1, "300px");
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
 		scrollPanel.add(htmlPanel);
@@ -90,7 +90,7 @@ public class ProfilePanel extends VerticalPanel {
 
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
-		settingsTable.getCellFormatter().setHeight(0, 0, "36px");
+		settingsTable.getCellFormatter().setHeight(0, 0, "20px");
 		settingsTable.getCellFormatter().setAlignment(0, 0, ALIGN_LEFT, ALIGN_MIDDLE);
 		settingsTable.getCellFormatter().setAlignment(0, 1, ALIGN_LEFT, ALIGN_MIDDLE);
 		settingsTable.getCellFormatter().setStyleName(0, 0, "profilePanelSettingsTableKeys");
@@ -106,7 +106,7 @@ public class ProfilePanel extends VerticalPanel {
 				settingsTable.setText(row, 0, setting.getKey());
 			}
 			settingsTable.setText(row, 1, setting.getValue());
-			settingsTable.getCellFormatter().setHeight(row, 0, "36px");
+			settingsTable.getCellFormatter().setHeight(row, 0, "20px");
 			settingsTable.getCellFormatter().setAlignment(row, 0, ALIGN_LEFT, ALIGN_MIDDLE);
 			settingsTable.getCellFormatter().setAlignment(row, 1, ALIGN_LEFT, ALIGN_MIDDLE);
 			settingsTable.getCellFormatter().setStyleName(row, 0, "profilePanelSettingsTableKeys");
