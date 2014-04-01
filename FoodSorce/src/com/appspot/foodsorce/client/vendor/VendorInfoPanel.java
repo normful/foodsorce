@@ -36,7 +36,6 @@ public class VendorInfoPanel extends VerticalPanel {
 		createViewReviewsPanel();
 		htmlPanel.add(viewReviewsPanel);
 		if (!hasReviewedVendor()) {
-			// User is logged in or out and has not reviewed this Vendor
 			createAddReviewsButton();
 			htmlPanel.add(addReviewButton);
 		}

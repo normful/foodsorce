@@ -241,26 +241,26 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorCostDollarSignsText");
 	}
 
-	public Image vendorStarsImage(double averageQuality) {
-		if (averageQuality <= 0.25)
+	public Image vendorStarsImage(double quality) {
+		if (quality <= 0.25)
 			return new Image("images/stars0-0.png");
-		else if (averageQuality <= 0.75)
+		else if (quality <= 0.75)
 			return new Image("images/stars0-5.png");
-		else if (averageQuality <= 1.25)
+		else if (quality <= 1.25)
 			return new Image("images/stars1-0.png");
-		else if (averageQuality <= 1.75)
+		else if (quality <= 1.75)
 			return new Image("images/stars1-5.png");
-		else if (averageQuality <= 2.25)
+		else if (quality <= 2.25)
 			return new Image("images/stars2-0.png");
-		else if (averageQuality <= 2.75)
+		else if (quality <= 2.75)
 			return new Image("images/stars2-5.png");
-		else if (averageQuality <= 3.25)
+		else if (quality <= 3.25)
 			return new Image("images/stars3-0.png");
-		else if (averageQuality <= 3.75)
+		else if (quality <= 3.75)
 			return new Image("images/stars3-5.png");
-		else if (averageQuality <= 4.25)
+		else if (quality <= 4.25)
 			return new Image("images/stars4-0.png");
-		else if (averageQuality <= 4.75)
+		else if (quality <= 4.75)
 			return new Image("images/stars4-5.png");
 		else
 			return new Image("images/stars5-0.png");
