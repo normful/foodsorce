@@ -23,22 +23,19 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Vendor.class);
 		q.setOrdering("name ascending");
-
 		try {
 			@SuppressWarnings("unchecked")
-			List<Vendor> results = (List<Vendor>) q.execute();
-			vendors.addAll(results);
+			ArrayList<Vendor> results = (ArrayList<Vendor>) q.execute();
+			vendors.addAll(pm.detachCopyAll(results));
 		} finally {
 			q.closeAll();
 			pm.close();
 		}
-		
 		return (Vendor[]) vendors.toArray(new Vendor[0]);
 	}
 
 	@Override
 	public void setVendor(Vendor vendor) {
-
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
 			pm.makePersistent(vendor);
