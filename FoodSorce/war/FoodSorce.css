@@ -29,6 +29,15 @@ h2 {
   text-align: left;
 }
 
+h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #3B64A6;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
 .north {
   background-color: #B80C04;
 }
