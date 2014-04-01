@@ -43,11 +43,9 @@ public class ProfilePanel extends VerticalPanel {
 	private Button submitButton = new Button("Submit");
 	
 	private ProfilePanel() {
+		settingsTable.setCellPadding(5);
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
 		settingsTable.getColumnFormatter().setWidth(1, "400px");
-		settingsTable.getColumnFormatter().setStyleName(0, "profileGridKeys");
-		settingsTable.getColumnFormatter().setStyleName(1, "profileGridValues");
-		
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
 		scrollPanel.add(htmlPanel);
@@ -92,22 +90,27 @@ public class ProfilePanel extends VerticalPanel {
 
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
-		
+		settingsTable.getCellFormatter().setHeight(0, 0, "36px");
+		settingsTable.getCellFormatter().setAlignment(0, 0, ALIGN_LEFT, ALIGN_MIDDLE);
+		settingsTable.getCellFormatter().setAlignment(0, 1, ALIGN_LEFT, ALIGN_MIDDLE);
+		settingsTable.getCellFormatter().setStyleName(0, 0, "profilePanelSettingsTableKeys");
+		settingsTable.getCellFormatter().setStyleName(0, 1, "profilePanelSettingsTableValues");
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
+			int row = settingsTable.getRowCount();
 			if (setting.getKey().equals("searchText")) {
-				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, "Search Text");
-				settingsTable.setText(row, 1, setting.getValue());
 			} else if (setting.getKey().equals("searchDistance")) {
-				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, "Search Distance");
-				settingsTable.setText(row, 1, setting.getValue());
 			} else if (!setting.getKey().equals("photoUrl")) {
 				// All other settings
-				int row = settingsTable.getRowCount();
 				settingsTable.setText(row, 0, setting.getKey());
-				settingsTable.setText(row, 1, setting.getValue());
 			}
+			settingsTable.setText(row, 1, setting.getValue());
+			settingsTable.getCellFormatter().setHeight(row, 0, "36px");
+			settingsTable.getCellFormatter().setAlignment(row, 0, ALIGN_LEFT, ALIGN_MIDDLE);
+			settingsTable.getCellFormatter().setAlignment(row, 1, ALIGN_LEFT, ALIGN_MIDDLE);
+			settingsTable.getCellFormatter().setStyleName(row, 0, "profilePanelSettingsTableKeys");
+			settingsTable.getCellFormatter().setStyleName(row, 1, "profilePanelSettingsTableValues");
 		}
 
 		editProfileLink.addClickHandler(new ClickHandler() {

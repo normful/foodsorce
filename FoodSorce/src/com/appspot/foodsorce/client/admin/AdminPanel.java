@@ -80,6 +80,7 @@ public class AdminPanel extends VerticalPanel {
 		profileTable.setText(0, 1, "Delete User");
 		profileTable.getColumnFormatter().setWidth(0, "300px");
 		profileTable.getColumnFormatter().setWidth(1, "150px");
+		profileTable.getCellFormatter().setAlignment(0, 1, ALIGN_CENTER, ALIGN_MIDDLE);
 		profileTable.getRowFormatter().addStyleName(0, "adminPanelProfileListHeader");
 		scrollPanel = new ScrollPanel(profileTable);
 		scrollPanel.setHeight("655px");
@@ -124,6 +125,7 @@ public class AdminPanel extends VerticalPanel {
 		deleteUser.setWidth("100px");
 		profileTable.setWidget(row, 1, deleteUser);
 		profileTable.getCellFormatter().addStyleName(row, 0, "adminPanelProfileListUsernameColumn");
+		profileTable.getCellFormatter().setAlignment(row, 1, ALIGN_CENTER, ALIGN_MIDDLE);
 	}
 
 	private void deleteProfile (Profile profile) {

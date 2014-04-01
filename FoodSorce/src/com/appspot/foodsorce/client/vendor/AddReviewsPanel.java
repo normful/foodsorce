@@ -38,7 +38,7 @@ public class AddReviewsPanel extends VerticalPanel {
 		 * Header
 		 */
 		add(new HTML("<h3>Add Review</h3><br>"
-				+ "Let us know what you thought of " + vendor.getName() + "!<br><br>"));
+				+ "Let us know what you thought about " + vendor.getName() + "!<br><br>"));
 		
 		/*
 		 * Vendor quality
@@ -50,7 +50,7 @@ public class AddReviewsPanel extends VerticalPanel {
 		q1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 2; }
 		});
-		RadioButton q15 = new RadioButton("quality", "1&#189; ");
+		RadioButton q15 = new RadioButton("quality", "1.5 ");
 		q15.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 3; }
 		});
@@ -58,7 +58,7 @@ public class AddReviewsPanel extends VerticalPanel {
 		q2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 4; }
 		});
-		RadioButton q25 = new RadioButton("quality", "2&#189; ");
+		RadioButton q25 = new RadioButton("quality", "2.5 ");
 		q25.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 5; }
 		});
@@ -66,7 +66,7 @@ public class AddReviewsPanel extends VerticalPanel {
 		q3.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 6; }
 		});
-		RadioButton q35 = new RadioButton("quality", "3&#189; ");
+		RadioButton q35 = new RadioButton("quality", "3.5 ");
 		q35.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 7; }
 		});
@@ -74,7 +74,7 @@ public class AddReviewsPanel extends VerticalPanel {
 		q4.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 8; }
 		});
-		RadioButton q45 = new RadioButton("quality", "4&#189; ");
+		RadioButton q45 = new RadioButton("quality", "4.5 ");
 		q45.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 9; }
 		});

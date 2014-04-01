@@ -165,12 +165,14 @@ h4 {
   text-align: left;
 }
 
-.profileGridKeys {
+.profilePanelSettingsTableKeys {
   text-align: left;
+  background-color: #EEEEEE;
 }
 
-.profileGridValues {
+.profilePanelSettingsTableValues {
   text-align: right;
+  background-color: #EEEEEE;
 }
 
 .sendButton {
