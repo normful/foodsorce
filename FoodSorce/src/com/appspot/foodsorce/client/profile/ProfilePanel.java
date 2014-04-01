@@ -39,6 +39,9 @@ public class ProfilePanel extends VerticalPanel {
 	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
 	private FlexTable settingsTable = new FlexTable();
 	
+//	private HTMLPanel favouriteVendorsHTML = new HTMLPanel(setFavouriteVendors());
+	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("hello");
+	
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
 	private HashMap<String, String> settingsMap = new HashMap<String, String>();
@@ -52,7 +55,7 @@ public class ProfilePanel extends VerticalPanel {
 		
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
-		htmlPanel.add(favouriteVendors);
+		htmlPanel.add(favouriteVendorsHTML);
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
 	}
@@ -83,14 +86,16 @@ public class ProfilePanel extends VerticalPanel {
 	}
 	
 	private String setFavouriteVendors() {
-		String favouriteVendors;
+		String favouriteVendors = "";
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
-		for (Vendor vendor : allvendors) {
+		for (Vendor vendor : allVendors) {
 			for (String userEmailOfFavourite : vendor.getFavourites()) {
 				if (userEmail == userEmailOfFavourite) {
+					favouriteVendors.concat(", " + vendor.getName());
 			}
 		}
 		}
+		return favouriteVendors;
 	}
 	
 	private void loadViewLayout() {
