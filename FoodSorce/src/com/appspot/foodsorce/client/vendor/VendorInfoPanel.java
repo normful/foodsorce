@@ -82,7 +82,8 @@ public class VendorInfoPanel extends VerticalPanel {
 					Window.alert("Already a favourited vendor");
 					return;
 				}
-				vendor.addFavourites(loginInfo.getEmailAddress());
+				System.out.println(loginInfo);
+				vendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
 				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
 					@Override
@@ -111,7 +112,7 @@ public class VendorInfoPanel extends VerticalPanel {
 					Window.alert("Not a favourited vendor");
 					return;
 				}
-				vendor.removeFavourites(loginInfo.getEmailAddress());
+				vendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
 				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
 					@Override

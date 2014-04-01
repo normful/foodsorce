@@ -106,12 +106,14 @@ public class Vendor implements Serializable {
 		return reviews;
 	}
 	
-	public void addFavourites(String email) {
-		favourites.add(new UserEmail(email));
+	public void addFavourites(UserEmail email) {
+		System.out.println("begin add");
+		favourites.add(email);
+		System.out.println("end add");
 	}
 	
-	public void removeFavourites(String email) {
-		favourites.remove(new UserEmail(email));
+	public void removeFavourites(UserEmail email) {
+		favourites.remove(email);
 	}
 	
 	public ArrayList<UserEmail> getFavourites() {

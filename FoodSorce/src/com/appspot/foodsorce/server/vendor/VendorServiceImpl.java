@@ -15,6 +15,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {
 	
 
+
 	/**
 	 * 
 	 */
@@ -42,9 +43,12 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 
 	@Override
 	public void setVendor(Vendor vendor) {
+		System.out.println("begin set");
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		System.out.println("after pmf.get");
 		try {
 			pm.makePersistent(vendor);
+			System.out.println("in pmf.make");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		} finally {
