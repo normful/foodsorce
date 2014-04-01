@@ -5,6 +5,7 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -20,19 +21,25 @@ public class AddReviewsPanel extends VerticalPanel {
 	private Vendor vendor;
 	private int cost = 1;
 	private int quality = 10;
-	private String review = "";
-	private TextArea reviewArea = new TextArea();
-	private VendorInfoPanel toUpdate;
+	private String reviewText = "";
+	private TextArea reviewTextArea = new TextArea();
+	private VendorInfoPanel vendorInfoPanel;
 
 	public AddReviewsPanel(Vendor vendor, String userEmail,
 			VendorInfoPanel toUpdate) {
 		this.vendor = vendor;
 		this.userEmail = userEmail;
-		this.toUpdate = toUpdate;
-		constructWidgets();
+		this.vendorInfoPanel = toUpdate;
+		createUI();
 	}
 
-	public void constructWidgets() {
+	public void createUI() {
+		/*
+		 * Vendor quality
+		 */
+		this.add(new HTML("Vendor quality out of 5"));
+		FlowPanel qualityPanel = new FlowPanel();
+		
 		RadioButton q1 = new RadioButton("quality", "1 ");
 		q1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { quality = 2; }
@@ -70,8 +77,6 @@ public class AddReviewsPanel extends VerticalPanel {
 			public void onClick(ClickEvent event) { quality = 10; }
 		});
 		
-		this.add(new HTML("Vendor quality out of 5"));
-		FlowPanel qualityPanel = new FlowPanel();
 		qualityPanel.add(q1);
 		qualityPanel.add(q15);
 		qualityPanel.add(q2);
@@ -83,7 +88,12 @@ public class AddReviewsPanel extends VerticalPanel {
 		qualityPanel.add(q5);
 		this.add(qualityPanel);
 
+		/*
+		 * Vendor cost
+		 */
 		this.add(new HTML("Vendor cost"));
+		FlowPanel costPanel = new FlowPanel();
+		
 		RadioButton c1 = new RadioButton("cost", "$ ");
 		c1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) { cost = 1; }
@@ -105,39 +115,44 @@ public class AddReviewsPanel extends VerticalPanel {
 			public void onClick(ClickEvent event) { cost = 5; }
 		});
 
-		FlowPanel costPanel = new FlowPanel();
-
 		costPanel.add(c1);
 		costPanel.add(c2);
 		costPanel.add(c3);
 		costPanel.add(c4);
 		costPanel.add(c5);
-		
 		this.add(costPanel);
+		
+		/*
+		 * Review TextArea
+		 */
 		this.add(new HTML("Please describe your experience with this vendor."));
-		this.add(reviewArea);
+		this.add(reviewTextArea);
 
-		Button submitButton = new Button("Submit review");
+		/*
+		 * Submit Review Button
+		 */
+		Button submitButton = new Button("Submit Review");
 		submitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				review = reviewArea.getText();
-				reviewArea.setText("");
-				Review toSubmit = new Review(userEmail, quality, cost, review);
-				vendor.addReview(toSubmit);
-				sendReview();
-				clear();
-				toUpdate.updateReviews();
+				reviewText = reviewTextArea.getText();
+				reviewTextArea.setText("");
+				submitReview();
 			}
 		});
 		this.add(submitButton);
 	}
 
-	private void sendReview() {
+	private void submitReview() {
+		Review review = new Review(userEmail, quality, cost, reviewText);
+		vendor.addReview(review);
 		vendorService.setVendor(vendor, new AsyncCallback<Void>() {
-			public void onFailure(Throwable e) {
-				e.printStackTrace();
-			}
 			public void onSuccess(Void result) {
+				Window.alert("Review successfully submitted.");
+				vendorInfoPanel.removeAddReviewsPanel();
+			}
+			public void onFailure(Throwable e) {
+				Window.alert("Review submission failed.");
+				e.printStackTrace();
 			}
 		});
 	}

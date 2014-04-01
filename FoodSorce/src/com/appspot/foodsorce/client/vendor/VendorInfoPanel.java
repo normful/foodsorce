@@ -1,11 +1,13 @@
 package com.appspot.foodsorce.client.vendor;
 
+import java.util.ArrayList;
+
 import com.appspot.foodsorce.client.login.LoginInfo;
+import com.appspot.foodsorce.shared.Review;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -28,27 +30,25 @@ public class VendorInfoPanel extends VerticalPanel {
 		this.vendor = vendor;
 		this.userEmail = loginInfo.getEmailAddress();
 		createHeader();
-		if (loginInfo.isLoggedIn())
+		
+		if (loginInfo.isLoggedIn() && !hasReviewedVendor()) {
+			// Case 1: User is logged in and has not reviewed this Vendor
+			// - create Add Reviews button which, when pressed, will create 
+			//   an AddReviewsPanel and add it to this VendorInfoPanel
+			// - create a ViewReviewsPanel
 			createAddReviewsButton();
+			createViewReviewsPanel();
+			htmlPanel.add(addReviewButton);
+		} else {
+			// Case 2: User is logged out OR
+			//         User is logged in and has already reviewed this Vendor
+			// - do not create an Add Reviews button
+			// - create a ViewReviewsPanel
+			createViewReviewsPanel();
+			htmlPanel.add(viewReviewsPanel);
+		}
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
-	}
-
-	private void createAddReviewsButton() {
-		addReviewButton = new Button("Add Review");
-		addReviewsPanel = new AddReviewsPanel(vendor, userEmail, this);
-		viewReviewsPanel = new ViewReviewsPanel(vendor);
-		addReviewButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				remove(viewReviewsPanel);
-				add(addReviewsPanel);
-				add(viewReviewsPanel);
-			}
-		});
-		htmlPanel.add(new HTML("<br>"));
-		htmlPanel.add(addReviewButton);
-		htmlPanel.add(viewReviewsPanel);
 	}
 
 	private void createHeader() {
@@ -63,10 +63,36 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(vendorLocation);
 	}
 
-	public void updateReviews() {
-		Vendor vendor = viewReviewsPanel.getVendor();
-		remove(viewReviewsPanel);
+	private boolean hasReviewedVendor() {
+		ArrayList<Review> existingReviews = vendor.getReviews();
+		if (existingReviews.isEmpty())
+			return false;
+		for (Review review : existingReviews) {
+			if (review.getUserEmail().equals(userEmail)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void createAddReviewsButton() {
+		addReviewButton = new Button("Add Review");
+		addReviewsPanel = new AddReviewsPanel(vendor, userEmail, this);
+		addReviewButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				remove(addReviewButton);
+				add(addReviewsPanel);
+			}
+		});
+	}
+	
+	private void createViewReviewsPanel() {
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
 		add(viewReviewsPanel);
+	}
+
+	public void removeAddReviewsPanel() {
+		remove(addReviewsPanel);
 	}
 }
