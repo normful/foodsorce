@@ -8,6 +8,7 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -58,6 +59,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorDescription.setStylePrimaryName("vendorInfoPanelDescription");
 		vendorLocation = new Label(vendor.getLocation());
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
+		htmlPanel.add(new HTML("<br><br>"));
 		htmlPanel.add(vendorName);
 		htmlPanel.add(vendorDescription);
 		htmlPanel.add(vendorLocation);

@@ -20,7 +20,7 @@ public class ViewReviewsPanel extends VerticalPanel {
 	}
 
 	private void createReviewsTable(ArrayList<Review> reviews) {
-		add(new HTML("<br><br><br>"));
+		add(new HTML("<br><br>"));
 		FlexTable reviewsTable = new FlexTable();
 		reviewsTable.setCellPadding(5);
 		reviewsTable.setText(0, 0, "Reviewer");
