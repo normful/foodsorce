@@ -134,12 +134,9 @@ public class AddReviewsPanel extends VerticalPanel {
 		 * Review TextArea
 		 */
 		this.add(new HTML("<h4>Your Review</h4><br>"));
-		reviewTextArea.setText("Your review helps other Vancouverites "
-				+ "learn about great food vendors around town. "
-				+ "Please don't review this business if you are in "
-				+ "any way associated with its owner or employees.");
+		reviewTextArea.setText("So how was the food?");
 		reviewTextArea.setWidth("600px");
-		reviewTextArea.setHeight("125px");
+		reviewTextArea.setHeight("60px");
 		reviewTextArea.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				reviewTextArea.selectAll();
