@@ -12,10 +12,12 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class UserEmail implements Serializable{
 	
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7111552169971143058L;
+	private static final long serialVersionUID = 2233118410656823280L;
 
 	// Key is a system-generated encoded String
 	@PrimaryKey
@@ -26,6 +28,11 @@ public class UserEmail implements Serializable{
 	// The email of this Review's author
 	@Persistent
 	private String userEmail;
+	
+	// Default no-arg constructor required for serialization
+	public UserEmail() {
+		this("");
+	}
 	
 	public UserEmail (String userEmail) {
 		this.userEmail = userEmail;

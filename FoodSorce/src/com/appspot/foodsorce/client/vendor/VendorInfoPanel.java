@@ -59,7 +59,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
 //		if (loginInfo.isLoggedIn()) {
-			loginInfo.setEmailAddress("hhhhhh");
+		loginInfo.setEmailAddress("emailAddress");
 			checkIfFavourited(vendor, loginInfo);
 			setButtonToAdd(vendor, loginInfo);
 			setButtonToRemove(vendor, loginInfo);
@@ -70,10 +70,8 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void setButtonToAdd(final Vendor vendor, final LoginInfo loginInfo) {
-		System.out.println("in SetButtonAdd");
 		addFavouriteButton = new Button();
 		addFavouriteButton.setText("Add to Favourite");
-		System.out.println("before handler");
 		addFavouriteButton.addClickHandler(new ClickHandler(){
 
 			@Override
@@ -82,7 +80,6 @@ public class VendorInfoPanel extends VerticalPanel {
 					Window.alert("Already a favourited vendor");
 					return;
 				}
-				System.out.println(loginInfo);
 				vendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
 				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
@@ -102,7 +99,6 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void setButtonToRemove (final Vendor vendor, final LoginInfo loginInfo) {
 		removeFavouriteButton = new Button();
-		System.out.println("in SetButtonRemove");
 		removeFavouriteButton.setText("Delete from Favourite");
 		removeFavouriteButton.addClickHandler(new ClickHandler(){
 
