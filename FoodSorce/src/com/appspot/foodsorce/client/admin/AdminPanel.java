@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AdminPanel extends VerticalPanel {
 
+	private static final AdminPanel INSTANCE = new AdminPanel();
 	private Button importDataButton = new Button("Import Data");
 	private VancouverDataServiceAsync dataService;
 	private ProfileServiceAsync profileService = GWT.create(ProfileService.class);
@@ -29,23 +30,20 @@ public class AdminPanel extends VerticalPanel {
 	private FlexTable profileTable = new FlexTable();
 	private ArrayList<Profile> profiles = new ArrayList<Profile>();
 
-	private void fetchAndDisplayProfiles() {
-		profileService.getAllProfiles(new AsyncCallback<Profile[]>() {
-			public void onFailure(Throwable error) {
-				GWT.log("AdminPanel.java: testMakeProfileList() onFailure", error);
-				handleError(error);
-			}
-			public void onSuccess(Profile[] result) {
-				GWT.log("AdminPanel.java: testMakeProfileList() onSuccess");
-				Collections.addAll(profiles, result);
-				displayProfiles(profiles);
-			}
-		});
+	private AdminPanel() {
+		HTMLPanel headerPanel = new HTMLPanel("<h2>Administrator Console</h2><br>"
+				+ "This button imports Vancouver food vendor data into FoodSorce.<br><br>");
+		add(headerPanel);
+		createImportDataButton();
+		createProfileTable();
+		callGetAllProfiles();
 	}
 
-	public AdminPanel() {
-		HTMLPanel htmlPanel = new HTMLPanel("<h2>Administrator Console</h2><br>"
-				+ "This button imports Vancouver food vendor data into FoodSorce.<br><br>");
+	public static AdminPanel getInstance() {
+		return INSTANCE;
+	}
+	
+	private void createImportDataButton() {
 		importDataButton.addStyleName("importDataButton");
 		importDataButton.setWidth("100px");
 		importDataButton.addClickHandler(new ClickHandler() {
@@ -53,25 +51,9 @@ public class AdminPanel extends VerticalPanel {
 				callImportData();
 			}
 		});
-		this.add(htmlPanel);
-		this.add(importDataButton);
-		createProfileList();
+		add(importDataButton);
 	}
-
-	private void createProfileList() {
-		profileTable.addStyleName("vendorList");
-		profileTable.setCellPadding(5);
-		profileTable.setText(0, 0, "Email");
-		profileTable.setText(0, 1, "Delete User");
-		profileTable.getColumnFormatter().setWidth(0, "500px");
-		profileTable.getColumnFormatter().setWidth(1, "300px");
-		profileTable.getRowFormatter().addStyleName(0, "vendorListHeader");
-		scrollPanel = new ScrollPanel(profileTable);
-		scrollPanel.setHeight("655px");
-		this.add(scrollPanel);
-		fetchAndDisplayProfiles();
-	}
-
+	
 	private void callImportData() {
 		dataService = GWT.create(VancouverDataService.class);
 		dataService.importData(new AsyncCallback<Void>() {
@@ -83,6 +65,33 @@ public class AdminPanel extends VerticalPanel {
 				VendorListPanel.getInstance().searchVendor();
 				VendorListPanel.getInstance().getFoodSorce().loadVendorListPanel();
 				Window.alert("Successfully imported data.");
+			}
+		});
+	}
+
+	private void createProfileTable() {
+		profileTable.addStyleName("vendorList");
+		profileTable.setCellPadding(5);
+		profileTable.setText(0, 0, "Email");
+		profileTable.setText(0, 1, "Delete User");
+		profileTable.getColumnFormatter().setWidth(0, "500px");
+		profileTable.getColumnFormatter().setWidth(1, "300px");
+		profileTable.getRowFormatter().addStyleName(0, "vendorListHeader");
+		scrollPanel = new ScrollPanel(profileTable);
+		scrollPanel.setHeight("655px");
+		add(scrollPanel);
+	}
+
+	private void callGetAllProfiles() {
+		profileService.getAllProfiles(new AsyncCallback<Profile[]>() {
+			public void onFailure(Throwable error) {
+				GWT.log("AdminPanel.java: testMakeProfileList() onFailure", error);
+				handleError(error);
+			}
+			public void onSuccess(Profile[] result) {
+				GWT.log("AdminPanel.java: testMakeProfileList() onSuccess");
+				Collections.addAll(profiles, result);
+				displayProfiles(profiles);
 			}
 		});
 	}
@@ -120,14 +129,14 @@ public class AdminPanel extends VerticalPanel {
 		profiles.remove(profile);
 		displayProfiles(profiles);
 		profileService.deleteProfile(profile, new AsyncCallback<Void>(){
-				public void onFailure(Throwable error) {
-					GWT.log("AdminPanel.java: deleteProfile() onFailure", error);
-					handleError(error);
-				}
-				public void onSuccess(Void result) {
-					GWT.log("AdminPanel.java: deleteProfile() onSuccess");
-				}});
-		}
+			public void onFailure(Throwable error) {
+				GWT.log("AdminPanel.java: deleteProfile() onFailure", error);
+				handleError(error);
+			}
+			public void onSuccess(Void result) {
+				GWT.log("AdminPanel.java: deleteProfile() onSuccess");
+			}});
+	}
 
 	private void handleError(Throwable error) {
 		if (error instanceof NotLoggedInException) {

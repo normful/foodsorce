@@ -38,7 +38,7 @@ public class FoodSorce implements EntryPoint {
 	// Center panels
 	private SimpleLayoutPanel center = new SimpleLayoutPanel();
 	private LoginPanel loginPanel = new LoginPanel();
-	private AdminPanel adminPanel = new AdminPanel();
+	private AdminPanel adminPanel;
 	private ProfilePanel viewProfilePanel = ProfilePanel.getInstance();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	// TODO: Uncomment the following line after ViewReviewsPanel is implemented
@@ -177,6 +177,7 @@ public class FoodSorce implements EntryPoint {
 
 	public void loadAdminPanel() {
 		GWT.log("FoodSorce.java loadAdminPanel()");
+		adminPanel = AdminPanel.getInstance();
 		center.setWidget(adminPanel);
 	}
 	
