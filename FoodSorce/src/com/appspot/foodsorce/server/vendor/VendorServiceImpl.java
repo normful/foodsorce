@@ -14,6 +14,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {
 	
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = -5788857397262137930L;
 
 	@Override
@@ -38,14 +42,14 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 
 	@Override
 	public void setVendor(Vendor vendor) {
-//		PersistenceManager pm = PMF.get().getPersistenceManager();
-//		try {
-//			pm.makePersistent(vendor);
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		} finally {
-//			pm.close();
-//		}
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(vendor);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
 	
 }
