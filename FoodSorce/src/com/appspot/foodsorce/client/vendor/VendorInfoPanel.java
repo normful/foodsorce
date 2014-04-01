@@ -59,10 +59,10 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorDescription.setStylePrimaryName("vendorInfoPanelDescription");
 		vendorLocation = new Label(vendor.getLocation());
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
-		htmlPanel.add(new HTML("<br><br>"));
 		htmlPanel.add(vendorName);
 		htmlPanel.add(vendorDescription);
 		htmlPanel.add(vendorLocation);
+		htmlPanel.add(new HTML("<br><br>"));
 	}
 
 	private boolean hasReviewedVendor() {
@@ -83,7 +83,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		addReviewButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				add(addReviewsPanel);
+				htmlPanel.add(addReviewsPanel);
 				removeAddReviewButton();
 			}
 		});
@@ -91,14 +91,14 @@ public class VendorInfoPanel extends VerticalPanel {
 	
 	void createViewReviewsPanel() {
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
-		add(viewReviewsPanel);
+		htmlPanel.add(viewReviewsPanel);
 	}
 
 	public void removeAddReviewButton() {
-		remove(addReviewButton);
+		htmlPanel.remove(addReviewButton);
 	}
 	
 	public void removeAddReviewsPanel() {
-		remove(addReviewsPanel);
+		htmlPanel.remove(addReviewsPanel);
 	}
 }

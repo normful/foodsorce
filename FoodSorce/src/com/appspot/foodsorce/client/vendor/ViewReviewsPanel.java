@@ -27,6 +27,7 @@ public class ViewReviewsPanel extends VerticalPanel {
 		reviewsTable.setText(0, 1, "Quality");
 		reviewsTable.setText(0, 2, "Cost");
 		reviewsTable.setText(0, 3, "Comments");
+		reviewsTable.getColumnFormatter().setWidth(3, "300px");
 		reviewsTable.getRowFormatter().addStyleName(0, "viewReviewsPanelTableHeader");
 		for (Review r : reviews) {
 			int i = reviewsTable.getRowCount();
