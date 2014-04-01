@@ -20,7 +20,7 @@ public class ViewReviewsPanel extends VerticalPanel {
 	}
 
 	private void createReviewsTable(ArrayList<Review> reviews) {
-		add(new HTML("<h3>Reviews</h3><br><br>"));
+		add(new HTML("<h3>Reviews</h3><br>"));
 		FlexTable reviewsTable = new FlexTable();
 		reviewsTable.setCellPadding(5);
 		reviewsTable.setText(0, 0, "Reviewer");
@@ -33,7 +33,7 @@ public class ViewReviewsPanel extends VerticalPanel {
 			int i = reviewsTable.getRowCount();
 			reviewsTable.setText(i, 0, r.getUserEmail());
 			reviewsTable.getCellFormatter().addStyleName(i, 0, "viewReviewsPanelUsername");
-			reviewsTable.setWidget(i, 1, VendorListPanel.getInstance().vendorStarsImage(r.getQuality()));
+			reviewsTable.setWidget(i, 1, VendorListPanel.getInstance().vendorStarsImage(r.getQuality()/2));
 			reviewsTable.setHTML(i, 2, VendorListPanel.getInstance().vendorCostString(r.getCost()));
 			reviewsTable.getCellFormatter().addStyleName(i, 2, "vendorCostDollarSignsText");
 			reviewsTable.setText(i, 3, r.getText());

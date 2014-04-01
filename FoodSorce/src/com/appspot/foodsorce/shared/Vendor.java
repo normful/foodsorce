@@ -112,9 +112,8 @@ public class Vendor implements Serializable {
 			return -1;
 		double sum = 0.0;
 		for (Review review : reviews)
-			sum += review.getQuality();
-		// Divide sum by 2 because qualities represent half stars
-		return (sum/2) / reviews.size();
+			sum += (review.getQuality() / 2);
+		return sum / reviews.size();
 	}
 
 	@Override
