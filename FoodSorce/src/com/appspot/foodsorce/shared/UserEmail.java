@@ -13,11 +13,10 @@ import javax.jdo.annotations.PrimaryKey;
 public class UserEmail implements Serializable{
 	
 
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2233118410656823280L;
+	private static final long serialVersionUID = 6620923431835829803L;
 
 	// Key is a system-generated encoded String
 	@PrimaryKey
