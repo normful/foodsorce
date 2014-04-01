@@ -48,6 +48,17 @@ h2 {
 
 .vendorListRatingColumn { }
 
+.adminPanelProfileListHeader {
+  font-size: 14px;
+  background-color: #EEEEEE;
+}
+
+.adminPanelProfileListUsernameColumn {
+  color: #3B64A6 !important;
+  font-color: #3B64A6 !important;
+  font-weight: bold !important;
+}
+
 .vendorInfoPanelName {
   font-size: 2.5em;
   font-weight: bold;

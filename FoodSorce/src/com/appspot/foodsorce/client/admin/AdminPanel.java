@@ -35,7 +35,11 @@ public class AdminPanel extends VerticalPanel {
 				+ "This button imports Vancouver food vendor data into FoodSorce.<br><br>");
 		add(headerPanel);
 		createImportDataButton();
+		
+		HTMLPanel textDescribingTable = new HTMLPanel("<br>The following users are registered with FoodSorce.<br><br>");
+		add(textDescribingTable);
 		createProfileTable();
+		
 		callGetAllProfiles();
 	}
 
@@ -74,9 +78,9 @@ public class AdminPanel extends VerticalPanel {
 		profileTable.setCellPadding(5);
 		profileTable.setText(0, 0, "Email");
 		profileTable.setText(0, 1, "Delete User");
-		profileTable.getColumnFormatter().setWidth(0, "500px");
-		profileTable.getColumnFormatter().setWidth(1, "300px");
-		profileTable.getRowFormatter().addStyleName(0, "vendorListHeader");
+		profileTable.getColumnFormatter().setWidth(0, "200px");
+		profileTable.getColumnFormatter().setWidth(1, "200px");
+		profileTable.getRowFormatter().addStyleName(0, "adminPanelProfileListHeader");
 		scrollPanel = new ScrollPanel(profileTable);
 		scrollPanel.setHeight("655px");
 		add(scrollPanel);
@@ -85,11 +89,9 @@ public class AdminPanel extends VerticalPanel {
 	private void callGetAllProfiles() {
 		profileService.getAllProfiles(new AsyncCallback<Profile[]>() {
 			public void onFailure(Throwable error) {
-				GWT.log("AdminPanel.java: testMakeProfileList() onFailure", error);
 				handleError(error);
 			}
 			public void onSuccess(Profile[] result) {
-				GWT.log("AdminPanel.java: testMakeProfileList() onSuccess");
 				Collections.addAll(profiles, result);
 				displayProfiles(profiles);
 			}
@@ -106,13 +108,12 @@ public class AdminPanel extends VerticalPanel {
 		for (Profile profile : profiles) {
 			displayProfile(profile);
 		}
-		profileTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
 
 	private void displayProfile(final Profile profile) {
 		int row = profileTable.getRowCount();
 		profileTable.setText(row, 0, profile.getUserEmail());
-		Button deleteUser = new Button("deleteUser", new ClickHandler(){
+		Button deleteUser = new Button("Delete User", new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				for (Profile profileToFind : profiles) {
 					if (profileToFind.getUserEmail().equals(profile.getUserEmail())) {
@@ -122,7 +123,7 @@ public class AdminPanel extends VerticalPanel {
 			}});
 		deleteUser.setWidth("100px");
 		profileTable.setWidget(row, 1, deleteUser);
-		profileTable.getCellFormatter().addStyleName(row, 0, "vendorListTextColumn");
+		profileTable.getCellFormatter().addStyleName(row, 0, "adminPanelProfileListUsernameColumn");
 	}
 
 	private void deleteProfile (Profile profile) {
