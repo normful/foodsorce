@@ -29,6 +29,7 @@ public class VendorInfoPanel extends VerticalPanel {
 	private boolean favourited;
 
 	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
+		System.out.println("beginning of method");
 		vendorName = new Label(vendor.getName());
 		vendorName.setStylePrimaryName("vendorInfoPanelName");
 
@@ -47,10 +48,11 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(new HTML("<br>"));
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
-
-		checkIfFavourited(vendor, loginInfo);
+		
+		System.out.println("before conditional");
 
 		if (loginInfo != null) {
+			checkIfFavourited(vendor, loginInfo);
 			createFavouritesButton(vendor, loginInfo);
 			htmlPanel.add(favouriteButton);
 		}
