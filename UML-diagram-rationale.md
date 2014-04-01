@@ -1,4 +1,4 @@
-
+# UML Diagram Rationale
 
 Our server side implementation of our project contains the vendor class to store all information related to vendors. The three services which communicates between the server and client are separated into their own classes as they request different information. This therefore reduces coupling. The login service interacts with the google server instead of Vendor as it requires data from a Google account and a Facebook account. VendorRating is separated from the other vendor information as it requires information from the user not the data set. We also designed the VendorServiceImpl class to deal with both parsing and persistence of data as both jobs are similar in nature and handle the same data. TwitterIntegration class is not associated with the login service because it redirects the user to the Twitter website.
 
