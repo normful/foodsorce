@@ -93,8 +93,8 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(0, 4, "Cost");
 		vendorTable.getColumnFormatter().setWidth(0, "100px");
 		vendorTable.getColumnFormatter().setWidth(1, "100px");
-		vendorTable.getColumnFormatter().setWidth(2, "400px");
-		vendorTable.getColumnFormatter().setWidth(3, "50px");
+		vendorTable.getColumnFormatter().setWidth(2, "315px");
+		vendorTable.getColumnFormatter().setWidth(3, "135px");
 		vendorTable.getColumnFormatter().setWidth(4, "50px");
 		vendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 
@@ -233,7 +233,7 @@ public class VendorListPanel extends VerticalPanel {
 		if (vendor.getAverageQuality() != -1)
 			vendorTable.setWidget(row, 3, vendorStarsImage(vendor.getAverageQuality()));
 		if (vendor.getAverageCost() != -1)
-			vendorTable.setText(row, 4, String.valueOf(vendor.getAverageCost()));
+			vendorTable.setText(row, 4, vendorCostString(vendor.getAverageCost()));
 		// Add styles names
 		vendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
@@ -265,6 +265,13 @@ public class VendorListPanel extends VerticalPanel {
 			return new Image("images/stars4-5.png");
 		else
 			return new Image("images/stars5-0.png");
+	}
+
+	public String vendorCostString(double cost) {
+		String dollarSigns = "";
+		for (int i = 0; i < cost; i++)
+			dollarSigns = dollarSigns + "$";
+		return dollarSigns;
 	}
 
 	private void loadVendorInfoPanel(int rowIndex) {

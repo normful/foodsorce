@@ -292,15 +292,15 @@ public class MapSearchPanel extends FlowPanel {
 		String averageCost = "";
 		String averageQuality = "";
 		if (vendor.getAverageCost() != -1)
-			averageCost = String.valueOf(vendor.getAverageCost());
+			averageCost = VendorListPanel.getInstance().vendorCostString(vendor.getAverageCost()) + "<br>";
 		if (vendor.getAverageQuality() != -1)
-			averageQuality = String.valueOf(vendor.getAverageQuality());
+			averageQuality = String.valueOf(vendor.getAverageQuality()) + " stars<br>";
 		String infoWindowContent = "<div class=\"vendorMarkerInfoWindowTitle\"><b>"
 				+ vendor.getName()
 				+ "</b></div>"
 				+ "<div class=\"vendorMarkerInfoWindowText\">"
-				+ averageQuality
 				+ vendor.getReviews().size() + " reviews <br>"
+				+ averageQuality
 				+ averageCost
 				+ "</div>"
 				+ "<div class=\"vendorMarkerInfoWindowCategory\">"
