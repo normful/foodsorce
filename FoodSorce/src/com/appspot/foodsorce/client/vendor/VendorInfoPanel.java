@@ -1,12 +1,7 @@
 package com.appspot.foodsorce.client.vendor;
 
 import com.appspot.foodsorce.client.login.LoginInfo;
-import com.appspot.foodsorce.client.login.NotLoggedInException;
-import com.appspot.foodsorce.client.profile.ProfileService;
-import com.appspot.foodsorce.client.profile.ProfileServiceAsync;
 import com.appspot.foodsorce.shared.Vendor;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -84,9 +79,8 @@ public class VendorInfoPanel extends VerticalPanel {
 					@Override
 					public void onFailure(Throwable caught) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onFailure");
-
 					}
-
+					
 					@Override
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
