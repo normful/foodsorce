@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AddReviewsPanel extends VerticalPanel {
 	
-	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
+	private VendorServiceAsync vendorService;
 	private String userEmail;
 	private Vendor vendor;
 	private int cost = 1;
@@ -144,16 +144,18 @@ public class AddReviewsPanel extends VerticalPanel {
 
 	private void submitReview() {
 		Review review = new Review(userEmail, quality, cost, reviewText);
+		GWT.log("AddReviewsPanel.java: creating Review = " + review.toString());
 		vendor.addReview(review);
+		GWT.log("AddReviewsPanel.java: adding Review to Vendor = " + vendor.toString());
+		vendorService = GWT.create(VendorService.class);
 		vendorService.setVendor(vendor, new AsyncCallback<Void>() {
 			public void onSuccess(Void result) {
-				Window.alert("Review successfully submitted.");
 				vendorInfoPanel.removeAddReviewsPanel();
 				vendorInfoPanel.createViewReviewsPanel();
 				VendorListPanel.getInstance().searchVendor();
 			}
 			public void onFailure(Throwable e) {
-				Window.alert("Review submission failed.");
+				Window.alert("Failed to submit review.");
 				e.printStackTrace();
 			}
 		});
