@@ -15,11 +15,10 @@ public class Vendor implements Serializable {
 
 
 
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5683507871810122805L;
+	private static final long serialVersionUID = 770617606459970533L;
 
 	// Key is an app-assigned string ID that corresponds
 	// to the "key" column in new_food_vendor_locations.xls
@@ -47,10 +46,10 @@ public class Vendor implements Serializable {
 	@Persistent
 	private double longitude;
 	
-	@Persistent
+	@Persistent(serialized="true", defaultFetchGroup="true")
 	private ArrayList<Review> reviews = new ArrayList<Review>();
 	
-	@Persistent
+	@Persistent(serialized="true", defaultFetchGroup="true")
 	private ArrayList<UserEmail> favourites = new ArrayList<UserEmail>();
 	
 	// Default no-arg constructor required for serialization

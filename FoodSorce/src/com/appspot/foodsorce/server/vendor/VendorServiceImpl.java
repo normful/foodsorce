@@ -3,6 +3,7 @@ package com.appspot.foodsorce.server.vendor;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
@@ -26,6 +27,7 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		ArrayList<Vendor> vendors = new ArrayList<Vendor>();
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.getFetchPlan().setGroup(FetchPlan.ALL);
 		Query q = pm.newQuery(Vendor.class);
 		q.setOrdering("name ascending");
 
