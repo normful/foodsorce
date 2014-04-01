@@ -18,7 +18,8 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 
 	@Override
 	public Vendor[] getVendors() throws NotLoggedInException {
-		ArrayList<Vendor> vendors = new ArrayList<Vendor>();
+		
+		ArrayList<Vendor> detachedVendors = new ArrayList<Vendor>();
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Vendor.class);
@@ -27,13 +28,13 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		try {
 			@SuppressWarnings("unchecked")
 			List<Vendor> results = (List<Vendor>) q.execute();
-			vendors.addAll(results);
+			detachedVendors.addAll(pm.detachCopyAll(results));
 		} finally {
 			q.closeAll();
 			pm.close();
 		}
 		
-		return (Vendor[]) vendors.toArray(new Vendor[0]);
+		return (Vendor[]) detachedVendors.toArray(new Vendor[0]);
 	}
 
 	@Override
