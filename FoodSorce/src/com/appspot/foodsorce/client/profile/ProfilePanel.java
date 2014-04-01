@@ -1,11 +1,13 @@
 package com.appspot.foodsorce.client.profile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.appspot.foodsorce.shared.Profile;
+import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -50,6 +52,7 @@ public class ProfilePanel extends VerticalPanel {
 		
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
+		htmlPanel.add(favouriteVendors);
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
 	}
@@ -77,6 +80,17 @@ public class ProfilePanel extends VerticalPanel {
 				getProfile();
 			}
 		});
+	}
+	
+	private String setFavouriteVendors() {
+		String favouriteVendors;
+		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
+		for (Vendor vendor : allvendors) {
+			for (String userEmailOfFavourite : vendor.getFavourites()) {
+				if (userEmail == userEmailOfFavourite) {
+			}
+		}
+		}
 	}
 	
 	private void loadViewLayout() {
