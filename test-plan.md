@@ -2,7 +2,7 @@
 
 ## Mapping UI
 
-- On startup, a map should appear with default location set to downtown vancouver as a marker.
+- On startup, a map should appear with default location set to downtown Vancouver as a marker.
 - On startup, vendor markers should be presesnt on the map.
 - On startup, if application is allowed to obatin user location, the user location marker and focus will be set to that location.
 - On startup, the distance option will be set at "all".
@@ -30,9 +30,9 @@
 - Clicking Admin more than once does not do anything.
 - Clicking Sign Out should log the user out, if user is signed in, and refresh the page to the login page.
 - Clicking Sign Out more than once or when not signed in does not do anything except refresh the page
-- Administrator Console Page should display a clickable button labled "Import Data"
+- Administrator Console Page should display a clickable button labelled "Import Data".
 - Clicking import data should display a pop-up displaying whether import was successful or failed.
-- Clikcing import data mutliple times does not crash program.
+- Clicking import data mutliple times does not crash program.
 
 ## Vendor Display UI
 
