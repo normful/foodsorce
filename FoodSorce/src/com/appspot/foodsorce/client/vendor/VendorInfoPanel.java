@@ -64,53 +64,60 @@ public class VendorInfoPanel extends VerticalPanel {
 		this.add(scrollPanel);
 	}
 
-	private void createFavouritesButton (final Vendor vendor, final LoginInfo loginInfo) {
+	private void createFavouritesButton (Vendor vendor, LoginInfo loginInfo) {
 		if (favourited == false) {
-			favouriteButton = new Button("Add to Favourite");
-			favouriteButton.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-					vendor.addFavourites(loginInfo.getEmailAddress());
-					vendorService.setVendor(vendor, new AsyncCallback<Void>(){
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
-						}
-
-						@Override
-						public void onSuccess(Void result) {
-							// TODO Auto-generated method stub
-
-						}
-					});}
-			});
+			setButtonToAdd(vendor, loginInfo);
 		} else {
-			favouriteButton = new Button("Delete from Favourite");
-			favouriteButton.addClickHandler(new ClickHandler(){
-
-				@Override
-				public void onClick(ClickEvent event) {
-					vendor.removeFavourites(loginInfo.getEmailAddress());
-					vendorService.setVendor(vendor, new AsyncCallback<Void>(){
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
-						}
-
-						@Override
-						public void onSuccess(Void result) {
-							// TODO Auto-generated method stub
-
-						}
-					});
-				}
-			});
+			setButtonToRemove(vendor, loginInfo);
 		}
+	}
+
+	private void setButtonToAdd(final Vendor vendor, final LoginInfo loginInfo) {
+		favouriteButton = new Button("Add to Favourite");
+		favouriteButton.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				vendor.addFavourites(loginInfo.getEmailAddress());
+				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						GWT.log("VendorInfoPanel.java: setButtonToAdd() onFailure");
+
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
+					}
+				});}
+		});
+	}
+
+	private void setButtonToRemove (final Vendor vendor, final LoginInfo loginInfo) {
+		favouriteButton = new Button("Delete from Favourite");
+		favouriteButton.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				vendor.removeFavourites(loginInfo.getEmailAddress());
+				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						GWT.log("VendorInfoPanel.java: setButtonToRemove() onFailure");
+
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
+
+					}
+				});
+			}
+		});
 	}
 
 	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
