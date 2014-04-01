@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.appspot.foodsorce.client.map.MapSearchPanel;
@@ -16,12 +17,14 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ProfilePanel extends VerticalPanel {
+public class ProfilePanel extends HorizontalPanel {
 	
 	private String userEmail;
 	private Profile profile;
@@ -39,8 +42,11 @@ public class ProfilePanel extends VerticalPanel {
 	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
 	private FlexTable settingsTable = new FlexTable();
 	
-//	private HTMLPanel favouriteVendorsHTML = new HTMLPanel(setFavouriteVendors());
-	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("hello");
+	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourited Vendors</h2>");
+	private FlexTable favouriteVendorTable = new FlexTable();
+	private ArrayList<Vendor> favouritedVendors = new ArrayList<Vendor>();
+
+	private VerticalPanel leftProfilePanel = new VerticalPanel();
 	
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
@@ -55,9 +61,16 @@ public class ProfilePanel extends VerticalPanel {
 		
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
-		htmlPanel.add(favouriteVendorsHTML);
 		scrollPanel.add(htmlPanel);
-		add(scrollPanel);
+		leftProfilePanel.add(scrollPanel);
+		add(leftProfilePanel);
+		
+		createFavouriteVendorTable();
+		setFavouriteVendors();
+		displayFavouriteVendors(favouritedVendors);
+		
+		favouriteVendorsHTML.add(favouriteVendorTable);
+		add(favouriteVendorsHTML);
 	}
 	
 	public static ProfilePanel getInstance() {
@@ -85,18 +98,6 @@ public class ProfilePanel extends VerticalPanel {
 		});
 	}
 	
-	private String setFavouriteVendors() {
-		String favouriteVendors = "";
-		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
-		for (Vendor vendor : allVendors) {
-			for (String userEmailOfFavourite : vendor.getFavourites()) {
-				if (userEmail == userEmailOfFavourite) {
-					favouriteVendors.concat(", " + vendor.getName());
-			}
-		}
-		}
-		return favouriteVendors;
-	}
 	
 	private void loadViewLayout() {
 		GWT.log("ProfilePanel.java: loadViewLayout()");
@@ -211,6 +212,52 @@ public class ProfilePanel extends VerticalPanel {
 			profile.setSettings(settingsMap);
 			updateProfile();
 		}
+	}
+	
+	private String setFavouriteVendors() {
+		String favouriteVendors = "";
+		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
+		for (Vendor vendor : allVendors) {
+			for (String userEmailOfFavourite : vendor.getFavourites()) {
+				if (userEmail == userEmailOfFavourite) {
+					favouritedVendors.add(vendor);
+			}
+		}
+		}
+		return favouriteVendors;
+	}
+	
+	private void createFavouriteVendorTable() {
+		// Overall table settings
+		favouriteVendorTable.addStyleName("vendorList");
+		favouriteVendorTable.setCellPadding(5);
+
+		// Table header settings
+		favouriteVendorTable.setText(0, 0, "Vendor Name");
+		favouriteVendorTable.getColumnFormatter().setWidth(0, "100px");
+		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
+	}
+	
+	private void displayFavouriteVendors(List<Vendor> vendors) {
+		// Remove all rows except first header row
+		int numRows = favouriteVendorTable.getRowCount();
+		for (int i = 1; i < numRows; i++) {
+			// Remove the second row, numRow times
+			favouriteVendorTable.removeRow(1);
+		}
+
+		// Add all vendors to favouriteVendorTable
+		for (Vendor vendor : vendors)
+			favouriteVendorTable(vendor);
+	}
+
+	private void favouriteVendorTable(Vendor vendor) {
+		// Add the vendor to the table
+				int row = favouriteVendorTable.getRowCount();
+				favouriteVendorTable.setText(row, 0, vendor.getName());
+				// Add styles names
+				favouriteVendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
+		
 	}
 
 }
