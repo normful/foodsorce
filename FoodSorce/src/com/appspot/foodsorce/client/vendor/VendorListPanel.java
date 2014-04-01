@@ -20,9 +20,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class VendorListPanel extends VerticalPanel {
 
@@ -228,9 +230,8 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.setText(row, 0, vendor.getName());
 		vendorTable.setText(row, 1, vendor.getDescription());
 		vendorTable.setText(row, 2, vendor.getLocation());
-		// TODO: Low priority task: display these ratings with stars instead of just text.
 		if (vendor.getAverageQuality() != -1)
-			vendorTable.setText(row, 3, String.valueOf(vendor.getAverageQuality()));
+			vendorTable.setWidget(row, 3, vendorStarsImage(vendor.getAverageQuality()));
 		if (vendor.getAverageCost() != -1)
 			vendorTable.setText(row, 4, String.valueOf(vendor.getAverageCost()));
 		// Add styles names
@@ -238,7 +239,32 @@ public class VendorListPanel extends VerticalPanel {
 		vendorTable.getCellFormatter().addStyleName(row, 1, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 2, "vendorListTextColumn");
 		vendorTable.getCellFormatter().addStyleName(row, 3, "vendorListRatingColumn");
-		vendorTable.getCellFormatter().addStyleName(row, 4, "costColumn");
+		vendorTable.getCellFormatter().addStyleName(row, 4, "vendorCostDollarSignsText");
+	}
+
+	public Image vendorStarsImage(double averageQuality) {
+		if (averageQuality <= 0.25)
+			return new Image("images/stars0-0.png");
+		else if (averageQuality <= 0.75)
+			return new Image("images/stars0-5.png");
+		else if (averageQuality <= 1.25)
+			return new Image("images/stars1-0.png");
+		else if (averageQuality <= 1.75)
+			return new Image("images/stars1-5.png");
+		else if (averageQuality <= 2.25)
+			return new Image("images/stars2-0.png");
+		else if (averageQuality <= 2.75)
+			return new Image("images/stars2-5.png");
+		else if (averageQuality <= 3.25)
+			return new Image("images/stars3-0.png");
+		else if (averageQuality <= 3.75)
+			return new Image("images/stars3-5.png");
+		else if (averageQuality <= 4.25)
+			return new Image("images/stars4-0.png");
+		else if (averageQuality <= 4.75)
+			return new Image("images/stars4-5.png");
+		else
+			return new Image("images/stars5-0.png");
 	}
 
 	private void loadVendorInfoPanel(int rowIndex) {

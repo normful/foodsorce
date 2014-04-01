@@ -43,17 +43,15 @@ h2 {
   font-color: #3B64A6 !important;
   font-weight: bold !important;
 }
-.costColumn {
-  font-size: 18px;
-  color: #458B00 !important;
-  font-color: #458B00 !important;
-  font-weight: bold !important;
-}
-
 
 .vendorListTextColumn { }
 
 .vendorListRatingColumn { }
+
+.vendorCostDollarSignsText {
+  color: #2F8E2F !important;
+  font-color: #2F8E2F !important;
+}
 
 .adminPanelProfileListHeader {
   font-size: 14px;
