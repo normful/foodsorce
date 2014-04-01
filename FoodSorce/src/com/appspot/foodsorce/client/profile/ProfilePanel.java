@@ -45,6 +45,7 @@ public class ProfilePanel extends HorizontalPanel {
 	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourited Vendors</h2>");
 	private FlexTable favouriteVendorTable = new FlexTable();
 	private ArrayList<Vendor> favouritedVendors = new ArrayList<Vendor>();
+	private ScrollPanel scrollPanel2 = new ScrollPanel();
 
 	private VerticalPanel leftProfilePanel = new VerticalPanel();
 	
@@ -70,7 +71,8 @@ public class ProfilePanel extends HorizontalPanel {
 		displayFavouriteVendors(favouritedVendors);
 		
 		favouriteVendorsHTML.add(favouriteVendorTable);
-		add(favouriteVendorsHTML);
+		scrollPanel2.add(favouriteVendorsHTML);
+		add(scrollPanel2);
 	}
 	
 	public static ProfilePanel getInstance() {
