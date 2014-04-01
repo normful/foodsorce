@@ -45,7 +45,7 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public Profile[] getAllProfiles() throws NotLoggedInException {	
 		
-		ArrayList<Profile> profiles = new ArrayList<Profile>();
+		ArrayList<Profile> detachedProfiles = new ArrayList<Profile>();
 
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Profile.class);
@@ -53,13 +53,13 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		try {
 			@SuppressWarnings("unchecked")
 			List<Profile> results = (List<Profile>) q.execute();
-			profiles.addAll(pm.detachCopyAll(results));
+			detachedProfiles.addAll(pm.detachCopyAll(results));
 		} finally {
 			q.closeAll();
 			pm.close();
 		}
 
-		return (Profile[]) profiles.toArray(new Profile[0]);
+		return (Profile[]) detachedProfiles.toArray(new Profile[0]);
 	}
 
 	private Profile createProfile(String userEmail) {
@@ -115,13 +115,12 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		checkLoggedIn();
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.flush();
-		
 		try {
 			pm.deletePersistent(profile);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		} finally {
+			pm.flush();
 			pm.close();
 		}
 	}
