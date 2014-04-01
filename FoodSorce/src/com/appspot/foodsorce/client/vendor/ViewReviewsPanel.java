@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.appspot.foodsorce.shared.Review;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ViewReviewsPanel extends VerticalPanel {
@@ -19,7 +20,9 @@ public class ViewReviewsPanel extends VerticalPanel {
 	}
 
 	private void createReviewsTable(ArrayList<Review> reviews) {
+		add(new HTML("<br><br><br>"));
 		FlexTable reviewsTable = new FlexTable();
+		reviewsTable.setCellPadding(5);
 		reviewsTable.setText(0, 0, "Reviewer");
 		reviewsTable.setText(0, 1, "Quality");
 		reviewsTable.setText(0, 2, "Cost");
