@@ -34,7 +34,7 @@ public class ViewReviewsPanel extends VerticalPanel {
 			int i = reviewsTable.getRowCount();
 			reviewsTable.setText(i, 0, r.getUserEmail());
 			reviewsTable.getCellFormatter().addStyleName(i, 0, "viewReviewsPanelUsername");
-			reviewsTable.setWidget(i, 1, VendorListPanel.getInstance().vendorStarsImage(((double) r.getQuality()) / 2));
+			reviewsTable.setWidget(i, 1, VendorListPanel.getInstance().vendorStarsImage(0.5*((double) r.getQuality())));
 			reviewsTable.setHTML(i, 2, VendorListPanel.getInstance().vendorCostString(r.getCost()));
 			reviewsTable.getCellFormatter().addStyleName(i, 2, "vendorCostDollarSignsText");
 			reviewsTable.setText(i, 3, r.getText());
