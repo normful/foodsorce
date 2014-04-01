@@ -18,6 +18,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private Vendor vendor;
 	private String userEmail;
+	private Boolean isLoggedIn;
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("");
 	private Label vendorName;
@@ -30,23 +31,14 @@ public class VendorInfoPanel extends VerticalPanel {
 	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
 		this.vendor = vendor;
 		this.userEmail = loginInfo.getEmailAddress();
+		this.isLoggedIn = loginInfo.isLoggedIn();
 		createHeader();
-		
-		if (loginInfo.isLoggedIn() && !hasReviewedVendor()) {
-			// Case 1: User is logged in and has not reviewed this Vendor
-			// - create Add Reviews button which, when pressed, will create 
-			//   an AddReviewsPanel and add it to this VendorInfoPanel
-			// - create a ViewReviewsPanel
+		createViewReviewsPanel();
+		htmlPanel.add(viewReviewsPanel);
+		if (!hasReviewedVendor()) {
+			// User is logged in or out and has not reviewed this Vendor
 			createAddReviewsButton();
-			createViewReviewsPanel();
 			htmlPanel.add(addReviewButton);
-		} else {
-			// Case 2: User is logged out OR
-			//         User is logged in and has already reviewed this Vendor
-			// - do not create an Add Reviews button
-			// - create a ViewReviewsPanel
-			createViewReviewsPanel();
-			htmlPanel.add(viewReviewsPanel);
 		}
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
@@ -83,8 +75,12 @@ public class VendorInfoPanel extends VerticalPanel {
 		addReviewButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				htmlPanel.add(addReviewsPanel);
-				removeAddReviewButton();
+				if (isLoggedIn) {
+					htmlPanel.add(addReviewsPanel);
+					removeAddReviewButton();
+				} else {
+					VendorListPanel.getInstance().getFoodSorce().loadLoginPanel();
+				}
 			}
 		});
 	}
