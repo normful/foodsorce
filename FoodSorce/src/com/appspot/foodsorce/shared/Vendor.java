@@ -110,7 +110,7 @@ public class Vendor implements Serializable {
 	
 	public ArrayList<String> getFavourites() {
 //		return favourites;
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	public double getAverageCost() {

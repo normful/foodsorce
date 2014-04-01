@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 
 public class VendorInfoPanel extends VerticalPanel {
 
@@ -48,12 +49,18 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(addReviewButton);
 		htmlPanel.add(viewReviewsPanel);
 
+		System.out.println(loginInfo);
 
-		if (loginInfo.isLoggedIn()) {
-			checkIfFavourited(vendor, loginInfo);
-			createFavouritesButton(vendor, loginInfo);
-			htmlPanel.add(favouriteButton);
-		}
+//		if (loginInfo.isLoggedIn()) {
+//			checkIfFavourited(vendor, loginInfo);
+//			createFavouritesButton(vendor, loginInfo);
+//			htmlPanel.add(favouriteButton);
+//		}
+		
+//		checkIfFavourited(vendor, loginInfo);
+		favourited = false;
+		createFavouritesButton(vendor, loginInfo);
+		htmlPanel.add(favouriteButton);
 
 		scrollPanel.add(htmlPanel);
 		this.add(scrollPanel);
@@ -68,13 +75,14 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void setButtonToAdd(final Vendor vendor, final LoginInfo loginInfo) {
-		favouriteButton = null;
-		favouriteButton = new Button("Add to Favourite");
+		System.out.println("in SetButtonAdd");
+		favouriteButton.setText("Add to Favourite");
 		favouriteButton.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
-				vendor.addFavourites(loginInfo.getEmailAddress());
+//				vendor.addFavourites(loginInfo.getEmailAddress());
+				vendor.addFavourites("hekki");
 				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
 					@Override
@@ -92,8 +100,8 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void setButtonToRemove (final Vendor vendor, final LoginInfo loginInfo) {
-		System.out.println("in Remove");
-		favouriteButton = new Button("Delete from Favourite");
+		System.out.println("in SetButtonRemove");
+		favouriteButton.setText("Delete from Favourite");
 		favouriteButton.addClickHandler(new ClickHandler(){
 
 			@Override
@@ -117,15 +125,14 @@ public class VendorInfoPanel extends VerticalPanel {
 			}
 		});
 	}
-// TODO: Fix this
+	
 	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
-//		for (String user : vendor.getFavourites()) {
-//			if (loginInfo.getEmailAddress() == user) {
-//				favourited = true;
-//			} else {
-//				favourited = false;
-//			}
-//		}
-		favourited = false;
+		for (String user : vendor.getFavourites()) {
+			if (loginInfo.getEmailAddress() == user) {
+				favourited = true;
+			} else {
+				favourited = false;
+			}
+		}
 	}
 }
