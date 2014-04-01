@@ -25,12 +25,10 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		checkLoggedIn();
 		if (userEmail == null || userEmail.isEmpty())
 			throw new NotLoggedInException();
-
 		Profile profile, detached = null;
-		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.getFetchPlan().setGroup(FetchPlan.ALL);
 		try {
-			pm.getFetchPlan().setGroup(FetchPlan.ALL);
 			profile = pm.getObjectById(Profile.class, userEmail);
 			detached = pm.detachCopy(profile);
 		} catch (Throwable e) {
@@ -38,7 +36,6 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 		} finally {
 			pm.close();
 		}
-			
 		return detached;
 	}
 	
