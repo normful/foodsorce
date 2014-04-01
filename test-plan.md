@@ -1,7 +1,6 @@
-% Test Plan for TeamTau FoodSorce
+# Test Plan for TeamTau FoodSorce
 
-
-# Mapping UI
+## Mapping UI
 
 - On startup, a map should appear with default location set to downtown vancouver as a marker.
 - On startup, vendor markers should be presesnt on the map.
@@ -18,7 +17,7 @@
 - Default field for address field is "address" and text is highlighted when selected
 - Selecting Main Page, Profile, Admin or Sign Out does not effect map.
 
-# General UI
+## General UI
 
 - On startup, the Title, "FoodSorce" and a menu on the left should be present.
 - On startup, left of the map a log in page should be shown with a link to login with your Google Account.
@@ -35,7 +34,7 @@
 - Clicking import data should display a pop-up displaying whether import was successful or failed.
 - Clikcing import data mutliple times does not crash program.
 
-# Vendor Display UI
+## Vendor Display UI
 
 - Vendor display displays all venues on startup.
 - Vendor display changes corresponding to the correct distance option selected.

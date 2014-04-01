@@ -1,10 +1,7 @@
-% CPSC 310
-% Team Tau Sprint 2 Demo Script
+# Team Tau Sprint 2 Demo Script
 
+## Norman
 
-# Norman
+## Brandon
 
-# Brandon
-
-# Jeffrey
-
+## Jeffrey
