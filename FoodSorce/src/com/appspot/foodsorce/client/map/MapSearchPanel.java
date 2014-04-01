@@ -298,9 +298,11 @@ public class MapSearchPanel extends FlowPanel {
 		String infoWindowContent = "<div class=\"vendorMarkerInfoWindowTitle\"><b>"
 				+ vendor.getName()
 				+ "</b></div>"
-				+ "<div class=\"vendorMarkerInfoWindowText\">"
+				+ "<div class=\"vendorMarkerInfoWindowReviews\">"
 				+ vendor.getReviews().size() + " reviews <br>"
 				+ averageQuality
+				+ "</div>"
+				+ "<div class=\"vendorMarkerInfoWindowCost\">"
 				+ averageCost
 				+ "</div>"
 				+ "<div class=\"vendorMarkerInfoWindowCategory\">"

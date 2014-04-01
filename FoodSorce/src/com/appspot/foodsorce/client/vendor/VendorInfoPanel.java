@@ -94,6 +94,10 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.add(viewReviewsPanel);
 	}
 
+	public void removeViewReviewsPanel() {
+		htmlPanel.remove(viewReviewsPanel);
+	}
+	
 	public void removeAddReviewButton() {
 		htmlPanel.remove(addReviewButton);
 	}

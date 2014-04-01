@@ -38,6 +38,15 @@ h3 {
   text-align: left;
 }
 
+h4 {
+  font-size: 1.0em;
+  font-weight: bold;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #000000;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
 .north {
   background-color: #B80C04;
 }
@@ -58,9 +67,10 @@ h3 {
 .vendorListRatingColumn { }
 
 .vendorCostDollarSignsText {
-  font-size: 1.5em
+  font-size: 1.5em;
   color: #2F8E2F !important;
   font-color: #2F8E2F !important;
+  font-weight: bold !important;
 }
 
 .viewReviewsPanelUsername {
@@ -126,6 +136,24 @@ h3 {
   font-weight: bold;
   font-family: Geneva, Tahoma, Verdana, sans-serif;
   color: #3B64A6;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
+.vendorMarkerInfoWindowReviews {
+  font-size: 1em;
+  font-weight: normal;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #B80C04;
+  margin: 0px 0px 0px;
+  text-align: left;
+}
+
+.vendorMarkerInfoWindowCost {
+  font-size: 1em;
+  font-weight: bold;
+  font-family: Geneva, Tahoma, Verdana, sans-serif;
+  color: #2F8E2F !important;
   margin: 0px 0px 0px;
   text-align: left;
 }

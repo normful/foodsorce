@@ -27,18 +27,18 @@ public class ViewReviewsPanel extends VerticalPanel {
 		reviewsTable.setText(0, 1, "Quality");
 		reviewsTable.setText(0, 2, "Cost");
 		reviewsTable.setText(0, 3, "Comments");
+		reviewsTable.getColumnFormatter().setWidth(2, "50px");
 		reviewsTable.getColumnFormatter().setWidth(3, "300px");
 		reviewsTable.getRowFormatter().addStyleName(0, "viewReviewsPanelTableHeader");
 		for (Review r : reviews) {
 			int i = reviewsTable.getRowCount();
 			reviewsTable.setText(i, 0, r.getUserEmail());
 			reviewsTable.getCellFormatter().addStyleName(i, 0, "viewReviewsPanelUsername");
-			reviewsTable.setWidget(i, 1, VendorListPanel.getInstance().vendorStarsImage(r.getQuality()/2));
+			reviewsTable.setWidget(i, 1, VendorListPanel.getInstance().vendorStarsImage(((double) r.getQuality()) / 2));
 			reviewsTable.setHTML(i, 2, VendorListPanel.getInstance().vendorCostString(r.getCost()));
 			reviewsTable.getCellFormatter().addStyleName(i, 2, "vendorCostDollarSignsText");
 			reviewsTable.setText(i, 3, r.getText());
 		}
 		this.add(reviewsTable);
 	}
-
 }

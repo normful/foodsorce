@@ -35,10 +35,16 @@ public class AddReviewsPanel extends VerticalPanel {
 
 	public void createUI() {
 		/*
+		 * Header
+		 */
+		add(new HTML("<h3>Add Review</h3><br><br>"
+				+ "Tell us what you thought of" + vendor.getName() + "!<br><br>"));
+		
+		/*
 		 * Vendor quality
 		 */
-		this.add(new HTML("Vendor quality out of 5"));
 		FlowPanel qualityPanel = new FlowPanel();
+		qualityPanel.add(new HTML("<h4><b>Quality: </b></h4>"));
 		
 		RadioButton q1 = new RadioButton("quality", "1 ");
 		q1.addClickHandler(new ClickHandler() {
@@ -91,8 +97,8 @@ public class AddReviewsPanel extends VerticalPanel {
 		/*
 		 * Vendor cost
 		 */
-		this.add(new HTML("Vendor cost"));
 		FlowPanel costPanel = new FlowPanel();
+		costPanel.add(new HTML("<h4><b>Cost: </b></h4>"));
 		
 		RadioButton c1 = new RadioButton("cost", "$ ");
 		c1.addClickHandler(new ClickHandler() {
@@ -125,7 +131,13 @@ public class AddReviewsPanel extends VerticalPanel {
 		/*
 		 * Review TextArea
 		 */
-		this.add(new HTML("Please describe your experience with this vendor."));
+		this.add(new HTML("<h4>Your Review</h4>"));
+		reviewTextArea.setText("Your review helps other Vancouverites "
+				+ "learn about great food vendors around town. "
+				+ "Please don't review this business if you are in "
+				+ "any way associated with its owner or employees.");
+		reviewTextArea.setWidth("500px");
+		reviewTextArea.setHeight("300px");
 		this.add(reviewTextArea);
 
 		/*
@@ -144,13 +156,12 @@ public class AddReviewsPanel extends VerticalPanel {
 
 	private void submitReview() {
 		Review review = new Review(userEmail, quality, cost, reviewText);
-		GWT.log("AddReviewsPanel.java: creating Review = " + review.toString());
 		vendor.addReview(review);
-		GWT.log("AddReviewsPanel.java: adding Review to Vendor = " + vendor.toString());
 		vendorService = GWT.create(VendorService.class);
 		vendorService.setVendor(vendor, new AsyncCallback<Void>() {
 			public void onSuccess(Void result) {
 				vendorInfoPanel.removeAddReviewsPanel();
+				vendorInfoPanel.removeViewReviewsPanel();
 				vendorInfoPanel.createViewReviewsPanel();
 				VendorListPanel.getInstance().searchVendor();
 			}
@@ -160,5 +171,4 @@ public class AddReviewsPanel extends VerticalPanel {
 			}
 		});
 	}
-
 }
