@@ -13,18 +13,15 @@ import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VendorServiceImpl extends RemoteServiceServlet implements VendorService {
-	
+
 	private static final long serialVersionUID = -5788857397262137930L;
 
 	@Override
 	public Vendor[] getVendors() throws NotLoggedInException {
-		
 		ArrayList<Vendor> detachedVendors = new ArrayList<Vendor>();
-		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query q = pm.newQuery(Vendor.class);
 		q.setOrdering("name ascending");
-
 		try {
 			@SuppressWarnings("unchecked")
 			List<Vendor> results = (List<Vendor>) q.execute();
@@ -33,13 +30,19 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 			q.closeAll();
 			pm.close();
 		}
-		
 		return (Vendor[]) detachedVendors.toArray(new Vendor[0]);
 	}
 
 	@Override
 	public void setVendor(Vendor vendor) {
-		// TODO Auto-generated method stub
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			pm.makePersistent(vendor);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			pm.close();
+		}
 	}
-	
 }
+

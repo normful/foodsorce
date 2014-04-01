@@ -13,6 +13,11 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vendor implements Serializable {
 
+
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 6798024041102667120L;
 
 	// Key is an app-assigned string ID that corresponds
@@ -42,7 +47,7 @@ public class Vendor implements Serializable {
 	private double longitude;
 	
 	@Persistent
-	private ArrayList<Review> reviews = new ArrayList<Review>();
+	private ArrayList<Review> reviews;
 	
 	// Default no-arg constructor required for serialization
 	public Vendor() {
@@ -68,6 +73,7 @@ public class Vendor implements Serializable {
 		
 		this.latitude = latitude;
 		this.longitude = longitude;
+		reviews = new ArrayList<Review>();
 	}
 	
 	public String getName() {
