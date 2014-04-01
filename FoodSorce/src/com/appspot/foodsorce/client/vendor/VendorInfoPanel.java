@@ -1,6 +1,7 @@
 package com.appspot.foodsorce.client.vendor;
 
 import com.appspot.foodsorce.client.login.LoginInfo;
+import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -57,13 +58,14 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
-		if (loginInfo.isLoggedIn()) {
+//		if (loginInfo.isLoggedIn()) {
+			loginInfo.setEmailAddress("hhhhhh");
 			checkIfFavourited(vendor, loginInfo);
 			setButtonToAdd(vendor, loginInfo);
 			setButtonToRemove(vendor, loginInfo);
 			htmlPanel.add(addFavouriteButton);
 			htmlPanel.add(removeFavouriteButton);
-		}
+//		}
 
 	}
 
@@ -129,8 +131,8 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
-		for (String user : vendor.getFavourites()) {
-			if (loginInfo.getEmailAddress() == user) {
+		for (UserEmail user : vendor.getFavourites()) {
+			if (loginInfo.getEmailAddress() == user.getUserEmail()) {
 				favourited = true;
 			} else {
 				favourited = false;

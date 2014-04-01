@@ -8,6 +8,7 @@ import java.util.Map;
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.appspot.foodsorce.shared.Profile;
+import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,7 +20,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,18 +36,18 @@ public class ProfilePanel extends HorizontalPanel {
 	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
 	
-	private ScrollPanel scrollPanel = new ScrollPanel();
+	private ScrollPanel leftScrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
 	private String defaultPhotoUrl = "images/unknown_user.jpeg";
 	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
 	private FlexTable settingsTable = new FlexTable();
+	private VerticalPanel leftProfilePanel = new VerticalPanel();
 	
 	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourited Vendors</h2>");
 	private FlexTable favouriteVendorTable = new FlexTable();
 	private ArrayList<Vendor> favouritedVendors = new ArrayList<Vendor>();
-	private ScrollPanel scrollPanel2 = new ScrollPanel();
+	private ScrollPanel rightScrollPanel = new ScrollPanel();
 
-	private VerticalPanel leftProfilePanel = new VerticalPanel();
 	
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
@@ -62,8 +62,8 @@ public class ProfilePanel extends HorizontalPanel {
 		
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
-		scrollPanel.add(htmlPanel);
-		leftProfilePanel.add(scrollPanel);
+		leftScrollPanel.add(htmlPanel);
+		leftProfilePanel.add(leftScrollPanel);
 		add(leftProfilePanel);
 		
 		createFavouriteVendorTable();
@@ -71,8 +71,8 @@ public class ProfilePanel extends HorizontalPanel {
 		displayFavouriteVendors(favouritedVendors);
 		
 		favouriteVendorsHTML.add(favouriteVendorTable);
-		scrollPanel2.add(favouriteVendorsHTML);
-		add(scrollPanel2);
+		rightScrollPanel.add(favouriteVendorsHTML);
+		add(rightScrollPanel);
 	}
 	
 	public static ProfilePanel getInstance() {
@@ -220,8 +220,8 @@ public class ProfilePanel extends HorizontalPanel {
 		String favouriteVendors = "";
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
-			for (String userEmailOfFavourite : vendor.getFavourites()) {
-				if (userEmail == userEmailOfFavourite) {
+			for (UserEmail userEmailOfFavourite : vendor.getFavourites()) {
+				if (userEmail == userEmailOfFavourite.getUserEmail()) {
 					favouritedVendors.add(vendor);
 			}
 		}
