@@ -2,9 +2,7 @@ package com.appspot.foodsorce.client.profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
@@ -57,7 +55,7 @@ public class ProfilePanel extends HorizontalPanel {
 
 	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourites</h2>");
 	private FlexTable favouriteVendorTable = new FlexTable();
-	private HashSet<Vendor> favouritedVendors = new HashSet<Vendor>();
+	private ArrayList<Vendor>favouritedVendors = new ArrayList<Vendor>();
 	private ScrollPanel rightScrollPanel = new ScrollPanel();
 
 	private Anchor editProfileLink = new Anchor("Edit Profile");
@@ -85,7 +83,6 @@ public class ProfilePanel extends HorizontalPanel {
 	private void reloadLayout() {
 		htmlPanel.clear();
 		htmlPanel.add(profilePhoto);
-		htmlPanel.add(new HTML("<br>"));
 		createImportFacebookPhotoUI();
 		htmlPanel.add(settingsTable);
 	}
@@ -108,7 +105,6 @@ public class ProfilePanel extends HorizontalPanel {
 	}
 
 	private void loadImportFacebookPhotoPanel() {
-		importFacebookPhotoPanel.add(new HTML("<h4>Facebook username</h4>"));
 		facebookUsernameTextBox.addKeyPressHandler(new KeyPressHandler() {
 			public void onKeyPress(KeyPressEvent event) {
 				boolean enterPressed = KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode();
@@ -116,6 +112,7 @@ public class ProfilePanel extends HorizontalPanel {
 					importFacebookPhoto();
 			}
 		});
+		facebookUsernameTextBox.setText("Enter facebook username");
 		submitFacebookUsernameButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -307,8 +304,10 @@ public class ProfilePanel extends HorizontalPanel {
 		for (Vendor vendor : allVendors) {
 			if (vendor.getFavouriters() != null) {
 				for (String favouriter : vendor.getFavouriters()) {
-					if (userEmail.equals(favouriter))
+					if (userEmail.equals(favouriter) &&
+						!favouritedVendors.contains(vendor)) {
 						favouritedVendors.add(vendor);
+					}
 				}
 			}
 		}
@@ -322,7 +321,7 @@ public class ProfilePanel extends HorizontalPanel {
 		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
 
-	private void displayFavouriteVendors(Set<Vendor> vendors) {
+	private void displayFavouriteVendors(ArrayList<Vendor> vendors) {
 		favouriteVendorTable.removeAllRows();
 		for (Vendor vendor : vendors)
 			displayFavouriteVendor(vendor);
