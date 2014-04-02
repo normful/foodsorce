@@ -95,7 +95,6 @@ public class VendorInfoPanel extends VerticalPanel {
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
 						favourited = true;
-						System.out.println(currentVendor.getFavourites());
 						ProfilePanel.getInstance().setFavouriteVendors();
 					}
 				});}
@@ -109,12 +108,10 @@ public class VendorInfoPanel extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				System.out.println("begin onClick");
 				if (favourited == false) {
 					Window.alert("Not a favourited vendor");
 					return;
 				}
-				
 				currentVendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
 				vendorService.setVendor(currentVendor, new AsyncCallback<Void>(){
 
@@ -128,7 +125,6 @@ public class VendorInfoPanel extends VerticalPanel {
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
 						favourited = false;
-						System.out.println(currentVendor.getFavourites());
 						ProfilePanel.getInstance().setFavouriteVendors();
 					}
 				});
