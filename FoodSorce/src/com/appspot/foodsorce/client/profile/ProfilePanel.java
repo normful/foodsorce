@@ -96,6 +96,7 @@ public class ProfilePanel extends HorizontalPanel {
 					loadImportFacebookPhotoPanel();
 				}
 			});
+			htmlPanel.add(new HTML("<br>"));
 			htmlPanel.add(importFacebookPhotoButton);
 			htmlPanel.add(importFacebookPhotoPanel);
 		} else {
@@ -112,6 +113,10 @@ public class ProfilePanel extends HorizontalPanel {
 					importFacebookPhoto();
 			}
 		});
+		facebookUsernameTextBox.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				facebookUsernameTextBox.selectAll();
+			}});
 		facebookUsernameTextBox.setText("Enter facebook username");
 		submitFacebookUsernameButton.addClickHandler(new ClickHandler() {
 			@Override
