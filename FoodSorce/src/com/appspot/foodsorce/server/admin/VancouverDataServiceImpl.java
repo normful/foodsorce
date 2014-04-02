@@ -19,7 +19,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class VancouverDataServiceImpl extends RemoteServiceServlet implements
 	VancouverDataService {
-
+	
 	private static final long serialVersionUID = 6717835196177737876L;
 	
 	private URL dataUrl;

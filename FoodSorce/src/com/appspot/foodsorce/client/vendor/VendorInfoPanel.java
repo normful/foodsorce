@@ -7,7 +7,6 @@ import com.appspot.foodsorce.shared.Review;
 import com.appspot.foodsorce.client.profile.ProfilePanel;
 import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
-import com.google.appengine.api.datastore.Email;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -114,7 +113,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	public void removeAddReviewsPanel() {
 		htmlPanel.remove(addReviewsPanel);
 	}
-}
 
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
 		if (loginInfo.isLoggedIn()) {

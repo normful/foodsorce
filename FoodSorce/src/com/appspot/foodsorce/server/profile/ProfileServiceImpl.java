@@ -20,7 +20,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class ProfileServiceImpl extends RemoteServiceServlet implements
 		ProfileService {
 
-	private static final long serialVersionUID = 4371227882020935692L;
+	private static final long serialVersionUID = 5150172415620618701L;
 
 	@Override
 	public Profile getProfile(String userEmail) throws NotLoggedInException {

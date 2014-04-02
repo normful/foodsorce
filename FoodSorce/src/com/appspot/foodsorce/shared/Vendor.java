@@ -13,6 +13,8 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vendor implements Serializable {
 
+	private static final long serialVersionUID = 770617606459970533L;
+
 	// Key is an app-assigned string ID that corresponds
 	// to the "key" column in new_food_vendor_locations.xls
 	@PrimaryKey
@@ -41,6 +43,9 @@ public class Vendor implements Serializable {
 
 	@Persistent(serialized="true", defaultFetchGroup="true")
 	private ArrayList<Review> reviews;
+	
+	@Persistent(serialized="true", defaultFetchGroup="true")
+	private ArrayList<UserEmail> favourites;
 
 	// Default no-arg constructor required for serialization
 	public Vendor() {

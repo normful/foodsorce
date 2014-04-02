@@ -13,12 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Review implements Serializable {
 	
-
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -287858152729640945L;
+	private static final long serialVersionUID = 1774083087772060674L;
 
 	// Key is a system-generated encoded String
 	@PrimaryKey
