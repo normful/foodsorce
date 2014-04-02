@@ -302,6 +302,7 @@ public class ProfilePanel extends HorizontalPanel {
 		if (userEmail == null || userEmail.isEmpty())
 			return;
 		vendorListPanel = VendorListPanel.getInstance();
+		favouritedVendors.clear();
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
 			if (vendor.getFavouriters() != null) {
