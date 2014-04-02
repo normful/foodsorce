@@ -13,7 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Vendor implements Serializable {
 
-	private static final long serialVersionUID = 770617606459970533L;
+	private static final long serialVersionUID = 6351851415744555397L;
 
 	// Key is an app-assigned string ID that corresponds
 	// to the "key" column in new_food_vendor_locations.xls
@@ -45,7 +45,7 @@ public class Vendor implements Serializable {
 	private ArrayList<Review> reviews;
 	
 	@Persistent(serialized="true", defaultFetchGroup="true")
-	private ArrayList<UserEmail> favourites;
+	private ArrayList<String> favouriters;
 
 	// Default no-arg constructor required for serialization
 	public Vendor() {
@@ -72,7 +72,7 @@ public class Vendor implements Serializable {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		reviews = new ArrayList<Review>();
-		favourites = new ArrayList<UserEmail>();
+		favouriters = new ArrayList<String>();
 	}
 
 	public String getName() {
@@ -102,17 +102,16 @@ public class Vendor implements Serializable {
 		return reviews;
 	}
 
-	public void addFavourites(UserEmail email) {
-		favourites.add(email);
+	public void addFavouriter(String emailAddress) {
+		favouriters.add(emailAddress);
 	}
 
-	public void removeFavourites(UserEmail email) {
-		favourites.remove(email);
+	public void removeFavouriter(String emailAddress) {
+		favouriters.remove(emailAddress);
 	}
-
-	public ArrayList<UserEmail> getFavourites() {
-		return favourites;
-
+	
+	public ArrayList<String> getFavouriters() {
+		return favouriters;
 	}
 
 	public double getAverageCost() {
