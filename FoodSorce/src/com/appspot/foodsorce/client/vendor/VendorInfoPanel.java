@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.appspot.foodsorce.client.login.LoginInfo;
 import com.appspot.foodsorce.shared.Review;
 import com.appspot.foodsorce.client.profile.ProfilePanel;
-import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -75,9 +74,8 @@ public class VendorInfoPanel extends VerticalPanel {
 		if (existingReviews.isEmpty())
 			return false;
 		for (Review review : existingReviews) {
-			if (review.getUserEmail().equals(userEmail)) {
+			if (review.getUserEmail().equals(userEmail))
 				return true;
-			}
 		}
 		return false;
 	}
@@ -116,68 +114,69 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void createFavouriteButtons() {
 		checkIfFavourited();
-		createAddFavouriteButton();
-		createRemoveFavouriteButton();
-		htmlPanel.add(addFavouriteButton);
-		htmlPanel.add(removeFavouriteButton);
+		if (hasFavourited) {
+			createRemoveFavouriteButton();
+			htmlPanel.add(removeFavouriteButton);
+		} else {
+			createAddFavouriteButton();
+			htmlPanel.add(addFavouriteButton);
+		}
 	}
 
 	private void createAddFavouriteButton() {
 		addFavouriteButton = new Button();
-		addFavouriteButton.setText("Add to Favourite");
+		addFavouriteButton.setText("Add to Favourites");
 		addFavouriteButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (hasFavourited == true) {
 					Window.alert("Already a favourited vendor");
+					htmlPanel.remove(addFavouriteButton);
+					htmlPanel.add(removeFavouriteButton);
 					return;
 				}
-				vendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
-				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
-					public void onFailure(Throwable caught) {
-						GWT.log("VendorInfoPanel.java: setButtonToAdd() onFailure");
-						Window.alert("Failed to add to favourites.");
-					}
-					public void onSuccess(Void result) {
-						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
-						hasFavourited = true;
-						ProfilePanel.getInstance().setFavouriteVendors();
-					}
-				});}
+				vendor.addFavouriter(loginInfo.getEmailAddress());
+				hasFavourited = true;
+				updateVendor();
+			}
 		});
 	}
-
-	private void createRemoveFavouriteButton () {
+	
+	private void createRemoveFavouriteButton() {
 		removeFavouriteButton = new Button();
 		removeFavouriteButton.setText("Remove from Favourites");
 		removeFavouriteButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (hasFavourited == false) {
 					Window.alert("Not a favourited vendor");
+					htmlPanel.remove(removeFavouriteButton);
+					htmlPanel.add(addFavouriteButton);
 					return;
 				}
-				vendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
-				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
-					public void onSuccess(Void result) {
-						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
-						hasFavourited = false;
-						ProfilePanel.getInstance().setFavouriteVendors();
-					}
-					public void onFailure(Throwable caught) {
-						GWT.log("VendorInfoPanel.java: setButtonToRemove() onFailure");
-						Window.alert("Failed to remove from favourites.");
-					}
-				});
+				vendor.removeFavouriter(loginInfo.getEmailAddress());
+				hasFavourited = false;
+				updateVendor();
 			}
 		});
 	}
 
 	private void checkIfFavourited() {
-		for (UserEmail user : vendor.getFavourites()) {
-			if (loginInfo.getEmailAddress().equals(user.getUserEmail())) {
+		for (String favouriter : vendor.getFavouriters()) {
+			if (loginInfo.getEmailAddress().equals(favouriter)) {
 				hasFavourited = true;
 				return;
 			}
 		}
 		hasFavourited = false;
+	}
+
+	private void updateVendor() {
+		vendorService.setVendor(vendor, new AsyncCallback<Void>(){
+			public void onSuccess(Void result) {
+				ProfilePanel.getInstance().setFavouriteVendors();
+			}
+			public void onFailure(Throwable caught) {
+				Window.alert("Failed to remove from favourites.");
+			}
+		});
 	}
 }
