@@ -161,6 +161,16 @@ Task Breakdown:
 - Add an `Anchor` to change the `FlexTable` to show `TextBox`s for editing and submitting settings values.
 - Add a `Submit` button that makes an RPC with to the `setProfile` method for persisting the settings.
 
+Demo Tasks:
+
+1. Click on the `Profile` navigation link
+2. Click on the `Edit Profile` link
+3. Add some text to various `TextBox`es that aren't `Search Distance` or `Search Text`
+4. Press `Submit`
+5. Log out.
+6. Log back in.
+7. Click on the `Profile` navigation link to show that the changes persist.
+
 ### **As a logged in user, I want to store my search settings so that I can use them again in when I log back into the app in the future.**
 
 Priority: 2
