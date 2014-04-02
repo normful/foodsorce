@@ -91,6 +91,7 @@ public class VendorInfoPanel extends VerticalPanel {
 					@Override
 					public void onFailure(Throwable caught) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onFailure");
+						Window.alert("Failed to add to favourites.");
 					}
 
 					@Override
@@ -120,6 +121,7 @@ public class VendorInfoPanel extends VerticalPanel {
 					@Override
 					public void onFailure(Throwable caught) {
 						GWT.log("VendorInfoPanel.java: setButtonToRemove() onFailure");
+						Window.alert("Failed to remove from favourites.");
 
 					}
 

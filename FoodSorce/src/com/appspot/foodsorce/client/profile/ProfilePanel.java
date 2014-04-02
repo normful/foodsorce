@@ -236,7 +236,7 @@ public class ProfilePanel extends HorizontalPanel {
 
 		// Table header settings
 		favouriteVendorTable.setText(0, 0, "Vendor Name");
-		favouriteVendorTable.getColumnFormatter().setWidth(0, "100px");
+		favouriteVendorTable.getColumnFormatter().setWidth(0, "300px");
 		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
 
