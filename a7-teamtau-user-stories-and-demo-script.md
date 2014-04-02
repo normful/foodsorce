@@ -1,6 +1,6 @@
 % CPSC 310 Assignment 7: Demo Script
-% Team Tau (Wednesday Lab)
-% Norman Sue, Brandon Chang, Jeffrey Gamage
+% Team Tau: Norman Sue, Brandon Chang, Jeffrey Gamage
+% http://www.foodsorce.appspot.com
 
 # Sprint 1 User Stories
 
@@ -290,8 +290,6 @@ Task Breakdown:
 - Implement a `ProfileFavouritesPanel` (that will be displayed within the `ProfilePanel`) that displays favourites. (Issue #75)
 - Implement a `setVendor` method in `VendorService` that updates an existing `Vendor` object in the datastore with the newly modified `usersWhoFaved`. (Issue #76)
 
-### **As an admin, I want to be able to delete normal user accounts so that I can remove problem users from the app.**
-
 Demo Tasks:
 
 1. Click on the `Admin` navigation link.
@@ -307,6 +305,8 @@ Demo Tasks:
 11. Click on any vendor.
 12. Click on `Add to Favourites`
 13. Click on the `Profile` navigation link. 
+
+### **As an admin, I want to be able to delete normal user accounts so that I can remove problem users from the app.**
 
 Priority: 3
 Acceptance Criteria:
