@@ -136,8 +136,6 @@ public class VendorInfoPanel extends VerticalPanel {
 					htmlPanel.add(removeFavouriteButton);
 					return;
 				}
-				// TODO REMOVE
-				Window.alert("DEBUG LINE 1");
 				vendor.addFavouriter(loginInfo.getEmailAddress());
 				hasFavourited = true;
 				updateVendor();
