@@ -12,30 +12,33 @@ import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
 public class Profile implements Serializable {
-	
-	private static final long serialVersionUID = 5594172683743954656L;
+
+	private static final long serialVersionUID = -6884329268970225620L;
 
 	// Key is an app-assigned string ID that is the user's email address
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
 	private String encodedKey;
-	
+
 	@Persistent
 	@Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
 	private String userEmail;
 
+	@Persistent
+	private String photoUrl;
+
 	@Persistent(serialized="true", defaultFetchGroup="true")
 	private HashMap<String, String> settings = new HashMap<String, String>();
-	
+
 	// Default no-arg constructor required for serialization
 	public Profile() {
 		this("");
 	}
-	
+
 	public Profile(String userEmail) {
 		this.userEmail = userEmail;
-		settings.put("photoUrl", "images/unknown_user.jpeg");
+		photoUrl = "images/unknown_user.jpeg";
 		settings.put("searchDistance", "all");
 		settings.put("searchText", "");
 		settings.put("Gender", "");
@@ -47,6 +50,13 @@ public class Profile implements Serializable {
 
 	public String getUserEmail() {
 		return userEmail;
+	}
+	public String getPhotoUrl(){
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl){
+		this.photoUrl = photoUrl;
 	}
 
 	public HashMap<String, String> getSettings() {

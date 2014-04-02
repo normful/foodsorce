@@ -1,7 +1,9 @@
 package com.appspot.foodsorce.server.profile;
 
-import java.util.ArrayList;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.jdo.FetchPlan;
 import javax.jdo.PersistenceManager;
@@ -11,6 +13,7 @@ import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.profile.ProfileService;
 import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.shared.Profile;
+import com.appspot.foodsorce.shared.SerieString;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -18,7 +21,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class ProfileServiceImpl extends RemoteServiceServlet implements
 		ProfileService {
 
-	private static final long serialVersionUID = 4722222127443002939L;
+	private static final long serialVersionUID = 4371227882020935692L;
 
 	@Override
 	public Profile getProfile(String userEmail) throws NotLoggedInException {
@@ -128,5 +131,18 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 			throw new NotLoggedInException("Not logged in.");
 	}
 
+	@Override
+	public SerieString getGraphUrl(String photoUrl) {
+		SerieString graphUrl= new SerieString("images/unknown_user.jpeg");
+		try {
+			URL toLookup = new URL(photoUrl);
+			HttpURLConnection connection = (HttpURLConnection) toLookup.openConnection();
+			connection.setInstanceFollowRedirects(false);
+			graphUrl.setText(connection.getHeaderField("Location"));
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return graphUrl;
+	}
 
 }

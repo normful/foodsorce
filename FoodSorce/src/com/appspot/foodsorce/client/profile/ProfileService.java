@@ -2,6 +2,7 @@ package com.appspot.foodsorce.client.profile;
 
 import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.shared.Profile;
+import com.appspot.foodsorce.shared.SerieString;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -11,4 +12,5 @@ public interface ProfileService extends RemoteService {
 	public Profile getProfile(String userEmail) throws NotLoggedInException;
 	public void updateProfile(String userEmail, Profile profile) throws NotLoggedInException;
 	public void deleteProfile(Profile profile) throws NotLoggedInException;
+	SerieString getGraphUrl(String photoUrl);
 }
