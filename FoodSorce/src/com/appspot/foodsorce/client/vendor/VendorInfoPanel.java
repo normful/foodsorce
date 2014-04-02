@@ -33,6 +33,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private boolean favourited;
 	private Vendor currentVendor;
+	private LoginInfo loginInfo;
 
 	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
 		vendorName = new Label(vendor.getName());
@@ -62,17 +63,18 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
 		if (loginInfo.isLoggedIn()) {
+			this.loginInfo = loginInfo;
 			currentVendor = vendor;
-			checkIfFavourited(loginInfo);
-			setButtonToAdd(loginInfo);
-			setButtonToRemove(loginInfo);
+			checkIfFavourited();
+			setButtonToAdd();
+			setButtonToRemove();
 			htmlPanel.add(addFavouriteButton);
 			htmlPanel.add(removeFavouriteButton);
 		}
 
 	}
 
-	private void setButtonToAdd(final LoginInfo loginInfo) {
+	private void setButtonToAdd() {
 		addFavouriteButton = new Button();
 		addFavouriteButton.setText("Add to Favourite");
 		addFavouriteButton.addClickHandler(new ClickHandler(){
@@ -101,7 +103,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		});
 	}
 
-	private void setButtonToRemove (final LoginInfo loginInfo) {
+	private void setButtonToRemove () {
 		removeFavouriteButton = new Button();
 		removeFavouriteButton.setText("Delete from Favourite");
 		removeFavouriteButton.addClickHandler(new ClickHandler(){
@@ -132,7 +134,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		});
 	}
 
-	private void checkIfFavourited(LoginInfo loginInfo) {
+	private void checkIfFavourited() {
 		for (UserEmail user : currentVendor.getFavourites()) {
 			if (loginInfo.getEmailAddress().equals(user.getUserEmail())) {
 				favourited = true;

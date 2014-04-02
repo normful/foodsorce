@@ -47,10 +47,10 @@ public class Vendor implements Serializable {
 	private double longitude;
 	
 	@Persistent(serialized="true", defaultFetchGroup="true")
-	private ArrayList<Review> reviews = new ArrayList<Review>();
+	private ArrayList<Review> reviews;
 	
 	@Persistent(serialized="true", defaultFetchGroup="true")
-	private ArrayList<UserEmail> favourites = new ArrayList<UserEmail>();
+	private ArrayList<UserEmail> favourites;
 	
 	// Default no-arg constructor required for serialization
 	public Vendor() {
@@ -76,6 +76,8 @@ public class Vendor implements Serializable {
 		
 		this.latitude = latitude;
 		this.longitude = longitude;
+		reviews = new ArrayList<Review>();
+		favourites = new ArrayList<UserEmail>();
 	}
 	
 	public String getName() {
@@ -132,7 +134,7 @@ public class Vendor implements Serializable {
 			return -1;
 		double sum = 0.0;
 		for (Review review : reviews)
-			sum += review.getQuality();
+			sum += 0.5*review.getQuality();
 		return sum / reviews.size();
 	}
 
