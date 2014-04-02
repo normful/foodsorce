@@ -1,6 +1,7 @@
 package com.appspot.foodsorce.client.vendor;
 
 import com.appspot.foodsorce.client.login.LoginInfo;
+import com.appspot.foodsorce.client.profile.ProfilePanel;
 import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.appengine.api.datastore.Email;
@@ -62,16 +63,16 @@ public class VendorInfoPanel extends VerticalPanel {
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
 		if (loginInfo.isLoggedIn()) {
 			currentVendor = vendor;
-			checkIfFavourited(vendor, loginInfo);
-			setButtonToAdd(vendor, loginInfo);
-			setButtonToRemove(vendor, loginInfo);
+			checkIfFavourited(loginInfo);
+			setButtonToAdd(loginInfo);
+			setButtonToRemove(loginInfo);
 			htmlPanel.add(addFavouriteButton);
 			htmlPanel.add(removeFavouriteButton);
 		}
 
 	}
 
-	private void setButtonToAdd(final Vendor vendor, final LoginInfo loginInfo) {
+	private void setButtonToAdd(final LoginInfo loginInfo) {
 		addFavouriteButton = new Button();
 		addFavouriteButton.setText("Add to Favourite");
 		addFavouriteButton.addClickHandler(new ClickHandler(){
@@ -82,8 +83,8 @@ public class VendorInfoPanel extends VerticalPanel {
 					Window.alert("Already a favourited vendor");
 					return;
 				}
-				vendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
-				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
+				currentVendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
+				vendorService.setVendor(currentVendor, new AsyncCallback<Void>(){
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -94,28 +95,28 @@ public class VendorInfoPanel extends VerticalPanel {
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
 						favourited = true;
+						System.out.println(currentVendor.getFavourites());
+						ProfilePanel.getInstance().setFavouriteVendors();
 					}
 				});}
 		});
 	}
 
-	private void setButtonToRemove (final Vendor vendor, final LoginInfo loginInfo) {
+	private void setButtonToRemove (final LoginInfo loginInfo) {
 		removeFavouriteButton = new Button();
 		removeFavouriteButton.setText("Delete from Favourite");
 		removeFavouriteButton.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
+				System.out.println("begin onClick");
 				if (favourited == false) {
 					Window.alert("Not a favourited vendor");
 					return;
 				}
-				for (UserEmail em : vendor.getFavourites()) {
-					if (em.getUserEmail().equals(loginInfo.getEmailAddress())) {
-						vendor.removeFavourites(em);
-					}
-				}
-				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
+				
+				currentVendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
+				vendorService.setVendor(currentVendor, new AsyncCallback<Void>(){
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -127,14 +128,16 @@ public class VendorInfoPanel extends VerticalPanel {
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
 						favourited = false;
+						System.out.println(currentVendor.getFavourites());
+						ProfilePanel.getInstance().setFavouriteVendors();
 					}
 				});
 			}
 		});
 	}
 
-	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
-		for (UserEmail user : vendor.getFavourites()) {
+	private void checkIfFavourited(LoginInfo loginInfo) {
+		for (UserEmail user : currentVendor.getFavourites()) {
 			if (loginInfo.getEmailAddress().equals(user.getUserEmail())) {
 				favourited = true;
 			} else {

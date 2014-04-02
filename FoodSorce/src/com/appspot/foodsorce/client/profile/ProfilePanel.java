@@ -68,7 +68,6 @@ public class ProfilePanel extends HorizontalPanel {
 
 		createFavouriteVendorTable();
 		setFavouriteVendors();
-		displayFavouriteVendors(favouritedVendors);
 
 		favouriteVendorsHTML.add(favouriteVendorTable);
 		rightScrollPanel.add(favouriteVendorsHTML);
@@ -216,8 +215,8 @@ public class ProfilePanel extends HorizontalPanel {
 		}
 	}
 
-	private String setFavouriteVendors() {
-		String favouriteVendors = "";
+	public void setFavouriteVendors() {
+
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
 			for (UserEmail userEmailOfFavourite : vendor.getFavourites()) {
@@ -226,7 +225,7 @@ public class ProfilePanel extends HorizontalPanel {
 				}
 			}
 		}
-		return favouriteVendors;
+		displayFavouriteVendors(favouritedVendors);
 	}
 
 	private void createFavouriteVendorTable() {
