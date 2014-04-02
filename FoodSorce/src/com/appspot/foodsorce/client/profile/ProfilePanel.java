@@ -323,8 +323,7 @@ public class ProfilePanel extends HorizontalPanel {
 	}
 
 	private void displayFavouriteVendors(Set<Vendor> vendors) {
-		for (int i = 0; i < favouriteVendorTable.getRowCount(); i++)
-			favouriteVendorTable.removeRow(0);
+		favouriteVendorTable.removeAllRows();
 		for (Vendor vendor : vendors)
 			displayFavouriteVendor(vendor);
 	}
