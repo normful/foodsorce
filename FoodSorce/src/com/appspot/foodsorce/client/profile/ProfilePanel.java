@@ -72,8 +72,6 @@ public class ProfilePanel extends HorizontalPanel {
 		add(leftProfilePanel);
 
 		createFavouriteVendorTable();
-		setFavouriteVendors();
-
 		favouriteVendorsHTML.add(favouriteVendorTable);
 		rightScrollPanel.add(favouriteVendorsHTML);
 		add(rightScrollPanel);
@@ -163,6 +161,7 @@ public class ProfilePanel extends HorizontalPanel {
 				profile = result;
 				setFacebookPhoto(result.getPhotoUrl());
 				settingsMap.putAll(result.getSettings());
+				setFavouriteVendors();
 				loadViewSettingsTable();
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
 				mapSearchPanel.updateAndPlotNearbyVendors();
