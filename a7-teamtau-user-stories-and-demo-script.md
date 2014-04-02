@@ -185,13 +185,24 @@ Task Breakdown:
 - Add fields to `Profile` for storing search settings. (Issue #62)
 - Add method to give search settings to the `VendorListPanel` and the `MapSearchPanel` after the user logs in. (Issue #63)
 
+Demo Tasks:
+
+1. Click on the `Admin` navigation link.
+2. Click on the `Delete User` link for current User.
+3. Log out.
+4. Log back in to create new profile.
+5. Click on the `Profile` navigation link to show Default values: `searchDistance = "all"` and `searchText = ""`.
+6. Click on any radio button and input any string into serachText.
+7. Log out.
+8. Log back in.
+9. Click on the `Profile` navigation link to show that the changes persist.
+
 ### **As a logged in user, I want to be able to search vendors by the kind of food they sell so that I can go and purchase food I like eating.**
 
 Priority: 2
 Acceptance Criteria:
 
 - Verify that only vendors whose type of food contains the search text appear in the `vendorTable`.
-- Verify that when a logged in user types in a search phrase with invalid characters, that the user is alerted that they cannot search with invalid characters and what the allowable characters are.
 - Verify that the `MapSearchPanel` updates when the `Search` button is pressed to only display markers that (a) meet the distance radio button selected (b) meet the search text.
 
 Story Points: 2
@@ -200,6 +211,15 @@ Task Breakdown:
 - Update the `VendorListPanel` and `MapSearchPanel` classes to contain fields `allVendors`, `nearbyVendors`, and `matchingVendors` and appropriate coordinating method calls. (`nearbyVendors` match only the distance setting; `matchingVendors` match the distance setting AND the search text.) (Issue #67)
 - Create a `TextBox` and a `Button` at the top of the `VendorListPanel` with a `ClickHandler` that filters the `nearbyVendors` to produce an `ArrayList<Vendor> matchingVendors`. (Issue #68)
 - Add a method call that sends the `matchingVendors` from the `VendorListPanel` to the `MapSearchPanel` after the `Search` button is pressed. (Issue #69)
+
+Demo Tasks:
+
+1. Click on the `Find Food` navigation link.
+2. Input "Hot Dog" in VendorSearch Field.
+3. Press Search
+4. Look at VendorPanel
+5. Press 5km radio button.
+6. Look at VendorPanel
 
 ### **As a logged in user, I want to be able to see all of the information and reviews for a food vendor after I have selected it so I can find out more about it.**
 
@@ -216,6 +236,12 @@ Task Breakdown:
 - Add a `ClickHandler` to each vendor title cell in the `VendorListTable` that switches the display to the `VendorInfoPanel`. (Issue #59)
 - Add code that displays a `ViewReviewsPanel` at the bottom of the `VendorInfoPanel`. (Issue #60)
 - Add a `Add Review` button at the bottom of the `VendorInfoPanel`. (Issue #61)
+
+Demo Tasks:
+
+1. Click on the `Find Food` navigation link.
+2. Click on any Vendor name.
+3. Look at VendorInfoPage.
 
 ## User stories and demo sequence that Brandon will present
 
@@ -237,6 +263,15 @@ Task Breakdown:
 - Set marker options to properly set description to false when another click handler method is called on a marker. (Issue #80)
 - Create a method which hides the marker description when the current marker is clicked on. (Issue #81)
 
+Demo Tasks:
+
+1. Click on the `Find Food` navigation link.
+2. Click on any Vendor Marker on Map.
+3. Look at VendorInfoPage.
+4. Click on same Vendor Marker.
+5. Click again on any Vendor Marker on Map.
+6. Click on another Vendor Marker.
+
 ### **As a logged in user, I want to be able to save a list of my favourite food vendors so I can remember which food vendors I want to try out.**
 
 Priority: 3
@@ -257,6 +292,22 @@ Task Breakdown:
 
 ### **As an admin, I want to be able to delete normal user accounts so that I can remove problem users from the app.**
 
+Demo Tasks:
+
+1. Click on the `Admin` navigation link.
+2. Click on the `Delete User` link for current User.
+3. Log out.
+4. Click on the `Find Food` navigation link.
+5. Click on any vendor.
+6. Look at VendorInfo Page.
+7. Log back in to create new profile.
+8. Click on the `Profile` navigation link.
+9. Look at Profile Page Favourited Vendors
+10. Click on the `Find Food` navigation link.
+11. Click on any vendor.
+12. Click on `Add to Favourites`
+13. Click on the `Profile` navigation link. 
+
 Priority: 3
 Acceptance Criteria:
 
@@ -269,6 +320,16 @@ Task Breakdown:
 - Add a `getAllProfiles` method to the `ProfileService`, `ProfileServiceAsync`, and `ProfileServiceImpl` classes that returns all `Profile` objects from the datastore to the `AdminPanel`. (Issue #70)
 - Create a `FlexTable` in the `AdminPanel` that displays all the retrieved `Profile` objects along with `Delete User` buttons. (Issue #71)
 - Create private helper methods in `AdminPanel` that deletes the `Profile` object of the user whose `Delete User` button is pressed in the `FlexTable`. (Issue #72)
+
+Demo Tasks:
+
+1. Click on the `Admin` navigation link.
+2. Look at AdminPage.
+3. Click on the `Delete User` link for current User.
+4. Log out.
+5. Log back in.
+6. Click on the `Admin` navigation link.
+7. Look at AdminPage.
 
 ## User stories and demo sequence that Jeffrey will present
 
@@ -291,6 +352,16 @@ Task Breakdown:
 - Get Facebook photo URL on login. (Issue #83)
 - Store Facebook Photo URL in `Profile` object. (Issue #85)
 
+Demo Tasks:
+
+1. Click on the `Profile` navigation link.
+2. Look at Profile page.
+3. Click on the `Delete User` link for current User.
+4. Log out.
+5. Log back in.
+6. Click on the `Admin` navigation link.
+7. Look at AdminPage.
+
 ### **As a Facebook user, I want to Like this app so I can share with my friends.**
 
 Priority: 3
@@ -304,6 +375,13 @@ Task Breakdown:
 
 - Add Facebook like button code using an iframe to the `SocialMediaPanel`. (Issue #91)
 
+Demo Tasks:
+
+1. Login to Facebook.
+2. Click on Facebook Like button.
+3. Logout of Facebook.
+4. Click on Facebook Like button.
+
 ### **As a Twitter user, I want to follow the page for this app so I can show all of my Twitter followers that I'm using this app.**
 
 Priority: 3
@@ -316,6 +394,13 @@ Story Points: 2
 Task Breakdown:
 
 - Add Twitter follow button code using an iframe to the `SocialMediaPanel`. (Issue #90)
+
+Demo Tasks:
+
+1. Login to Twitter.
+2. Click on Twitter Follow button.
+3. Logout of Twitter.
+4. Click on Twitter Follow button.
 
 ### **As a logged in user, I want to review a vendor and see what past reviewers have said about a vendor.**
 
@@ -338,3 +423,9 @@ Task Breakdown:
 - Implement a `ViewReviewsPanel` class (that is to be displayed in within the `VendorInfoPanel` for a particular vendor) for viewing all existing `Review` objects for a particular vendor. (Issue #64)
 - Implement a `CreateReviewPanel` class for creating a new `Review`. (Issue #65)
 - Implement a `setVendor` method in `VendorService`, `VendorServiceAsync`, and `VendorServiceImpl` that updates an existing `Vendor` in the datastore by adding a newly created `Review`. (Issue #66)
+
+Demo Tasks:
+
+1. Click on the `Find Food` navigation link.
+2. Click on any vendor.
+3. Look at VendorInfo Page.
