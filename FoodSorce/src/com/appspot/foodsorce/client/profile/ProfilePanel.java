@@ -86,11 +86,11 @@ public class ProfilePanel extends HorizontalPanel {
 		htmlPanel.clear();
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(new HTML("<br>"));
-		loadFacebookPhoto();
+		createImportFacebookPhotoUI();
 		htmlPanel.add(settingsTable);
 	}
 	
-	private void loadFacebookPhoto() {
+	private void createImportFacebookPhotoUI() {
 		if (photoUrl.equals(DEFAULT_PHOTO_URL)) {
 			importFacebookPhotoButton.addClickHandler(new ClickHandler() {
 				@Override
@@ -151,9 +151,11 @@ public class ProfilePanel extends HorizontalPanel {
 
 	private void setFacebookPhoto(String facebookPhotoUrl) {
 		photoUrl = facebookPhotoUrl;
+		htmlPanel.remove(profilePhoto);
 		profilePhoto = new Image(facebookPhotoUrl, 0, 0, 255, 255);
 		profile.setPhotoUrl(facebookPhotoUrl);
 		updateProfile();
+		reloadLayout();
 	}
 
 	public void getProfile() {
@@ -162,10 +164,10 @@ public class ProfilePanel extends HorizontalPanel {
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onSuccess(Profile result) {
 				profile = result;
+				createImportFacebookPhotoUI();
 				setFacebookPhoto(result.getPhotoUrl());
 				settingsMap.putAll(result.getSettings());
 				loadViewSettingsTable();
-				loadFacebookPhoto();
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
 				mapSearchPanel.updateAndPlotNearbyVendors();
 				vendorListPanel.setSearchText(result.getSettings().get("searchText"));
