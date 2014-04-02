@@ -9,13 +9,15 @@ import com.appspot.foodsorce.shared.Profile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -36,50 +38,25 @@ public class ProfilePanel extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
 	
-	private String defaultPhotoUrl = "images/unknown_user.jpeg";
-	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
+	private static final String DEFAULT_PHOTO_URL = "images/unknown_user.jpeg";
+	private String photoUrl = DEFAULT_PHOTO_URL;
+	private Image profilePhoto = new Image(photoUrl, 0, 0, 255, 255);
 	
-	private Button importFbPicButton = new Button("Import Facebook photo");
-	private TextBox fbUsernameTextBox = new TextBox();
-	private HorizontalPanel fbLoginPanel = new HorizontalPanel();
+	private Button importFacebookPhotoButton = new Button("Import Facebook photo");
+	private TextBox facebookUsernameTextBox = new TextBox();
+	private VerticalPanel importFacebookPhotoPanel = new VerticalPanel();
+	private Button submitFacebookUsernameButton = new Button("Submit");
 
 	private FlexTable settingsTable = new FlexTable();
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
 	private HashMap<String, String> settingsMap = new HashMap<String, String>();
-	private Button submitButton = new Button("Submit");
+	private Button submitSettingsButton = new Button("Submit");
 
 	private ProfilePanel() {
-		htmlPanel.add(profilePhoto);
-		
-		importFbPicButton.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				importFacebookPhoto();
-			}
-		});
-		
-		fbLoginPanel.add(importFbPicButton);
-		fbLoginPanel.add(fbUsernameTextBox);
-		fbLoginPanel.add(new HTML("Facebook username:"));
-		htmlPanel.add(fbLoginPanel);
-		
-		htmlPanel.add(settingsTable);
+		reloadLayout();
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
-	}
-
-	private void importFacebookPhoto() {
-		String photoURL = createFacebookPhotoUrl(fbUsernameTextBox.getText());
-		profileService.getGraphUrl(photoURL, new AsyncCallback<String>() {
-			public void onSuccess(String result) {
-				if (result != null)
-					setFacebookPhoto(result);
-			}
-			public void onFailure(Throwable caught) {
-				// Do nothing. Keep default photo.
-			}
-		});
 	}
 
 	public static ProfilePanel getInstance() {
@@ -87,28 +64,86 @@ public class ProfilePanel extends VerticalPanel {
 		return INSTANCE;
 	}
 
-	private void setFacebookPhoto(String result) {
-		profile.setPhotoUrl(result);
-		updateProfile();
-		profilePhoto = new Image(profile.getPhotoUrl(), 0, 0, 255, 255);
-//		try {
-//			htmlPanel.clear();
-//			htmlPanel.add(profilePhoto);
-//			htmlPanel.add(fbLoginPanel);
-//			htmlPanel.add(settingsTable);
-//		} catch (Throwable e) {
-//			profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
-//		}
+	private void reloadLayout() {
+		htmlPanel.clear();
+		htmlPanel.add(profilePhoto);
+		htmlPanel.add(new HTML("<br>"));
+		
+		if (photoUrl.equals(DEFAULT_PHOTO_URL)) {
+			importFacebookPhotoButton.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					htmlPanel.remove(importFacebookPhotoButton);
+					loadImportFacebookPhotoPanel();
+				}
+			}); 
+			htmlPanel.add(importFacebookPhotoButton);
+			htmlPanel.add(importFacebookPhotoPanel);
+		} else {
+			htmlPanel.remove(importFacebookPhotoButton);
+			htmlPanel.remove(importFacebookPhotoPanel);
+		}
+		
+		htmlPanel.add(settingsTable);
 	}
 	
+	private void loadImportFacebookPhotoPanel() {
+		importFacebookPhotoPanel.add(new HTML("<h4>Facebook username</h4>"));
+		facebookUsernameTextBox.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				boolean enterPressed = KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode();
+				if (enterPressed)
+					importFacebookPhoto();
+			}
+		});
+		submitFacebookUsernameButton.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				importFacebookPhoto();
+			}
+		});
+		importFacebookPhotoPanel.add(facebookUsernameTextBox);
+		importFacebookPhotoPanel.add(submitFacebookUsernameButton);
+	}
+
+	private void importFacebookPhoto() {
+		htmlPanel.remove(importFacebookPhotoPanel);
+		String photoURL = createFacebookPhotoUrl(facebookUsernameTextBox.getText());
+		profileService.getGraphUrl(photoURL, new AsyncCallback<String>() {
+			public void onSuccess(String facebookPhotoUrl) {
+				if (facebookPhotoUrl != null) {
+					setFacebookPhoto(facebookPhotoUrl);
+					reloadLayout();
+				}
+			}
+			public void onFailure(Throwable caught) {
+				// Do nothing. Keep default photo.
+			}
+		});
+	}
+
+	private String createFacebookPhotoUrl(String facebookUsername) {
+		return ("http://graph.facebook.com/" +
+				facebookUsername.replace(' ', '.').toLowerCase() +
+				"/picture/?type=large");
+	}
+
+	private void setFacebookPhoto(String facebookPhotoUrl) {
+		photoUrl = facebookPhotoUrl;
+		profilePhoto = new Image(facebookPhotoUrl, 0, 0, 255, 255);
+		profile.setPhotoUrl(facebookPhotoUrl);
+		updateProfile();
+	}
+
 	public void getProfile() {
 		if (getProfileTryCount++ > MAX_TRIES)
 			return;
 		profileService.getProfile(userEmail, new AsyncCallback<Profile>() {
 			public void onSuccess(Profile result) {
 				profile = result;
+				setFacebookPhoto(result.getPhotoUrl());
 				settingsMap.putAll(result.getSettings());
-				loadViewLayout();
+				loadViewSettingsTable();
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
 				mapSearchPanel.updateAndPlotNearbyVendors();
 				vendorListPanel.setSearchText(result.getSettings().get("searchText"));
@@ -121,21 +156,11 @@ public class ProfilePanel extends VerticalPanel {
 		});
 	}
 
-	private void loadViewLayout() {
+	private void loadViewSettingsTable() {
 		GWT.log("ProfilePanel.java: loadViewLayout()");
-		htmlPanel.remove(submitButton);
+		htmlPanel.remove(submitSettingsButton);
+		
 		settingsTable.removeAllRows();
-
-//		try {
-//			htmlPanel.clear();
-//			profilePhoto = new Image(profile.getPhotoUrl(), 0, 0, 255, 255);
-//			htmlPanel.add(profilePhoto);
-//			htmlPanel.add(fbLoginPanel);
-//			htmlPanel.add(settingsTable);
-//		} catch (Throwable e) {
-//			profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
-//		}
-
 		settingsTable.setCellPadding(5);
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
 		settingsTable.getColumnFormatter().setWidth(1, "400px");
@@ -153,8 +178,7 @@ public class ProfilePanel extends VerticalPanel {
 				settingsTable.setText(row, 0, "Search Text");
 			} else if (setting.getKey().equals("searchDistance")) {
 				settingsTable.setText(row, 0, "Search Distance");
-			} else if (!setting.getKey().equals("photoUrl")) {
-				// All other settings
+			} else {
 				settingsTable.setText(row, 0, setting.getKey());
 			}
 			settingsTable.setText(row, 1, setting.getValue());
@@ -167,21 +191,16 @@ public class ProfilePanel extends VerticalPanel {
 
 		editProfileLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				loadEditLayout();
+				loadEditSettingsTable();
 			}
 		});
 
 		htmlPanel.add(editProfileLink);
 	}
 	
-	private String createFacebookPhotoUrl(String facebookUsername) {
-		return ("http://graph.facebook.com/" +
-				facebookUsername.replace(' ', '.').toLowerCase() +
-				"/picture/?type=large");
-	}
-
-	private void loadEditLayout() {
+	private void loadEditSettingsTable() {
 		htmlPanel.remove(editProfileLink);
+		
 		settingsTable.removeAllRows();
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
 			int row = settingsTable.getRowCount();
@@ -197,21 +216,24 @@ public class ProfilePanel extends VerticalPanel {
 			editBoxMap.put(setting.getKey(), editBox);
 		}
 
-		submitButton.addClickHandler(new ClickHandler() {
+		submitSettingsButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				saveNewSettings();
 				updateProfile();
-				loadViewLayout();
+				loadViewSettingsTable();
 			}
 		});
 
-		htmlPanel.add(submitButton);
+		htmlPanel.add(submitSettingsButton);
 	}
 
 	private void saveNewSettings() {
-		for (Map.Entry<String, TextBox> entry : editBoxMap.entrySet())
+		for (Map.Entry<String, TextBox> entry : editBoxMap.entrySet()) {
 			settingsMap.put(entry.getKey(), entry.getValue().getText());
+			if (entry.getKey().equals("searchText"))
+				VendorListPanel.getInstance().setSearchText(entry.getValue().getText());
+		}
 		profile.setSettings(settingsMap);
 	}
 
@@ -220,11 +242,11 @@ public class ProfilePanel extends VerticalPanel {
 		profileService.updateProfile(userEmail, profile, new AsyncCallback<Void>() {
 			@Override
 			public void onSuccess(Void result) {
-				loadViewLayout();
+				loadViewSettingsTable();
 			}
 			@Override
 			public void onFailure(Throwable caught) {
-				loadViewLayout();
+				loadViewSettingsTable();
 			}
 		});
 	}
