@@ -296,9 +296,11 @@ public class ProfilePanel extends HorizontalPanel {
 	public void setFavouriteVendors() {
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
-			for (String favouriter : vendor.getFavouriters()) {
-				if (userEmail.equals(favouriter))
-					favouritedVendors.add(vendor);
+			if (vendor.getFavouriters() != null) {
+				for (String favouriter : vendor.getFavouriters()) {
+					if (userEmail.equals(favouriter))
+						favouritedVendors.add(vendor);
+				}
 			}
 		}
 		displayFavouriteVendors(favouritedVendors);
