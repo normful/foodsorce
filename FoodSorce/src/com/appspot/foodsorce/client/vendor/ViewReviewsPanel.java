@@ -15,6 +15,8 @@ public class ViewReviewsPanel extends VerticalPanel {
 	public ViewReviewsPanel(Vendor vendor) {
 		this.vendor = vendor;
 		ArrayList<Review> reviews = vendor.getReviews();
+		if (vendor == null || vendor.getReviews() == null)
+			return;
 		if (!vendor.getReviews().isEmpty())
 			createReviewsTable(reviews);
 	}
