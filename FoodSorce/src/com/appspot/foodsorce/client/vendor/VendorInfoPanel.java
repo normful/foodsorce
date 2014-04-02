@@ -175,7 +175,6 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorService = GWT.create(VendorService.class);
 		vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 			public void onSuccess(Void result) {
-				Window.alert("Successfully added or removed favourite.");
 				ProfilePanel.getInstance().setFavouriteVendors();
 			}
 			public void onFailure(Throwable caught) {
