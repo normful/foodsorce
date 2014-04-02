@@ -8,29 +8,30 @@ import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+
 @PersistenceCapable(identityType = IdentityType.APPLICATION, detachable = "true")
-public class SerieString implements Serializable {
-	/**
-	 * 
-	 */
+public class FacebookPhotoUrl implements Serializable {
+
 	private static final long serialVersionUID = -4864883399645618010L;
-	
+
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@Extension(vendorName="datanucleus", key="gae.encoded-pk", value="true")
+	@Extension(vendorName = "datanucleus", key = "gae.encoded-pk", value = "true")
 	String text;
-	
-	public SerieString(){
+
+	public FacebookPhotoUrl() {
 		this("");
 	}
-	
-	public SerieString(String string){
+
+	public FacebookPhotoUrl(String string) {
 		text = string;
 	}
-	public void setText(String string){
+
+	public void setText(String string) {
 		text = string;
 	}
-	public String getText(){
+
+	public String getText() {
 		return text;
 	}
 

@@ -13,7 +13,6 @@ import com.appspot.foodsorce.client.login.NotLoggedInException;
 import com.appspot.foodsorce.client.profile.ProfileService;
 import com.appspot.foodsorce.server.PMF;
 import com.appspot.foodsorce.shared.Profile;
-import com.appspot.foodsorce.shared.SerieString;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -132,13 +131,13 @@ public class ProfileServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public SerieString getGraphUrl(String photoUrl) {
-		SerieString graphUrl= new SerieString("images/unknown_user.jpeg");
+	public String getGraphUrl(String photoUrlString) {
+		String graphUrl = null;
 		try {
-			URL toLookup = new URL(photoUrl);
-			HttpURLConnection connection = (HttpURLConnection) toLookup.openConnection();
+			URL photoUrl = new URL(photoUrlString);
+			HttpURLConnection connection = (HttpURLConnection) photoUrl.openConnection();
 			connection.setInstanceFollowRedirects(false);
-			graphUrl.setText(connection.getHeaderField("Location"));
+			graphUrl = connection.getHeaderField("Location");
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

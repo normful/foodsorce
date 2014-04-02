@@ -51,11 +51,12 @@ public class Profile implements Serializable {
 	public String getUserEmail() {
 		return userEmail;
 	}
-	public String getPhotoUrl(){
+
+	public String getPhotoUrl() {
 		return photoUrl;
 	}
 
-	public void setPhotoUrl(String photoUrl){
+	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
 

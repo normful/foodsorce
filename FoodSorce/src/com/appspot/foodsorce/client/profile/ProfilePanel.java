@@ -6,7 +6,6 @@ import java.util.Map;
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.appspot.foodsorce.shared.Profile;
-import com.appspot.foodsorce.shared.SerieString;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,78 +35,51 @@ public class ProfilePanel extends VerticalPanel {
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
-	private String photoUrl = "images/unknown_user.jpeg";
-	private Image profilePhoto = new Image(photoUrl, 0, 0, 255, 255);
-	private FlexTable settingsTable = new FlexTable();
+	
+	private String defaultPhotoUrl = "images/unknown_user.jpeg";
+	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
+	
+	private Button importFbPicButton = new Button("Import Facebook photo");
+	private TextBox fbUsernameTextBox = new TextBox();
+	private HorizontalPanel fbLoginPanel = new HorizontalPanel();
 
+	private FlexTable settingsTable = new FlexTable();
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
 	private HashMap<String, String> settingsMap = new HashMap<String, String>();
 	private Button submitButton = new Button("Submit");
 
-	private Button uploadButton = new Button("upload profile picture");
-	private TextBox usernameBox = new TextBox();
-	private HorizontalPanel fbLoginPanel = new HorizontalPanel();
-
 	private ProfilePanel() {
-		settingsTable.setCellPadding(5);
-		settingsTable.getColumnFormatter().setWidth(0, "125px");
-		settingsTable.getColumnFormatter().setWidth(1, "400px");
-		settingsTable.getColumnFormatter().setStyleName(0, "profileGridKeys");
-		settingsTable.getColumnFormatter().setStyleName(1, "profileGridValues");
-
 		htmlPanel.add(profilePhoto);
-
-		uploadButton.addClickHandler(new ClickHandler() {
-
+		
+		importFbPicButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				String photoURL = parse(usernameBox.getText());
-				profileService.getGraphUrl(photoURL, new AsyncCallback<SerieString>(){
-					@Override
-					public void onFailure(Throwable caught) {
-						usernameBox.setText("");
-					}
-					@Override
-					public void onSuccess(SerieString result) {
-						if (result == null)
-							usernameBox.setText("call returned null");
-						else {
-							usernameBox.setText("call returned" + result.getText());
-							profile.setPhotoUrl(result.getText());
-							photoUrl = result.getText();
-							updateProfile();
-							usernameBox.setText("");
-							try {
-								htmlPanel.clear();
-								profilePhoto = new Image(profile.getPhotoUrl(), 0,
-										0, 255, 255);
-								htmlPanel.add(profilePhoto);
-								htmlPanel.add(fbLoginPanel);
-								htmlPanel.add(settingsTable);
-							} catch (Throwable e) {
-								profilePhoto = new Image(
-										photoUrl, 0, 0, 255, 255);
-							}
-						}
-					}
-				});
+				importFacebookPhoto();
 			}
 		});
-
-		fbLoginPanel.add(uploadButton);
-		fbLoginPanel.add(usernameBox);
-		fbLoginPanel.add(new HTML("enter your facebook username"));
+		
+		fbLoginPanel.add(importFbPicButton);
+		fbLoginPanel.add(fbUsernameTextBox);
+		fbLoginPanel.add(new HTML("Facebook username:"));
 		htmlPanel.add(fbLoginPanel);
+		
 		htmlPanel.add(settingsTable);
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
 	}
 
-	protected String parse(String text) {
-		text = text.replace(' ', '.');
-		text = text.toLowerCase();
-		return ("http://graph.facebook.com/" + text + "/picture/?type=large");
+	private void importFacebookPhoto() {
+		String photoURL = createFacebookPhotoUrl(fbUsernameTextBox.getText());
+		profileService.getGraphUrl(photoURL, new AsyncCallback<String>() {
+			public void onSuccess(String result) {
+				if (result != null)
+					setFacebookPhoto(result);
+			}
+			public void onFailure(Throwable caught) {
+				// Do nothing. Keep default photo.
+			}
+		});
 	}
 
 	public static ProfilePanel getInstance() {
@@ -115,6 +87,20 @@ public class ProfilePanel extends VerticalPanel {
 		return INSTANCE;
 	}
 
+	private void setFacebookPhoto(String result) {
+		profile.setPhotoUrl(result);
+		updateProfile();
+		profilePhoto = new Image(profile.getPhotoUrl(), 0, 0, 255, 255);
+//		try {
+//			htmlPanel.clear();
+//			htmlPanel.add(profilePhoto);
+//			htmlPanel.add(fbLoginPanel);
+//			htmlPanel.add(settingsTable);
+//		} catch (Throwable e) {
+//			profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
+//		}
+	}
+	
 	public void getProfile() {
 		if (getProfileTryCount++ > MAX_TRIES)
 			return;
@@ -140,20 +126,19 @@ public class ProfilePanel extends VerticalPanel {
 		htmlPanel.remove(submitButton);
 		settingsTable.removeAllRows();
 
-		try {
-			htmlPanel.clear();
-			profilePhoto = new Image(profile.getPhotoUrl(), 0,
-					0, 255, 255);
-			htmlPanel.add(profilePhoto);
-			htmlPanel.add(fbLoginPanel);
-			htmlPanel.add(settingsTable);
+//		try {
+//			htmlPanel.clear();
+//			profilePhoto = new Image(profile.getPhotoUrl(), 0, 0, 255, 255);
+//			htmlPanel.add(profilePhoto);
+//			htmlPanel.add(fbLoginPanel);
+//			htmlPanel.add(settingsTable);
+//		} catch (Throwable e) {
+//			profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
+//		}
 
-
-		} catch (Throwable e) {
-			profilePhoto = new Image(photoUrl, 0, 0, 255, 255);
-			usernameBox.setText("photoURL="+photoUrl);
-		}
-
+		settingsTable.setCellPadding(5);
+		settingsTable.getColumnFormatter().setWidth(0, "125px");
+		settingsTable.getColumnFormatter().setWidth(1, "400px");
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
 		settingsTable.getCellFormatter().setHeight(0, 0, "20px");
@@ -161,6 +146,7 @@ public class ProfilePanel extends VerticalPanel {
 		settingsTable.getCellFormatter().setAlignment(0, 1, ALIGN_LEFT, ALIGN_MIDDLE);
 		settingsTable.getCellFormatter().setStyleName(0, 0, "profilePanelSettingsTableKeys");
 		settingsTable.getCellFormatter().setStyleName(0, 1, "profilePanelSettingsTableValues");
+		
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
 			int row = settingsTable.getRowCount();
 			if (setting.getKey().equals("searchText")) {
@@ -187,25 +173,28 @@ public class ProfilePanel extends VerticalPanel {
 
 		htmlPanel.add(editProfileLink);
 	}
+	
+	private String createFacebookPhotoUrl(String facebookUsername) {
+		return ("http://graph.facebook.com/" +
+				facebookUsername.replace(' ', '.').toLowerCase() +
+				"/picture/?type=large");
+	}
 
 	private void loadEditLayout() {
 		htmlPanel.remove(editProfileLink);
 		settingsTable.removeAllRows();
-
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
-			if (!setting.getKey().equals("photoUrl")) {
-				int row = settingsTable.getRowCount();
-				final TextBox editBox = new TextBox();
-				editBox.setText(setting.getValue());
-				editBox.setWidth("400px");
-				editBox.addClickHandler(new ClickHandler() {
-					public void onClick(ClickEvent event) {
-						editBox.selectAll();
-					}});
-				settingsTable.setText(row, 0, setting.getKey());
-				settingsTable.setWidget(row, 1, editBox);
-				editBoxMap.put(setting.getKey(), editBox);
-			}
+			int row = settingsTable.getRowCount();
+			final TextBox editBox = new TextBox();
+			editBox.setText(setting.getValue());
+			editBox.setWidth("400px");
+			editBox.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					editBox.selectAll();
+				}});
+			settingsTable.setText(row, 0, setting.getKey());
+			settingsTable.setWidget(row, 1, editBox);
+			editBoxMap.put(setting.getKey(), editBox);
 		}
 
 		submitButton.addClickHandler(new ClickHandler() {
