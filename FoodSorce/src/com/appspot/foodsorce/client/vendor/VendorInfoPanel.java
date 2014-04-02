@@ -113,6 +113,7 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void createFavouriteButtons() {
+		htmlPanel.add(new HTML("<br><br>"));
 		checkIfFavourited();
 		if (hasFavourited) {
 			createRemoveFavouriteButton();
