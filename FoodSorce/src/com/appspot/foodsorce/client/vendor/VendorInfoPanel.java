@@ -138,6 +138,7 @@ public class VendorInfoPanel extends VerticalPanel {
 				hasFavourited = true;
 				htmlPanel.remove(addFavouriteButton);
 				htmlPanel.add(removeFavouriteButton);
+				ProfilePanel.getInstance().setFavouriteVendors();
 				updateVendor();
 			}
 		});
@@ -156,6 +157,7 @@ public class VendorInfoPanel extends VerticalPanel {
 				hasFavourited = false;
 				htmlPanel.remove(removeFavouriteButton);
 				htmlPanel.add(addFavouriteButton);
+				ProfilePanel.getInstance().setFavouriteVendors();
 				updateVendor();
 			}
 		});
