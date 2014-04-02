@@ -132,12 +132,12 @@ public class VendorInfoPanel extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				if (hasFavourited == true) {
 					Window.alert("Already a favourited vendor");
-					htmlPanel.remove(addFavouriteButton);
-					htmlPanel.add(removeFavouriteButton);
 					return;
 				}
 				vendor.addFavouriter(loginInfo.getEmailAddress());
 				hasFavourited = true;
+				htmlPanel.remove(addFavouriteButton);
+				htmlPanel.add(removeFavouriteButton);
 				updateVendor();
 			}
 		});
@@ -150,12 +150,12 @@ public class VendorInfoPanel extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				if (hasFavourited == false) {
 					Window.alert("Not a favourited vendor");
-					htmlPanel.remove(removeFavouriteButton);
-					htmlPanel.add(addFavouriteButton);
 					return;
 				}
 				vendor.removeFavouriter(loginInfo.getEmailAddress());
 				hasFavourited = false;
+				htmlPanel.remove(removeFavouriteButton);
+				htmlPanel.add(addFavouriteButton);
 				updateVendor();
 			}
 		});
