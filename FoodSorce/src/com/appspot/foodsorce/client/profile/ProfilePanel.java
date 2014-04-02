@@ -314,12 +314,13 @@ public class ProfilePanel extends HorizontalPanel {
 	}
 
 	private void displayFavouriteVendors(Set<Vendor> vendors) {
-		favouriteVendorTable.clear();
+		for (int i = 0; i < favouriteVendorTable.getRowCount(); i++)
+			favouriteVendorTable.removeRow(0);
 		for (Vendor vendor : vendors)
-			favouriteVendorTable(vendor);
+			displayFavouriteVendor(vendor);
 	}
 
-	private void favouriteVendorTable(Vendor vendor) {
+	private void displayFavouriteVendor(Vendor vendor) {
 		int row = favouriteVendorTable.getRowCount();
 		favouriteVendorTable.setText(row, 0, vendor.getName());
 		favouriteVendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
