@@ -9,7 +9,6 @@ import java.util.Set;
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
 import com.appspot.foodsorce.shared.Profile;
-import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -56,11 +55,10 @@ public class ProfilePanel extends HorizontalPanel {
 	private FlexTable settingsTable = new FlexTable();
 	private VerticalPanel leftProfilePanel = new VerticalPanel();
 
-	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourited Vendors</h2>");
+	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourites</h2>");
 	private FlexTable favouriteVendorTable = new FlexTable();
 	private HashSet<Vendor> favouritedVendors = new HashSet<Vendor>();
 	private ScrollPanel rightScrollPanel = new ScrollPanel();
-
 
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
@@ -297,25 +295,20 @@ public class ProfilePanel extends HorizontalPanel {
 	}
 
 	public void setFavouriteVendors() {
-
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
-			for (UserEmail userEmailOfFavourite : vendor.getFavourites()) {
-				if (userEmail.equals(userEmailOfFavourite.getUserEmail())) {
+			for (String favouriter : vendor.getFavouriters()) {
+				if (userEmail.equals(favouriter))
 					favouritedVendors.add(vendor);
-				}
 			}
 		}
 		displayFavouriteVendors(favouritedVendors);
 	}
 
 	private void createFavouriteVendorTable() {
-		// Overall table settings
 		favouriteVendorTable.addStyleName("vendorList");
 		favouriteVendorTable.setCellPadding(5);
-
-		// Table header settings
-		favouriteVendorTable.setText(0, 0, "Vendor Name");
+		favouriteVendorTable.setText(0, 0, "Favourite Vendor");
 		favouriteVendorTable.getColumnFormatter().setWidth(0, "300px");
 		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
@@ -334,12 +327,8 @@ public class ProfilePanel extends HorizontalPanel {
 	}
 
 	private void favouriteVendorTable(Vendor vendor) {
-		// Add the vendor to the table
 		int row = favouriteVendorTable.getRowCount();
 		favouriteVendorTable.setText(row, 0, vendor.getName());
-		// Add styles names
 		favouriteVendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
-
 	}
-
 }
