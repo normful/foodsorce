@@ -172,8 +172,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void updateVendor() {
-		// TODO REMOVE
-		Window.alert("updateVendor() called");
 		vendorService = GWT.create(VendorService.class);
 		vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 			public void onSuccess(Void result) {
