@@ -182,7 +182,7 @@ public class ProfilePanel extends HorizontalPanel {
 		settingsTable.removeAllRows();
 		settingsTable.setCellPadding(5);
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
-		settingsTable.getColumnFormatter().setWidth(1, "400px");
+		settingsTable.getColumnFormatter().setWidth(1, "200px");
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
 		settingsTable.getCellFormatter().setHeight(0, 0, "20px");
@@ -307,20 +307,12 @@ public class ProfilePanel extends HorizontalPanel {
 	private void createFavouriteVendorTable() {
 		favouriteVendorTable.addStyleName("vendorList");
 		favouriteVendorTable.setCellPadding(5);
-		favouriteVendorTable.setText(0, 0, "Favourite Vendor");
 		favouriteVendorTable.getColumnFormatter().setWidth(0, "300px");
 		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
 
 	private void displayFavouriteVendors(Set<Vendor> vendors) {
-		// Remove all rows except first header row
-		int numRows = favouriteVendorTable.getRowCount();
-		for (int i = 1; i < numRows; i++) {
-			// Remove the second row, numRow times
-			favouriteVendorTable.removeRow(1);
-		}
-
-		// Add all vendors to favouriteVendorTable
+		favouriteVendorTable.clear();
 		for (Vendor vendor : vendors)
 			favouriteVendorTable(vendor);
 	}
