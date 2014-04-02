@@ -86,7 +86,11 @@ public class ProfilePanel extends HorizontalPanel {
 		htmlPanel.clear();
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(new HTML("<br>"));
-
+		loadFacebookPhoto();
+		htmlPanel.add(settingsTable);
+	}
+	
+	private void loadFacebookPhoto() {
 		if (photoUrl.equals(DEFAULT_PHOTO_URL)) {
 			importFacebookPhotoButton.addClickHandler(new ClickHandler() {
 				@Override
@@ -101,8 +105,6 @@ public class ProfilePanel extends HorizontalPanel {
 			htmlPanel.remove(importFacebookPhotoButton);
 			htmlPanel.remove(importFacebookPhotoPanel);
 		}
-
-		htmlPanel.add(settingsTable);
 	}
 
 	private void loadImportFacebookPhotoPanel() {
@@ -163,6 +165,7 @@ public class ProfilePanel extends HorizontalPanel {
 				settingsMap.putAll(result.getSettings());
 				setFavouriteVendors();
 				loadViewSettingsTable();
+				loadFacebookPhoto();
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
 				mapSearchPanel.updateAndPlotNearbyVendors();
 				vendorListPanel.setSearchText(result.getSettings().get("searchText"));
