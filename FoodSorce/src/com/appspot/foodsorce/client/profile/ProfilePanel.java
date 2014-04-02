@@ -25,61 +25,61 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ProfilePanel extends HorizontalPanel {
-	
+
 	private String userEmail;
 	private Profile profile;
 	private static final ProfilePanel INSTANCE = new ProfilePanel();
 	private ProfileServiceAsync profileService = GWT.create(ProfileService.class);
 	private static final int MAX_TRIES = 10;
 	private int getProfileTryCount;
-	
+
 	private MapSearchPanel mapSearchPanel = MapSearchPanel.getInstance();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
-	
+
 	private ScrollPanel leftScrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("<h2>Profile</h2>");
 	private String defaultPhotoUrl = "images/unknown_user.jpeg";
 	private Image profilePhoto = new Image(defaultPhotoUrl, 0, 0, 255, 255);
 	private FlexTable settingsTable = new FlexTable();
 	private VerticalPanel leftProfilePanel = new VerticalPanel();
-	
+
 	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourited Vendors</h2>");
 	private FlexTable favouriteVendorTable = new FlexTable();
 	private ArrayList<Vendor> favouritedVendors = new ArrayList<Vendor>();
 	private ScrollPanel rightScrollPanel = new ScrollPanel();
 
-	
+
 	private Anchor editProfileLink = new Anchor("Edit Profile");
 	private HashMap<String, TextBox> editBoxMap = new HashMap<String, TextBox>();
 	private HashMap<String, String> settingsMap = new HashMap<String, String>();
 	private Button submitButton = new Button("Submit");
-	
+
 	private ProfilePanel() {
 		settingsTable.getColumnFormatter().setWidth(0, "125px");
 		settingsTable.getColumnFormatter().setWidth(1, "400px");
 		settingsTable.getColumnFormatter().setStyleName(0, "profileGridKeys");
 		settingsTable.getColumnFormatter().setStyleName(1, "profileGridValues");
-		
+
 		htmlPanel.add(profilePhoto);
 		htmlPanel.add(settingsTable);
 		leftScrollPanel.add(htmlPanel);
 		leftProfilePanel.add(leftScrollPanel);
 		add(leftProfilePanel);
-		
+
 		createFavouriteVendorTable();
 		setFavouriteVendors();
 		displayFavouriteVendors(favouritedVendors);
-		
+
 		favouriteVendorsHTML.add(favouriteVendorTable);
 		rightScrollPanel.add(favouriteVendorsHTML);
 		add(rightScrollPanel);
 	}
-	
+
 	public static ProfilePanel getInstance() {
 		GWT.log("ProfilePanel.java: getInstance");
 		return INSTANCE;
 	}
-	
+
 	public void getProfile() {
 		if (getProfileTryCount++ > MAX_TRIES)
 			return;
@@ -99,8 +99,8 @@ public class ProfilePanel extends HorizontalPanel {
 			}
 		});
 	}
-	
-	
+
+
 	private void loadViewLayout() {
 		GWT.log("ProfilePanel.java: loadViewLayout()");
 		htmlPanel.remove(submitButton);
@@ -114,7 +114,7 @@ public class ProfilePanel extends HorizontalPanel {
 
 		settingsTable.setText(0, 0, "Email");
 		settingsTable.setText(0, 1, userEmail);
-		
+
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
 			if (setting.getKey().equals("searchText")) {
 				int row = settingsTable.getRowCount();
@@ -144,7 +144,7 @@ public class ProfilePanel extends HorizontalPanel {
 	private void loadEditLayout() {
 		htmlPanel.remove(editProfileLink);
 		settingsTable.removeAllRows();
-		
+
 		for (Map.Entry<String, String> setting : settingsMap.entrySet()) {
 			if (!setting.getKey().equals("photoUrl")) {
 				int row = settingsTable.getRowCount();
@@ -160,7 +160,7 @@ public class ProfilePanel extends HorizontalPanel {
 				editBoxMap.put(setting.getKey(), editBox);
 			}
 		}
-		
+
 		submitButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -169,7 +169,7 @@ public class ProfilePanel extends HorizontalPanel {
 				loadViewLayout();
 			}
 		});
-		
+
 		htmlPanel.add(submitButton);
 	}
 
@@ -178,7 +178,7 @@ public class ProfilePanel extends HorizontalPanel {
 			settingsMap.put(entry.getKey(), entry.getValue().getText());
 		profile.setSettings(settingsMap);
 	}
-	
+
 	private void updateProfile() {
 		GWT.log("ProfilePanel.java: updateProfile()");
 		profileService.updateProfile(userEmail, profile, new AsyncCallback<Void>() {
@@ -206,7 +206,7 @@ public class ProfilePanel extends HorizontalPanel {
 			updateProfile();
 		}
 	}
-	
+
 	public void setSearchText(String searchText) {
 		GWT.log("ProfilePanel.java: setSearchText()");
 		if (profile != null) {
@@ -215,20 +215,20 @@ public class ProfilePanel extends HorizontalPanel {
 			updateProfile();
 		}
 	}
-	
+
 	private String setFavouriteVendors() {
 		String favouriteVendors = "";
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
 			for (UserEmail userEmailOfFavourite : vendor.getFavourites()) {
-				if (userEmail == userEmailOfFavourite.getUserEmail()) {
+				if (userEmail.equals(userEmailOfFavourite.getUserEmail())) {
 					favouritedVendors.add(vendor);
+				}
 			}
-		}
 		}
 		return favouriteVendors;
 	}
-	
+
 	private void createFavouriteVendorTable() {
 		// Overall table settings
 		favouriteVendorTable.addStyleName("vendorList");
@@ -239,7 +239,7 @@ public class ProfilePanel extends HorizontalPanel {
 		favouriteVendorTable.getColumnFormatter().setWidth(0, "100px");
 		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
-	
+
 	private void displayFavouriteVendors(List<Vendor> vendors) {
 		// Remove all rows except first header row
 		int numRows = favouriteVendorTable.getRowCount();
@@ -255,11 +255,11 @@ public class ProfilePanel extends HorizontalPanel {
 
 	private void favouriteVendorTable(Vendor vendor) {
 		// Add the vendor to the table
-				int row = favouriteVendorTable.getRowCount();
-				favouriteVendorTable.setText(row, 0, vendor.getName());
-				// Add styles names
-				favouriteVendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
-		
+		int row = favouriteVendorTable.getRowCount();
+		favouriteVendorTable.setText(row, 0, vendor.getName());
+		// Add styles names
+		favouriteVendorTable.getCellFormatter().addStyleName(row, 0, "vendorListNameColumn");
+
 	}
 
 }

@@ -3,6 +3,7 @@ package com.appspot.foodsorce.client.vendor;
 import com.appspot.foodsorce.client.login.LoginInfo;
 import com.appspot.foodsorce.shared.UserEmail;
 import com.appspot.foodsorce.shared.Vendor;
+import com.google.appengine.api.datastore.Email;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -30,6 +31,7 @@ public class VendorInfoPanel extends VerticalPanel {
 	private ViewReviewsPanel viewReviewsPanel;
 
 	private boolean favourited;
+	private Vendor currentVendor;
 
 	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
 		vendorName = new Label(vendor.getName());
@@ -59,6 +61,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
 		if (loginInfo.isLoggedIn()) {
+			currentVendor = vendor;
 			checkIfFavourited(vendor, loginInfo);
 			setButtonToAdd(vendor, loginInfo);
 			setButtonToRemove(vendor, loginInfo);
@@ -107,7 +110,11 @@ public class VendorInfoPanel extends VerticalPanel {
 					Window.alert("Not a favourited vendor");
 					return;
 				}
-				vendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
+				for (UserEmail em : vendor.getFavourites()) {
+					if (em.getUserEmail().equals(loginInfo.getEmailAddress())) {
+						vendor.removeFavourites(em);
+					}
+				}
 				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 
 					@Override
@@ -128,7 +135,7 @@ public class VendorInfoPanel extends VerticalPanel {
 
 	private void checkIfFavourited(Vendor vendor, LoginInfo loginInfo) {
 		for (UserEmail user : vendor.getFavourites()) {
-			if (loginInfo.getEmailAddress() == user.getUserEmail()) {
+			if (loginInfo.getEmailAddress().equals(user.getUserEmail())) {
 				favourited = true;
 			} else {
 				favourited = false;

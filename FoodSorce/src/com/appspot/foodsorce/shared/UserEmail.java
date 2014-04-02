@@ -44,5 +44,12 @@ public class UserEmail implements Serializable{
 	public String getUserEmail() {
 		return userEmail;
 	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		UserEmail email = (UserEmail) o;
+	   return this.getUserEmail().equals(email.getUserEmail());
+	}
 
 }
