@@ -138,6 +138,7 @@ public class VendorListPanel extends VerticalPanel {
 	private void setupMapSearchPanel() {
 		mapSearchPanel = MapSearchPanel.getInstance();
 		mapSearchPanel.setAllVendors(allVendors);
+		mapSearchPanel.setNearbyVendors(allVendors);
 		mapSearchPanel.plotNearbyVendors();
 	}
 

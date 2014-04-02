@@ -2,8 +2,10 @@ package com.appspot.foodsorce.client.profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.appspot.foodsorce.client.map.MapSearchPanel;
 import com.appspot.foodsorce.client.vendor.VendorListPanel;
@@ -45,7 +47,7 @@ public class ProfilePanel extends HorizontalPanel {
 
 	private HTMLPanel favouriteVendorsHTML = new HTMLPanel("<h2>Favourited Vendors</h2>");
 	private FlexTable favouriteVendorTable = new FlexTable();
-	private ArrayList<Vendor> favouritedVendors = new ArrayList<Vendor>();
+	private HashSet<Vendor> favouritedVendors = new HashSet<Vendor>();
 	private ScrollPanel rightScrollPanel = new ScrollPanel();
 
 
@@ -239,7 +241,7 @@ public class ProfilePanel extends HorizontalPanel {
 		favouriteVendorTable.getRowFormatter().addStyleName(0, "vendorListHeader");
 	}
 
-	private void displayFavouriteVendors(List<Vendor> vendors) {
+	private void displayFavouriteVendors(Set<Vendor> vendors) {
 		// Remove all rows except first header row
 		int numRows = favouriteVendorTable.getRowCount();
 		for (int i = 1; i < numRows; i++) {

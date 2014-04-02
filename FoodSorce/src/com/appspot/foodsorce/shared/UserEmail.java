@@ -13,10 +13,11 @@ import javax.jdo.annotations.PrimaryKey;
 public class UserEmail implements Serializable{
 	
 
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6620923431835829803L;
+	private static final long serialVersionUID = 6008189495594779290L;
 
 	// Key is a system-generated encoded String
 	@PrimaryKey
@@ -26,7 +27,7 @@ public class UserEmail implements Serializable{
 	
 	// The email of this Review's author
 	@Persistent
-	private String userEmail;
+	private String email;
 	
 	// Default no-arg constructor required for serialization
 	public UserEmail() {
@@ -34,15 +35,15 @@ public class UserEmail implements Serializable{
 	}
 	
 	public UserEmail (String userEmail) {
-		this.userEmail = userEmail;
+		this.email = userEmail;
 	}
 	
 	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+		this.email = userEmail;
 	}
 	
 	public String getUserEmail() {
-		return userEmail;
+		return email;
 	}
 	
 	@Override

@@ -15,11 +15,10 @@ public class Vendor implements Serializable {
 
 
 
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 770617606459970533L;
+	private static final long serialVersionUID = 7321366941075159930L;
 
 	// Key is an app-assigned string ID that corresponds
 	// to the "key" column in new_food_vendor_locations.xls
