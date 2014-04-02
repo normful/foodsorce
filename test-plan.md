@@ -16,6 +16,10 @@
 - Selecting an already selected distance option does not do anything.
 - Default field for address field is "address" and text is highlighted when selected
 - Selecting Main Page, Profile, Admin or Sign Out does not effect map.
+- Selecting a vendor Marker reveals a popup, which contains the vendor information in a nice format.
+- Selecting the same vendor marker a second time closes the vendor marker popup.
+- Selecting another vendor marker when another vendor marker popup appears should close the popup and open a new one corresponding to the current vendor
+- When a vendor marker is clicked, the VendorInfoPanel appears.
 
 ## General UI
 
@@ -40,3 +44,51 @@
 - Vendor display changes corresponding to the correct distance option selected.
 - Vendor Name, Type of Food, Quality, Cost and Location are all correctly displayed.
 - User is able to scroll through the vendor list.
+- VendorInfo Panel is shown when a vendor name is clicked.
+- Vendor Search correctly displays vendors when search button is pressed.
+- Vendor Search displays the correct filtered venfors when the search button is pressed.
+- Vendor Search only displays the filtered vendors of the distance option selected.
+- Vendor quality and cost are updated after submitting a review.
+- Vendor Search is saved when logging out and loggin back in.
+
+## VendorInfo Display UI
+- VendorInfo Panel displays name, location, description, average quality, average cost, and a list of all reviews.
+- VendorInfo Panel also displays a add To favourites and a add Reviews button.
+- Add reviews button dissapears after adding a review.
+- AddToFavourites Button should add the vendor to the users list of favourites.
+
+## Social Media Integration UI
+- Twitter button is present on the top right corner displaying the current number of followers.
+- When cliking on Follow @FoodSorce, a popup is displayed allowing the user to follow FoodSorce.
+- Facebook button is present on the top right corner dispalying the current number of likes.
+- When cliking on Like, a popup is displayed allowing the user to like FoodSorce on Facebook.
+- Both Facebook and twitter will prompt the user to login in the popup if user is not logged in.
+- Profile Page image displays a default image if user has not pressed Faceook Photo button.
+- When the user logs out and logs back in, that the photo URL is stored and their photo is displayed.
+- Import Facebook photo button correctly imports the facebook image.
+
+## Admin Page
+- Admin Panel link only shows when a user is logged in as an admin.
+- Import Data button is visible on admin page.
+- When Import Data button is pressed, a popup will occur showing whether the import failed or passed.
+- A list of user Profiles is present allowing the user to delete users by pressing the Delete User button.
+- The listofusers Panel is updated when the DeleteUser button is pressed deleting the selected user.
+- When logging out and logging back in, the list of users should be the same.
+
+## Profile Page
+- Profile Page link should be visible only when the user is logged in.
+- A profile page should contain Email, Favourite foods, WebsiteGender, Headline, Search Text Search, Distance and Hometown fields.
+- An import Facebook button sise present
+- A profile photo is present.
+- The Profile Photo is set when clicking import Facebook button.
+- The Profile Photo and all other fields is saved after loggin out and loggin back in.
+- Profile Page should contain An Edit Profile link at the button.
+- When clicking the Edit Profile Link, user can edit profile fields.
+- Pressing submit after editting profile fields, saves the profile fields.
+- A Table of favourite Vendors is present on the right side.
+- favouriteVendors should display favourite vendors that the user has favourited.
+
+
+
+
+
