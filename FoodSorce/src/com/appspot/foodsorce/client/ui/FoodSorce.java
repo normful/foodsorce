@@ -41,10 +41,6 @@ public class FoodSorce implements EntryPoint {
 	private AdminPanel adminPanel;
 	private ProfilePanel viewProfilePanel = ProfilePanel.getInstance();
 	private VendorListPanel vendorListPanel = VendorListPanel.getInstance();
-	// TODO: Uncomment the following line after ViewReviewsPanel is implemented
-	// (Do not instantiate a viewReviewsPanel here; wait until the TODO further down
-	// because ViewReviewsPanel should take the userEmail as a parameter in its constructor)
-	// private ViewReviewsPanel viewReviewsPanel;
 	private VendorInfoPanel vendorInfoPanel;
 	
 	// North panel
@@ -90,8 +86,6 @@ public class FoodSorce implements EntryPoint {
 					loadVendorListPanel();
 					viewProfilePanel.setUserEmail(result.getEmailAddress());
 					viewProfilePanel.getProfile();
-					// TODO: Uncomment the following line after RatingPanel is implemented
-					// viewReviewsPanel = new ViewReviewsPanel(loginInfo.getEmailAddress());
 				} else {
 					loadNavigationPanel("loggedOut");
 					loadVendorListPanel();
