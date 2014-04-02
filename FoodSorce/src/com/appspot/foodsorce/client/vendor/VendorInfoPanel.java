@@ -30,9 +30,9 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Label vendorName;
 	private Label vendorLocation;
 	private Label vendorDescription;
-	private Button addReviewButton;
-	private Button addFavouriteButton;
-	private Button removeFavouriteButton;
+	private Button addReviewButton = new Button("Add Review");
+	private Button addFavouriteButton = new Button("Add to Favourites");
+	private Button removeFavouriteButton = new Button("Remove from Favourites");
 	private ViewReviewsPanel viewReviewsPanel;
 	private AddReviewsPanel addReviewsPanel;
 	private LoginInfo loginInfo;
@@ -62,7 +62,6 @@ public class VendorInfoPanel extends VerticalPanel {
 		vendorDescription.setStylePrimaryName("vendorInfoPanelDescription");
 		vendorLocation = new Label(vendor.getLocation());
 		vendorLocation.setStylePrimaryName("vendorInfoPanelLocation");
-		addReviewButton = new Button("Add Review");
 		viewReviewsPanel = new ViewReviewsPanel(vendor);
 		htmlPanel.add(vendorName);
 		htmlPanel.add(vendorDescription);
@@ -82,7 +81,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void createAddReviewsButton() {
-		addReviewButton = new Button("Add Review");
 		addReviewsPanel = new AddReviewsPanel(vendor, userEmail, this);
 		addReviewButton.addClickHandler(new ClickHandler() {
 			@Override
@@ -126,8 +124,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void createAddFavouriteButton() {
-		addFavouriteButton = new Button();
-		addFavouriteButton.setText("Add to Favourites");
 		addFavouriteButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (hasFavourited == true) {
@@ -145,8 +141,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 	
 	private void createRemoveFavouriteButton() {
-		removeFavouriteButton = new Button();
-		removeFavouriteButton.setText("Remove from Favourites");
 		removeFavouriteButton.addClickHandler(new ClickHandler(){
 			public void onClick(ClickEvent event) {
 				if (hasFavourited == false) {
