@@ -47,4 +47,3 @@ public class VendorServiceImpl extends RemoteServiceServlet implements VendorSer
 		}
 	}
 }
-

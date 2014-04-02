@@ -298,5 +298,9 @@ public class VendorListPanel extends VerticalPanel {
 	public ArrayList<Vendor> getMatchingVendors() {
 		return matchingVendors;
 	}
+	
+	public ArrayList<Vendor> getAllVendors() {
+		return allVendors;
+	}
 
 }
