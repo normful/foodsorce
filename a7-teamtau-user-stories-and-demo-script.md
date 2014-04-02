@@ -356,11 +356,18 @@ Demo Tasks:
 
 1. Click on the `Profile` navigation link.
 2. Look at Profile page.
-3. Click on the `Delete User` link for current User.
-4. Log out.
-5. Log back in.
-6. Click on the `Admin` navigation link.
-7. Look at AdminPage.
+3. Click on the `Import Facebook Photo` button.
+4. Input Facebook username.
+5. Click on the `Submit` button.
+6. Log out.
+7. Log back in.
+8. Click on the `Admin` navigation link.
+9. Look at AdminPage.
+10. Click on the `Delete User` link for current User.
+11. Log out.
+12. Log back in.
+13. Click on the `Profile` navigation link.
+14. Look at Profile page.
 
 ### **As a Facebook user, I want to Like this app so I can share with my friends.**
 
@@ -410,11 +417,9 @@ Acceptance Criteria:
 - Verify that all previous vendor reviews for a particular vendor are shown in the vendor info page in for that particular vendor in ascending order by review date (oldest at top of the reviews section). (Also verify that the review date is displayed for each review).
 - Verify that when the `Add Review` button (located at the bottom of the vendor info page) is clicked and the user is not logged in, the page changes to the `LoginPanel`.
 - Verify that when the `Add Review` button (located at the bottom of the vendor info page) is clicked and the user has not previously submitted a review, the display changes to a form for creating a review for that particular vendor.
-- Verify that when the `Add Review` button (located at the bottom of the vendor info page) is clicked and the user has previously submitted a review, the page does not change but an popup is displayed alerting the user that they have already submitted a review for that vendor.
+- Verify that when the `Add Review` button does not appear when a review was already submitted.
 - Verify that when the user creates a new review they can select a between 1 and 5 stars for quality and between 1 and 5 dollar signs for cost.
-- Verify that when a user creates a new review for a particular food vendor, and they do not enter a rating for either quality or cost, that the user is prevented from successfully submitting the review, and is alerted that they forgot to include a quality or cost rating.
 - Verify that when the user creates a new review, a multi-line text field is displayed to allow the user to submit text.
-- Verify that when the user presses the `Submit` button after they have written their review, that the display changes back to the vendor info page and that the newly added review is displayed at the bottom of the vendor info page (but at the top of the reviews section) for that particular food vendor.
 - Verify that the same user cannot submit multiple reviews of the same vendor.
 
 Story Points: 5
@@ -429,3 +434,18 @@ Demo Tasks:
 1. Click on the `Find Food` navigation link.
 2. Click on any vendor.
 3. Look at VendorInfo Page.
+4. Click on `Add to Review` button.
+5. Select values for quality, dollar sign and review text.
+6. Click on `Submit Review` button.
+7. Click on the `Find Food` navigation link.
+8. Look at VendorList quality and cost field.
+9. Click on vendor where review was submitted.
+10. Log out.
+11. Log back in.
+12. Click on the `Find Food` navigation link.
+13. Click on vendor where review was submitted.
+14. Log out
+15. Click on the `Find Food` navigation link.
+16. Click on any vendor.
+17. Look at VendorInfo Page.
+18. Click on `Add to Review` button.
