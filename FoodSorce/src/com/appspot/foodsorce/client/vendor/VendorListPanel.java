@@ -129,6 +129,7 @@ public class VendorListPanel extends VerticalPanel {
 			public void onSuccess(Vendor[] result) {
 				GWT.log("VendorListPanel.java: fetchAllVendors onSuccess");
 				allVendors = new ArrayList<Vendor>(Arrays.asList(result));
+				ProfilePanel.getInstance().setFavouriteVendors();
 				setNearbyVendors(allVendors);
 				displayNearbyVendors();
 				setupMapSearchPanel();

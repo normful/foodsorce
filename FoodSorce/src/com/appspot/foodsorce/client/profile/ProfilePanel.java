@@ -164,7 +164,6 @@ public class ProfilePanel extends HorizontalPanel {
 				profile = result;
 				setFacebookPhoto(result.getPhotoUrl());
 				settingsMap.putAll(result.getSettings());
-				setFavouriteVendors();
 				loadViewSettingsTable();
 				loadFacebookPhoto();
 				mapSearchPanel.setSearchDistance(result.getSettings().get("searchDistance"));
@@ -298,6 +297,9 @@ public class ProfilePanel extends HorizontalPanel {
 	}
 
 	public void setFavouriteVendors() {
+		if (userEmail == null || userEmail.isEmpty())
+			return;
+		vendorListPanel = VendorListPanel.getInstance();
 		ArrayList<Vendor> allVendors = vendorListPanel.getAllVendors();
 		for (Vendor vendor : allVendors) {
 			if (vendor.getFavouriters() != null) {
