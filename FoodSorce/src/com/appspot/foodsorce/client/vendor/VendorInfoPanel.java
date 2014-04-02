@@ -41,6 +41,7 @@ public class VendorInfoPanel extends VerticalPanel {
 		this.vendor = vendor;
 		this.userEmail = loginInfo.getEmailAddress();
 		this.isLoggedIn = loginInfo.isLoggedIn();
+		this.loginInfo = loginInfo;
 		createHeader();
 		createViewReviewsPanel();
 		htmlPanel.add(viewReviewsPanel);
@@ -113,7 +114,7 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void createFavouriteButtons() {
-		htmlPanel.add(new HTML("<br><br>"));
+		htmlPanel.add(new HTML("<br>"));
 		checkIfFavourited();
 		if (hasFavourited) {
 			createRemoveFavouriteButton();
@@ -135,6 +136,8 @@ public class VendorInfoPanel extends VerticalPanel {
 					htmlPanel.add(removeFavouriteButton);
 					return;
 				}
+				// TODO REMOVE
+				Window.alert("DEBUG LINE 1");
 				vendor.addFavouriter(loginInfo.getEmailAddress());
 				hasFavourited = true;
 				updateVendor();
@@ -171,8 +174,12 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void updateVendor() {
+		// TODO REMOVE
+		Window.alert("updateVendor() called");
+		vendorService = GWT.create(VendorService.class);
 		vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 			public void onSuccess(Void result) {
+				Window.alert("Successfully added or removed favourite.");
 				ProfilePanel.getInstance().setFavouriteVendors();
 			}
 			public void onFailure(Throwable caught) {
