@@ -24,6 +24,7 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Vendor vendor;
 	private String userEmail;
 	private Boolean isLoggedIn;
+	private Boolean hasFavourited;
 	private VendorServiceAsync vendorService = GWT.create(VendorService.class);
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTMLPanel htmlPanel = new HTMLPanel("");
@@ -35,8 +36,6 @@ public class VendorInfoPanel extends VerticalPanel {
 	private Button removeFavouriteButton;
 	private ViewReviewsPanel viewReviewsPanel;
 	private AddReviewsPanel addReviewsPanel;
-	private boolean favourited;
-	private Vendor currentVendor;
 	private LoginInfo loginInfo;
 
 	public VendorInfoPanel(Vendor vendor, LoginInfo loginInfo) {
@@ -50,7 +49,8 @@ public class VendorInfoPanel extends VerticalPanel {
 			createAddReviewsButton();
 			htmlPanel.add(addReviewButton);
 		}
-		setFavouriteButtons(vendor, loginInfo);
+		if (isLoggedIn)
+			createFavouriteButtons();
 		scrollPanel.add(htmlPanel);
 		add(scrollPanel);
 	}
@@ -114,75 +114,57 @@ public class VendorInfoPanel extends VerticalPanel {
 		htmlPanel.remove(addReviewsPanel);
 	}
 
-	private void setFavouriteButtons(Vendor vendor, LoginInfo loginInfo) {
-		if (loginInfo.isLoggedIn()) {
-			this.loginInfo = loginInfo;
-			currentVendor = vendor;
-			checkIfFavourited();
-			setButtonToAdd();
-			setButtonToRemove();
-			htmlPanel.add(addFavouriteButton);
-			htmlPanel.add(removeFavouriteButton);
-		}
-
+	private void createFavouriteButtons() {
+		checkIfFavourited();
+		createAddFavouriteButton();
+		createRemoveFavouriteButton();
+		htmlPanel.add(addFavouriteButton);
+		htmlPanel.add(removeFavouriteButton);
 	}
 
-	private void setButtonToAdd() {
+	private void createAddFavouriteButton() {
 		addFavouriteButton = new Button();
 		addFavouriteButton.setText("Add to Favourite");
 		addFavouriteButton.addClickHandler(new ClickHandler(){
-
-			@Override
 			public void onClick(ClickEvent event) {
-				if (favourited == true) {
+				if (hasFavourited == true) {
 					Window.alert("Already a favourited vendor");
 					return;
 				}
-				currentVendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
-				vendorService.setVendor(currentVendor, new AsyncCallback<Void>(){
-
-					@Override
+				vendor.addFavourites(new UserEmail(loginInfo.getEmailAddress()));
+				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
 					public void onFailure(Throwable caught) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onFailure");
 						Window.alert("Failed to add to favourites.");
 					}
-
-					@Override
 					public void onSuccess(Void result) {
 						GWT.log("VendorInfoPanel.java: setButtonToAdd() onSuccess");
-						favourited = true;
+						hasFavourited = true;
 						ProfilePanel.getInstance().setFavouriteVendors();
 					}
 				});}
 		});
 	}
 
-	private void setButtonToRemove () {
+	private void createRemoveFavouriteButton () {
 		removeFavouriteButton = new Button();
-		removeFavouriteButton.setText("Delete from Favourite");
+		removeFavouriteButton.setText("Remove from Favourites");
 		removeFavouriteButton.addClickHandler(new ClickHandler(){
-
-			@Override
 			public void onClick(ClickEvent event) {
-				if (favourited == false) {
+				if (hasFavourited == false) {
 					Window.alert("Not a favourited vendor");
 					return;
 				}
-				currentVendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
-				vendorService.setVendor(currentVendor, new AsyncCallback<Void>(){
-
-					@Override
+				vendor.removeFavourites(new UserEmail(loginInfo.getEmailAddress()));
+				vendorService.setVendor(vendor, new AsyncCallback<Void>(){
+					public void onSuccess(Void result) {
+						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
+						hasFavourited = false;
+						ProfilePanel.getInstance().setFavouriteVendors();
+					}
 					public void onFailure(Throwable caught) {
 						GWT.log("VendorInfoPanel.java: setButtonToRemove() onFailure");
 						Window.alert("Failed to remove from favourites.");
-
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						GWT.log("VendorInfoPanel.java: setButtonToRemove() onSuccess");
-						favourited = false;
-						ProfilePanel.getInstance().setFavouriteVendors();
 					}
 				});
 			}
@@ -190,12 +172,12 @@ public class VendorInfoPanel extends VerticalPanel {
 	}
 
 	private void checkIfFavourited() {
-		for (UserEmail user : currentVendor.getFavourites()) {
+		for (UserEmail user : vendor.getFavourites()) {
 			if (loginInfo.getEmailAddress().equals(user.getUserEmail())) {
-				favourited = true;
-			} else {
-				favourited = false;
+				hasFavourited = true;
+				return;
 			}
 		}
+		hasFavourited = false;
 	}
 }
