@@ -124,6 +124,7 @@ public class ProfilePanel extends HorizontalPanel {
 		});
 		importFacebookPhotoPanel.add(facebookUsernameTextBox);
 		importFacebookPhotoPanel.add(submitFacebookUsernameButton);
+		importFacebookPhotoPanel.add(new HTML("<br>"));
 	}
 
 	private void importFacebookPhoto() {
